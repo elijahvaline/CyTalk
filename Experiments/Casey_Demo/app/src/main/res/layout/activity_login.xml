@@ -2,42 +2,43 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linear_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity" >
+    tools:context=".Login">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar"/>
-    <Button
-        android:id="@+id/test"
+    <TextView
+        android:id="@+id/usernameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="150dp"
+        android:layout_marginStart="134dp"
         android:layout_marginTop="100dp"
-        android:text="Hello World" />
+        android:gravity="center_horizontal"
+        android:text="Username"
+        android:textSize="30sp" />
 
-    <Button
-        android:id="@+id/toLogin"
+    <TextView
+        android:id="@+id/passwordTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/usernameText"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_centerInParent="true"
-        android:layout_marginStart="154dp"
-        android:layout_marginTop="307dp"
-        android:text="To Login" />
+        android:layout_marginStart="134dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal"
+        android:text="Password"
+        android:textSize="30sp" />
 
     <Button
-        android:id="@+id/toScrolling"
+        android:id="@+id/loginButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="150dp"
-        android:layout_marginTop="483dp"
-        android:text="Next Page" />
+        android:layout_marginTop="218dp"
+        android:layout_marginEnd="162dp"
+        android:text="Login"/>
+
 </RelativeLayout>

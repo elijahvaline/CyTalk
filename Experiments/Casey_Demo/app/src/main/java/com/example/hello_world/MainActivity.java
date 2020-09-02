@@ -15,7 +15,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    Button b1, b2;
+    Button b1, b2, b3;
     View view;
 
     @Override
@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
         b1 = (Button) findViewById(R.id.test);
         b2 = (Button) findViewById(R.id.toScrolling);
+        b3 = (Button) findViewById(R.id.toLogin);
 
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,6 +38,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, ScrollingActivity.class);
+                startActivity(i);
+            }
+        });
+
+        b3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, Login.class);
                 startActivity(i);
             }
         });

@@ -16,7 +16,7 @@ public class Login extends AppCompatActivity implements EXDialog.ExampleDialogLi
         setContentView(R.layout.activity_login);
 
         textViewUsername= (TextView) findViewById(R.id.usernameTextView);
-        textViewUsername= (TextView) findViewById(R.id.passwordTextView);
+        textViewPassword= (TextView) findViewById(R.id.passwordTextView);
         loginButton = (Button) findViewById(R.id.loginButton);
         loginButton.setOnClickListener(new View.OnClickListener() {
 

@@ -3,6 +3,7 @@ package com.example.hello_world;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     Button b1, b2;
+    View view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,8 +25,6 @@ public class MainActivity extends AppCompatActivity {
 
         b1 = (Button) findViewById(R.id.test);
         b2 = (Button) findViewById(R.id.toScrolling);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,6 +40,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        view = this.getWindow().getDecorView();
     }
 
     @Override
@@ -53,8 +58,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.light:
+                view.setBackgroundColor(ContextCompat.getColor(this, android.R.color.background_light));
                 return true;
             case R.id.dark:
+                view.setBackgroundColor(ContextCompat.getColor(this, R.color.dark));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

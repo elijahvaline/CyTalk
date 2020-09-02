@@ -9,6 +9,7 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,6 +17,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 public class ScrollingActivity extends AppCompatActivity {
+
+    View view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,7 @@ public class ScrollingActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+        view = this.getWindow().getDecorView();
     }
 
     @Override
@@ -47,8 +51,10 @@ public class ScrollingActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.light:
+                view.setBackgroundColor(ContextCompat.getColor(this, android.R.color.background_light));
                 return true;
             case R.id.dark:
+                view.setBackgroundColor(ContextCompat.getColor(this, R.color.dark));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

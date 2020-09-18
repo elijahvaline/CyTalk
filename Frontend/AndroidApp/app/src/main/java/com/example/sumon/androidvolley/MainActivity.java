@@ -7,7 +7,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 public class MainActivity extends Activity implements OnClickListener {
-    private Button btnJson, btnString, btnImage;
+    private Button btnJson, btnString, btnViewPost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,12 +16,12 @@ public class MainActivity extends Activity implements OnClickListener {
 
         btnString = (Button) findViewById(R.id.btnStringRequest);
         btnJson = (Button) findViewById(R.id.btnJsonRequest);
-        btnImage = (Button) findViewById(R.id.btnImageRequest);
+        btnViewPost = (Button) findViewById(R.id.btnViewPost);
 
         // button click listeners
         btnString.setOnClickListener(this);
         btnJson.setOnClickListener(this);
-        btnImage.setOnClickListener(this);
+        btnViewPost.setOnClickListener(this);
     }
 
     @Override
@@ -35,9 +35,9 @@ public class MainActivity extends Activity implements OnClickListener {
                 startActivity(new Intent(MainActivity.this,
                         JsonRequestActivity.class));
                 break;
-            case R.id.btnImageRequest:
+            case R.id.btnViewPost:
                 startActivity(new Intent(MainActivity.this,
-                        ImageRequestActivity.class));
+                        ViewPostActivity.class));
                 break;
             default:
                 break;

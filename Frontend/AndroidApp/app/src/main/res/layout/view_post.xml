@@ -1,31 +1,88 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:paddingBottom="16dp"
+    tools:context=".MainActivity" >
 
-    <Button
-        android:id="@+id/btnImageReq"
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"/>
+
+    <TextView
+        android:id="@+id/postTitle"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Image Request" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="63dp"
+        android:layout_marginEnd="0dp"
+        android:text=""
+        android:textAlignment="center" />
 
-    <com.android.volley.toolbox.NetworkImageView
-        android:id="@+id/imgNetwork"
+    <TextView
+        android:id="@+id/postDate"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="0dp"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/postUser"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="100dp"
+        android:text="" />
+
+    <Button
+        android:id="@+id/btnJsonObj"
         android:layout_width="fill_parent"
-        android:layout_height="150dp"
-        android:layout_margin="10dp"
-        android:layout_marginTop="50dp"
-        android:scaleType="fitXY" >
-    </com.android.volley.toolbox.NetworkImageView>
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="100dp"
+        android:text="JSON Object Request" />
 
-    <ImageView
-        android:id="@+id/imgView"
+    <Button
+        android:id="@+id/btnJsonArray"
         android:layout_width="fill_parent"
-        android:layout_height="150dp"
-        android:layout_margin="10dp"
-        android:layout_marginTop="50dp"
-        android:scaleType="fitCenter" >
-    </ImageView>
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="268dp"
+        android:text="JSON Array Request" />
 
-</LinearLayout>
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="-1dp"
+        android:layout_marginTop="389dp"
+        android:layout_marginEnd="4dp"
+        android:text="Response: " />
+
+    <TextView
+        android:id="@+id/postContent"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="541dp"
+        android:text="" />
+
+</RelativeLayout>

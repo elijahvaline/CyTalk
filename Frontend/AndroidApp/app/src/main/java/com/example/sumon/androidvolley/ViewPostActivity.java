@@ -4,12 +4,14 @@ package com.example.sumon.androidvolley;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -36,6 +38,7 @@ public class ViewPostActivity extends AppCompatActivity implements OnClickListen
     private Button btnJsonObj, btnJsonArray;
     private TextView postContent, postUser, postDate, postTitle;
     private ProgressDialog pDialog;
+    private LinearLayout linearLayout;
 
     // These tags will be used to cancel the requests
     private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
@@ -47,6 +50,17 @@ public class ViewPostActivity extends AppCompatActivity implements OnClickListen
 
         Toolbar myToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
+
+        // Get a support ActionBar corresponding to this toolbar
+        ActionBar ab = getSupportActionBar();
+
+        // Enable the Up button
+        ab.setDisplayHomeAsUpEnabled(true);
+
+        linearLayout = (LinearLayout) findViewById(R.id.linearPostLayout);
+
+        linearLayout.addView(addComment());
+        linearLayout.addView(addComment());
 
         btnJsonObj = (Button) findViewById(R.id.btnJsonObj);
         btnJsonArray = (Button) findViewById(R.id.btnJsonArray);
@@ -79,18 +93,18 @@ public class ViewPostActivity extends AppCompatActivity implements OnClickListen
     private void makeJsonObjReq() {
         showProgressDialog();
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
-                Const.POST_OBJECT, null,
+                Const.GET_POST_OBJECT, null,
                 new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d(TAG, response.toString());
                         try {
-                            //JSONObject post = response.getJSONObject("post");
-                            postContent.setText(response.getString("name"));
-                            postUser.setText(response.getString("name"));
-                            postDate.setText(response.getString("name"));
-                            postTitle.setText(response.getString("name"));
+                            JSONObject post = response.getJSONObject("post");
+                            postContent.setText(post.getString("content"));
+                            postUser.setText(post.getString("user"));
+                            postDate.setText(post.getString("date"));
+                            postTitle.setText(post.getString("title"));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -166,12 +180,6 @@ public class ViewPostActivity extends AppCompatActivity implements OnClickListen
     }
 
     @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
-
-    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnJsonObj:
@@ -182,6 +190,16 @@ public class ViewPostActivity extends AppCompatActivity implements OnClickListen
                 break;
         }
 
+    }
+
+    private TextView addComment() {
+        TextView textView1 = new TextView(this);
+        textView1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+        textView1.setText("programmatically created TextView1");
+        textView1.setBackgroundColor(0xff66ff66); // hex color 0xAARRGGBB
+        textView1.setPadding(20, 20, 20, 20);// in pixels (left, top, right, bottom)
+        return textView1;
     }
 
 }

@@ -20,7 +20,9 @@
         </activity>
         <activity android:name=".StringRequestActivity" />
         <activity android:name=".JsonRequestActivity" />
-        <activity android:name=".ViewPostActivity"></activity>
+        <activity
+            android:name=".ViewPostActivity"
+            android:parentActivityName="com.example.sumon.androidvolley.MainActivity"></activity>
     </application>
 
 </manifest>

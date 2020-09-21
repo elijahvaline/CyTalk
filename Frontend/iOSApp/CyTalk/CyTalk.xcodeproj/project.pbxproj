@@ -7,15 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B62F429425193C440094786E /* NewPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62F429325193C440094786E /* NewPostView.swift */; };
 		B62F71C82516D76400AF8F36 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62F71C72516D76400AF8F36 /* AppDelegate.swift */; };
 		B62F71CA2516D76400AF8F36 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62F71C92516D76400AF8F36 /* SceneDelegate.swift */; };
 		B62F71CC2516D76400AF8F36 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62F71CB2516D76400AF8F36 /* ContentView.swift */; };
 		B62F71CE2516D76900AF8F36 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B62F71CD2516D76900AF8F36 /* Assets.xcassets */; };
 		B62F71D12516D76900AF8F36 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B62F71D02516D76900AF8F36 /* Preview Assets.xcassets */; };
 		B62F71D42516D76900AF8F36 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B62F71D22516D76900AF8F36 /* LaunchScreen.storyboard */; };
+		B662A18E25185F170082E103 /* ServerUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = B662A18D25185F170082E103 /* ServerUtils.swift */; };
+		B662A191251861140082E103 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B662A190251861140082E103 /* HomeView.swift */; };
+		B662A196251869CE0082E103 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = B662A195251869CE0082E103 /* Post.swift */; };
+		B66CAFED25195B7C006AD4C2 /* ScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B66CAFEC25195B7C006AD4C2 /* ScrollView.swift */; };
+		B66CAFF025195DF9006AD4C2 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B66CAFEF25195DF9006AD4C2 /* ProfileView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B62F429325193C440094786E /* NewPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostView.swift; sourceTree = "<group>"; };
 		B62F71C42516D76400AF8F36 /* CyTalk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CyTalk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B62F71C72516D76400AF8F36 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B62F71C92516D76400AF8F36 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -24,6 +31,11 @@
 		B62F71D02516D76900AF8F36 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B62F71D32516D76900AF8F36 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B62F71D52516D76900AF8F36 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B662A18D25185F170082E103 /* ServerUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerUtils.swift; sourceTree = "<group>"; };
+		B662A190251861140082E103 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		B662A195251869CE0082E103 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		B66CAFEC25195B7C006AD4C2 /* ScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollView.swift; sourceTree = "<group>"; };
+		B66CAFEF25195DF9006AD4C2 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,11 +70,17 @@
 			children = (
 				B62F71C72516D76400AF8F36 /* AppDelegate.swift */,
 				B62F71C92516D76400AF8F36 /* SceneDelegate.swift */,
+				B662A190251861140082E103 /* HomeView.swift */,
 				B62F71CB2516D76400AF8F36 /* ContentView.swift */,
+				B662A18D25185F170082E103 /* ServerUtils.swift */,
 				B62F71CD2516D76900AF8F36 /* Assets.xcassets */,
 				B62F71D22516D76900AF8F36 /* LaunchScreen.storyboard */,
 				B62F71D52516D76900AF8F36 /* Info.plist */,
 				B62F71CF2516D76900AF8F36 /* Preview Content */,
+				B662A195251869CE0082E103 /* Post.swift */,
+				B62F429325193C440094786E /* NewPostView.swift */,
+				B66CAFEC25195B7C006AD4C2 /* ScrollView.swift */,
+				B66CAFEF25195DF9006AD4C2 /* ProfileView.swift */,
 			);
 			path = CyTalk;
 			sourceTree = "<group>";
@@ -145,8 +163,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B662A18E25185F170082E103 /* ServerUtils.swift in Sources */,
+				B66CAFF025195DF9006AD4C2 /* ProfileView.swift in Sources */,
 				B62F71C82516D76400AF8F36 /* AppDelegate.swift in Sources */,
 				B62F71CA2516D76400AF8F36 /* SceneDelegate.swift in Sources */,
+				B62F429425193C440094786E /* NewPostView.swift in Sources */,
+				B662A196251869CE0082E103 /* Post.swift in Sources */,
+				B66CAFED25195B7C006AD4C2 /* ScrollView.swift in Sources */,
+				B662A191251861140082E103 /* HomeView.swift in Sources */,
 				B62F71CC2516D76400AF8F36 /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

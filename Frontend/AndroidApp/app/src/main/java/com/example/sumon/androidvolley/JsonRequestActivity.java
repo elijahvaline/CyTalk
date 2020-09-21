@@ -20,6 +20,7 @@ import com.example.sumon.androidvolley.app.AppController;
 import com.example.sumon.androidvolley.utils.Const;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -28,7 +29,7 @@ import java.util.Map;
 public class JsonRequestActivity extends Activity implements OnClickListener {
 
     private String TAG = JsonRequestActivity.class.getSimpleName();
-    private Button btnJsonObj, btnJsonArray;
+    private Button btnJsonObj;
     private TextView msgResponse;
     private ProgressDialog pDialog;
 
@@ -41,7 +42,7 @@ public class JsonRequestActivity extends Activity implements OnClickListener {
         setContentView(R.layout.json_request);
 
         btnJsonObj = (Button) findViewById(R.id.btnJsonObj);
-        btnJsonArray = (Button) findViewById(R.id.btnJsonArray);
+        //btnJsonArray = (Button) findViewById(R.id.btnJsonArray);
         msgResponse = (TextView) findViewById(R.id.msgResponse);
 
         pDialog = new ProgressDialog(this);
@@ -49,7 +50,7 @@ public class JsonRequestActivity extends Activity implements OnClickListener {
         pDialog.setCancelable(false);
 
         btnJsonObj.setOnClickListener(this);
-        btnJsonArray.setOnClickListener(this);
+        //btnJsonArray.setOnClickListener(this);
     }
 
     private void showProgressDialog() {
@@ -67,8 +68,15 @@ public class JsonRequestActivity extends Activity implements OnClickListener {
      * */
     private void makeJsonObjReq() {
         showProgressDialog();
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Method.GET,
-                Const.URL_JSON_OBJECT, null,
+        JSONObject object = new JSONObject();
+        try {
+            //input your API parameters
+            object.put("content",R.id.PostText);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Method.POST,
+                "https://b5188d5a-30f6-4d72-8029-6e7f16e5e634.mock.pstmn.io/fastakash", object,
                 new Response.Listener<JSONObject>() {
 
                     @Override
@@ -95,17 +103,17 @@ public class JsonRequestActivity extends Activity implements OnClickListener {
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
-
+            /*
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("name", "Androidhive");
-                params.put("email", "abc@androidhive.info");
-                params.put("pass", "password123");
+                params.put(null, String.valueOf(findViewById(R.id.PostText)));
+                //params.put("email", "abc@androidhive.info");
+                //params.put("pass", "password123");
 
                 return params;
             }
-
+            */
         };
 
         // Adding request to request queue
@@ -147,15 +155,8 @@ public class JsonRequestActivity extends Activity implements OnClickListener {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btnJsonObj:
-                makeJsonObjReq();
-                break;
-            case R.id.btnJsonArray:
-                makeJsonArryReq();
-                break;
-        }
-
+        if(v.getId() == R.id.btnJsonObj)
+            makeJsonObjReq();
     }
 
 }

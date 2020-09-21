@@ -13,13 +13,7 @@
         android:id="@+id/btnJsonObj"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="JSON Object Request" />
-
-    <Button
-        android:id="@+id/btnJsonArray"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="JSON Array Request" />
+        android:text="JSON Object Post" />
 
     <TextView
         android:layout_width="fill_parent"

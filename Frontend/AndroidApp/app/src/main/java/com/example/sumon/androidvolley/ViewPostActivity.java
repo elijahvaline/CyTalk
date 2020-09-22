@@ -155,7 +155,15 @@ public class ViewPostActivity extends AppCompatActivity implements OnClickListen
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                 hideProgressDialog();
             }
-        });
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+        };
+
 
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(jsonObjReq,
@@ -163,6 +171,7 @@ public class ViewPostActivity extends AppCompatActivity implements OnClickListen
 
         // Cancelling request
         // ApplicationController.getInstance().getRequestQueue().cancelAll(tag_json_obj);
+
     }
 
 

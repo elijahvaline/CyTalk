@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.sumon.androidvolley">
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name="com.example.sumon.androidvolley.app.AppController"
+        android:name=".app.AppController"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="CyTalk"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
@@ -21,8 +22,11 @@
         <activity android:name=".StringRequestActivity" />
         <activity android:name=".JsonRequestActivity" />
         <activity
+            android:name=".PostListActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity
             android:name=".ViewPostActivity"
-            android:parentActivityName="com.example.sumon.androidvolley.MainActivity"></activity>
+            android:parentActivityName=".PostListActivity" />
     </application>
 
 </manifest>

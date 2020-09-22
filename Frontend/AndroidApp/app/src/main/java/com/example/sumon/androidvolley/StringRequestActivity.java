@@ -61,7 +61,7 @@ public class StringRequestActivity extends Activity {
     private void makeStringReq() {
         showProgressDialog();
 
-        StringRequest strReq = new StringRequest(Method.GET, Const.URL_STRING_REQ, new Response.Listener<String>() {
+        StringRequest strReq = new StringRequest(Method.GET, Const.URL_POST_ARRAY, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d(TAG, response.toString());

@@ -3,6 +3,7 @@ package com.example.sumon.androidvolley;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -35,7 +36,7 @@ import java.util.Map;
 public class ViewPostActivity extends AppCompatActivity implements OnClickListener{
 
     private String TAG = ViewPostActivity.class.getSimpleName();
-    private Button btnJsonObj, btnJsonArray;
+    private Button btnComment;
     private TextView postContent, postUser, postDate, postTitle;
     private ProgressDialog pDialog;
     private LinearLayout linearLayout;
@@ -59,11 +60,7 @@ public class ViewPostActivity extends AppCompatActivity implements OnClickListen
 
         linearLayout = (LinearLayout) findViewById(R.id.linearPostLayout);
 
-        linearLayout.addView(addComment());
-        linearLayout.addView(addComment());
-
-        btnJsonObj = (Button) findViewById(R.id.btnJsonObj);
-        btnJsonArray = (Button) findViewById(R.id.btnJsonArray);
+        btnComment = (Button) findViewById(R.id.btnComment);
         postContent = (TextView) findViewById(R.id.postContent);
         postUser = (TextView) findViewById(R.id.postUser);
         postDate = (TextView) findViewById(R.id.postDate);
@@ -73,8 +70,9 @@ public class ViewPostActivity extends AppCompatActivity implements OnClickListen
         pDialog.setMessage("Loading...");
         pDialog.setCancelable(false);
 
-        btnJsonObj.setOnClickListener(this);
-        btnJsonArray.setOnClickListener(this);
+        makeJsonObjReq();
+
+        btnComment.setOnClickListener(this);
     }
 
     private void showProgressDialog() {
@@ -93,18 +91,17 @@ public class ViewPostActivity extends AppCompatActivity implements OnClickListen
     private void makeJsonObjReq() {
         showProgressDialog();
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
-                Const.GET_POST_OBJECT, null,
+                Const.GET_POST_OBJECT + "/" + getIntent().getStringExtra("id"), null,
                 new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d(TAG, response.toString());
                         try {
-                            JSONObject post = response.getJSONObject("post");
-                            postContent.setText(post.getString("content"));
-                            postUser.setText(post.getString("user"));
-                            postDate.setText(post.getString("date"));
-                            postTitle.setText(post.getString("title"));
+                            postContent.setText(response.getString("content"));
+                            postUser.setText(response.getString("user"));
+                            postDate.setText(response.getString("date"));
+                            postTitle.setText(response.getString("title"));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -118,29 +115,7 @@ public class ViewPostActivity extends AppCompatActivity implements OnClickListen
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                 hideProgressDialog();
             }
-        }) {
-
-            /**
-             * Passing some request headers
-             * */
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("Content-Type", "application/json");
-                return headers;
-            }
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("name", "Androidhive");
-                params.put("email", "abc@androidhive.info");
-                params.put("pass", "password123");
-
-                return params;
-            }
-
-        };
+        });
 
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(jsonObjReq,
@@ -150,20 +125,31 @@ public class ViewPostActivity extends AppCompatActivity implements OnClickListen
         // ApplicationController.getInstance().getRequestQueue().cancelAll(tag_json_obj);
     }
 
-    /**
-     * Making json array request
-     * */
-    private void makeJsonArryReq() {
+    private void makePostReq() {
+        JSONObject comment = new JSONObject();
+        try {
+            comment.put("Comment" , R.id.commentBox);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         showProgressDialog();
-        JsonArrayRequest req = new JsonArrayRequest(Const.URL_JSON_ARRAY,
-                new Response.Listener<JSONArray>() {
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                Const.POST_COMMENT, comment,
+                new Response.Listener<JSONObject>() {
+
                     @Override
-                    public void onResponse(JSONArray response) {
+                    public void onResponse(JSONObject response) {
                         Log.d(TAG, response.toString());
-                        postContent.setText(response.toString());
+                        try {
+                            linearLayout.addView(addComment(response.getString("Comment")));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
                         hideProgressDialog();
                     }
                 }, new Response.ErrorListener() {
+
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
@@ -172,32 +158,31 @@ public class ViewPostActivity extends AppCompatActivity implements OnClickListen
         });
 
         // Adding request to request queue
-        AppController.getInstance().addToRequestQueue(req,
-                tag_json_arry);
+        AppController.getInstance().addToRequestQueue(jsonObjReq,
+                tag_json_obj);
 
         // Cancelling request
-        // ApplicationController.getInstance().getRequestQueue().cancelAll(tag_json_arry);
+        // ApplicationController.getInstance().getRequestQueue().cancelAll(tag_json_obj);
     }
+
+
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btnJsonObj:
-                makeJsonObjReq();
-                break;
-            case R.id.btnJsonArray:
-                makeJsonArryReq();
+            case R.id.btnComment:
+                makePostReq();
                 break;
         }
 
     }
 
-    private TextView addComment() {
+    private TextView addComment(String c) {
         TextView textView1 = new TextView(this);
         textView1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT));
-        textView1.setText("programmatically created TextView1");
-        textView1.setBackgroundColor(0xff66ff66); // hex color 0xAARRGGBB
+        textView1.setText(c);
+        textView1.setBackgroundColor(Color.parseColor("#DDD0D0"));
         textView1.setPadding(20, 20, 20, 20);// in pixels (left, top, right, bottom)
         return textView1;
     }

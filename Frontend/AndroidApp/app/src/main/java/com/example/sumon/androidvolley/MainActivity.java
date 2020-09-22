@@ -37,7 +37,7 @@ public class MainActivity extends Activity implements OnClickListener {
                 break;
             case R.id.btnViewPost:
                 startActivity(new Intent(MainActivity.this,
-                        ViewPostActivity.class));
+                        PostListActivity.class));
                 break;
             default:
                 break;

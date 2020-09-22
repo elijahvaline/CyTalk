@@ -51,36 +51,6 @@
                 android:layout_marginTop="100dp"
                 android:text="" />
 
-            <Button
-                android:id="@+id/btnJsonObj"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_centerInParent="true"
-                android:layout_marginStart="7dp"
-                android:layout_marginTop="100dp"
-                android:text="JSON Object Request" />
-
-            <Button
-                android:id="@+id/btnJsonArray"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="0dp"
-                android:layout_marginTop="423dp"
-                android:text="JSON Array Request" />
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginStart="-1dp"
-                android:layout_marginTop="389dp"
-                android:layout_marginEnd="4dp"
-                android:text="Response: " />
 
             <TextView
                 android:id="@+id/postContent"
@@ -95,6 +65,21 @@
                 android:text="" />
 
         </RelativeLayout>
+
+        <Button
+            android:id="@+id/btnComment"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="7dp"
+            android:text="Comment" />
+
+        <EditText
+            android:id="@+id/commentBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Comment"></EditText>
 
     </LinearLayout>
 </ScrollView>

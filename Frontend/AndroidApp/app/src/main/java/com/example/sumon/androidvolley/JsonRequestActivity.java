@@ -11,11 +11,13 @@ import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request.Method;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.sumon.androidvolley.app.AppController;
 import com.example.sumon.androidvolley.utils.Const;
 
@@ -68,15 +70,16 @@ public class JsonRequestActivity extends Activity implements OnClickListener {
      * */
     private void makeJsonObjReq() {
         showProgressDialog();
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         JSONObject object = new JSONObject();
         try {
             //input your API parameters
-            object.put("content",R.id.PostText);
+            object.put("isudaily",R.id.PostText);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Method.POST,
-                "https://b5188d5a-30f6-4d72-8029-6e7f16e5e634.mock.pstmn.io/fastakash", object,
+                "https://bed037f7-2953-4cb4-b9b5-04f25910ffec.mock.pstmn.io/postscreentest", object,
                 new Response.Listener<JSONObject>() {
 
                     @Override
@@ -97,23 +100,26 @@ public class JsonRequestActivity extends Activity implements OnClickListener {
             /**
              * Passing some request headers
              * */
+            /*
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
+            */
             /*
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put(null, String.valueOf(findViewById(R.id.PostText)));
-                //params.put("email", "abc@androidhive.info");
+                //params.put("content", "hello");
                 //params.put("pass", "password123");
 
                 return params;
             }
             */
+
         };
 
         // Adding request to request queue

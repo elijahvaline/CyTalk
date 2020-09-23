@@ -7,7 +7,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 public class MainActivity extends Activity implements OnClickListener {
-    private Button btnJson, btnString, btnViewPost;
+    private Button btnJson, btnString, btnViewPost,btnCreatePost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,11 +17,13 @@ public class MainActivity extends Activity implements OnClickListener {
         btnString = (Button) findViewById(R.id.btnStringRequest);
         btnJson = (Button) findViewById(R.id.btnJsonRequest);
         btnViewPost = (Button) findViewById(R.id.btnViewPost);
+        btnCreatePost = (Button) findViewById(R.id.btnCreatePost);
 
         // button click listeners
         btnString.setOnClickListener(this);
         btnJson.setOnClickListener(this);
         btnViewPost.setOnClickListener(this);
+        btnCreatePost.setOnClickListener(this);
     }
 
     @Override
@@ -38,6 +40,11 @@ public class MainActivity extends Activity implements OnClickListener {
             case R.id.btnViewPost:
                 startActivity(new Intent(MainActivity.this,
                         PostListActivity.class));
+                break;
+
+            case R.id.btnCreatePost:
+                startActivity(new Intent(MainActivity.this,
+                        CreatePostScreen.class));
                 break;
             default:
                 break;

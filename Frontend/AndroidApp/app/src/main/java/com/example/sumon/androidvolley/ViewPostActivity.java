@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -38,6 +39,7 @@ public class ViewPostActivity extends AppCompatActivity implements OnClickListen
     private String TAG = ViewPostActivity.class.getSimpleName();
     private Button btnComment;
     private TextView postContent, postUser, postDate, postTitle;
+    private EditText commentBox;
     private ProgressDialog pDialog;
     private LinearLayout linearLayout;
 
@@ -59,6 +61,7 @@ public class ViewPostActivity extends AppCompatActivity implements OnClickListen
         ab.setDisplayHomeAsUpEnabled(true);
 
         linearLayout = (LinearLayout) findViewById(R.id.linearPostLayout);
+        commentBox = findViewById(R.id.commentBox);
 
         btnComment = (Button) findViewById(R.id.btnComment);
         postContent = (TextView) findViewById(R.id.postContent);
@@ -128,7 +131,7 @@ public class ViewPostActivity extends AppCompatActivity implements OnClickListen
     private void makePostReq() {
         JSONObject comment = new JSONObject();
         try {
-            comment.put("Comment" , R.id.commentBox);
+            comment.put("Comment" , commentBox.getText().toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }

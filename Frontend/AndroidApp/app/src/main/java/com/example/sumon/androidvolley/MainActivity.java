@@ -14,14 +14,14 @@ public class MainActivity extends Activity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btnString = (Button) findViewById(R.id.btnStringRequest);
-        btnJson = (Button) findViewById(R.id.btnJsonRequest);
+//        btnString = (Button) findViewById(R.id.btnStringRequest);
+//        btnJson = (Button) findViewById(R.id.btnJsonRequest);
         btnViewPost = (Button) findViewById(R.id.btnViewPost);
         btnCreatePost = (Button) findViewById(R.id.btnCreatePost);
 
         // button click listeners
-        btnString.setOnClickListener(this);
-        btnJson.setOnClickListener(this);
+//        btnString.setOnClickListener(this);
+//        btnJson.setOnClickListener(this);
         btnViewPost.setOnClickListener(this);
         btnCreatePost.setOnClickListener(this);
     }
@@ -29,14 +29,14 @@ public class MainActivity extends Activity implements OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btnStringRequest:
-                startActivity(new Intent(MainActivity.this,
-                        StringRequestActivity.class));
-                break;
-            case R.id.btnJsonRequest:
-                startActivity(new Intent(MainActivity.this,
-                        JsonRequestActivity.class));
-                break;
+//            case R.id.btnStringRequest:
+//                startActivity(new Intent(MainActivity.this,
+//                        StringRequestActivity.class));
+//                break;
+//            case R.id.btnJsonRequest:
+//                startActivity(new Intent(MainActivity.this,
+//                        JsonRequestActivity.class));
+//                break;
             case R.id.btnViewPost:
                 startActivity(new Intent(MainActivity.this,
                         PostListActivity.class));

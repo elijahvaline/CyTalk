@@ -21,10 +21,10 @@
         android:layout_marginBottom="20dp"
         android:text="JSON Request" />
 
-    <Button android:id="@+id/btnImageRequest"
+    <Button android:id="@+id/btnViewPost"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:text="Image Request" />
+        android:text="View Post" />
 
 </LinearLayout>

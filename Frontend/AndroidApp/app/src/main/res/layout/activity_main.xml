@@ -1,50 +1,36 @@
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:orientation="vertical"
+    android:paddingBottom="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="1dp"
+    android:paddingTop="16dp"
+    tools:context=".MainActivity" >
 
-    <EditText
-        android:id="@+id/PostText"
-        android:layout_width="394dp"
+    <Button android:id="@+id/btnStringRequest"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="184dp"
-        android:ems="10"
-        android:hint="What's Up?"
-        android:inputType="textPersonName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginBottom="20dp"
+        android:text="String Request" />
 
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="80dp"
-        android:layout_height="65dp"
-        android:layout_marginTop="4dp"
-        android:src="@android:drawable/btn_dialog"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <Button android:id="@+id/btnJsonRequest"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="JSON Request" />
 
-    <ImageButton
-        android:id="@+id/createPost"
-        android:layout_width="75dp"
-        android:layout_height="58dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="16dp"
-        android:src="@android:drawable/checkbox_on_background"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <Button android:id="@+id/btnViewPost"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="View Post" />
 
-    <ImageButton
-        android:id="@+id/imageButton4"
-        android:layout_width="64dp"
-        android:layout_height="77dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="236dp"
-        android:src="@android:drawable/ic_menu_gallery"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <Button
+        android:id="@+id/btnCreatePost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Create Post" />
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

@@ -1,0 +1,33 @@
+stages:
+  - mavenbuild
+  - maventest
+  - autodeploy
+
+maven-build:
+  stage: mavenbuild
+  tags:
+    - front_tag
+  script:
+    - cd Backend/Springboot
+    - mvn package -B
+  
+maven-test:
+  stage: maventest
+  tags:
+    - shell
+  script:
+    - cd Backend/Springboot
+    - mvn test
+  artifacts:
+    paths:
+      - Backend/Springboot/target/*.jar
+      
+autoDeploy:
+  stage: autodeploy
+  tags:
+   - shell
+  script:
+    - cd Backend/Springboot
+    - mvn package
+    - sudo systemctl stop systemd-web-demo
+    - sudo systemctl start systemd-web-demo

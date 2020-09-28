@@ -29,10 +29,17 @@ class User {
 	private String type;
 	
 	public void setUser(String f, String l, String u, String p, String e, String t) {
+		if (f != null)
 		fname = f;
+		if (l != null)
 		lname = l;
+		if (u != null)
 		user_name = u;
+		if (p != null)
 		password = p;
+		if (e != null)
+		email = e;
+		if (t != null)
 		type = t;
 	}
 

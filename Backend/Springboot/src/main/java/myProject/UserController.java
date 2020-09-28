@@ -12,15 +12,28 @@ public class UserController {
 	UserDB db;
 
 
-	@RequestMapping("/users")
+	@GetMapping("/user/{id}")
+	User getPerson(@PathVariable Integer id) {
+		return db.findOne(id);
+	}
+	
+	@GetMapping("/users")
 	List<User> hello() {
 		return db.findAll();
 	}
 
-	@PostMapping("/users")
-	User createPerson(@RequestBody User p) {
-		db.save(p);
-		return p;
+	@PostMapping("/user")
+	User createPerson(@RequestBody User u) {
+		db.save(u);
+		return u;
+	}
+	
+	@PutMapping("/user/{id}")
+	User updateUser(@RequestBody User u, @PathVariable Integer id) {
+		User old_u = db.findOne(id);
+		old_u.setUser(u.getFName(), u.getLName(), u.getUName(), u.getPassword(), u.getEmail(), u.getType());
+		db.save(old_u);
+		return old_u;
 	}
 
 }

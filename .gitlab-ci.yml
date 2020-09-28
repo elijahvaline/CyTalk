@@ -29,5 +29,6 @@ autoDeploy:
   script:
     - cd Backend/Springboot
     - mvn package
-    - sudo systemctl stop systemd-web-demo
-    - sudo systemctl start systemd-web-demo
+    - sudo mv target/*.jar /srv/springboot.jar 
+    - sudo systemctl stop springboot
+    - sudo systemctl start springboot

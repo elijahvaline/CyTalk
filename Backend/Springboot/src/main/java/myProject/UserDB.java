@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface PetDB extends JpaRepository<Pet, Integer> {
+public interface UserDB extends JpaRepository<User, Integer> {
 
 }

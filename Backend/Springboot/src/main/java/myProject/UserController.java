@@ -6,19 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-public class PetController {
+public class UserController {
 
 	@Autowired
-	PetDB db;
+	UserDB db;
 
 
-	@RequestMapping("/pets")
-	List<Pet> hello() {
+	@RequestMapping("/users")
+	List<User> hello() {
 		return db.findAll();
 	}
 
-	@PostMapping("/pet")
-	Pet createPerson(@RequestBody Pet p) {
+	@PostMapping("/users")
+	User createPerson(@RequestBody User p) {
 		db.save(p);
 		return p;
 	}

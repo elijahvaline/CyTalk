@@ -5,10 +5,10 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>myProject</groupId>
-  <artifactId>inClass</artifactId>
+  <artifactId>CyTalk</artifactId>
   <version>1.0-SNAPSHOT</version>
 
-  <name>inClass</name>
+  <name>CyTalk</name>
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
   
@@ -85,6 +85,9 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration> 
+        			<executable>true</executable> 
+      			</configuration>
 			</plugin>
 		</plugins>
 	</build>

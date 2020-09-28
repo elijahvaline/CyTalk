@@ -19,7 +19,7 @@ maven-build:
 maven-test:
   stage: maventest
   tags:
-    - shell
+    - front_tag
   script:
     - cd Backend/Springboot
     - mvn test
@@ -35,7 +35,7 @@ maven-test:
 autoDeploy:
   stage: autodeploy
   tags:
-   - shell
+   - front_tag
   script:
     - cd Backend/Springboot
     - mvn package

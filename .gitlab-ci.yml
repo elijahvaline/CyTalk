@@ -10,6 +10,11 @@ maven-build:
   script:
     - cd Backend/Springboot
     - mvn package -B
+  only:
+    refs:
+    - master
+    changes:
+    - Backend/**/*
   
 maven-test:
   stage: maventest
@@ -21,6 +26,11 @@ maven-test:
   artifacts:
     paths:
       - Backend/Springboot/target/*.jar
+  only:
+    refs:
+    - master
+    changes:
+    - Backend/**/*
       
 autoDeploy:
   stage: autodeploy
@@ -32,3 +42,8 @@ autoDeploy:
     - sudo mv target/*.jar /srv/springboot.jar 
     - sudo systemctl stop springboot
     - sudo systemctl start springboot
+  only:
+    refs:
+    - master
+    changes:
+    - Backend/**/*

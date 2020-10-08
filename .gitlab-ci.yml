@@ -1,0 +1,49 @@
+stages:
+  - mavenbuild
+  - maventest
+  - autodeploy
+
+maven-build:
+  stage: mavenbuild
+  tags:
+    - front_tag
+  script:
+    - cd Backend/Springboot
+    - mvn package -B
+  only:
+    refs:
+    - master
+    changes:
+    - Backend/**/*
+  
+maven-test:
+  stage: maventest
+  tags:
+    - front_tag
+  script:
+    - cd Backend/Springboot
+    - mvn test
+  artifacts:
+    paths:
+      - Backend/Springboot/target/*.jar
+  only:
+    refs:
+    - master
+    changes:
+    - Backend/**/*
+      
+autoDeploy:
+  stage: autodeploy
+  tags:
+   - front_tag
+  script:
+    - cd Backend/Springboot
+    - mvn package
+    - sudo mv target/*.jar /srv/springboot.jar 
+    - sudo systemctl stop springboot
+    - sudo systemctl start springboot
+  only:
+    refs:
+    - master
+    changes:
+    - Backend/**/*

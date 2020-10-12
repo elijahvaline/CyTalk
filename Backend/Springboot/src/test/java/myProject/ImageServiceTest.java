@@ -46,7 +46,7 @@ public class ImageServiceTest {
 		service.store(new MockMultipartFile("test", "test.txt", MediaType.TEXT_PLAIN_VALUE,
 				"Hello World!".getBytes()));
 		assertThat(service.load("test.txt")).exists();
-		assertEquals("target\\images\\test.txt", service.load("test.txt").toString());
+		assertEquals("target/images/test.txt", service.load("test.txt").toString());
 	}
 
 	@Test

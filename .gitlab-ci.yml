@@ -11,8 +11,6 @@ maven-build:
     - cd Backend/Springboot
     - mvn package -B
   only:
-    refs:
-    - master
     changes:
     - Backend/**/*
   
@@ -27,8 +25,6 @@ maven-test:
     paths:
       - Backend/Springboot/target/*.jar
   only:
-    refs:
-    - master
     changes:
     - Backend/**/*
       

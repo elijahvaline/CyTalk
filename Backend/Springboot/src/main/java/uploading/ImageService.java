@@ -1,4 +1,4 @@
-package myProject;
+package uploading;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -6,17 +6,19 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class ImageService implements StorageService {
 
-	private Path rootLocation;
+	private final Path rootLocation;
 
 	@Autowired
 	public ImageService(StorageProperties properties) {
-		rootLocation = Paths.get(properties.getLocation());
+		this.rootLocation = Paths.get(properties.getLocation());
 	}
 
 	@Override
@@ -34,5 +36,15 @@ public class ImageService implements StorageService {
 	@Override
 	public Path load(String filename) {
 		return rootLocation.resolve(filename);
+	}
+
+	@Override
+	public void delete(String filename) {
+		try {
+			Files.deleteIfExists(rootLocation.resolve(filename));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

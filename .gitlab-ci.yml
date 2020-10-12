@@ -6,7 +6,7 @@ stages:
 maven-build:
   stage: mavenbuild
   tags:
-    - front_tag
+    - back_tag
   script:
     - cd Backend/Springboot
     - mvn package -B
@@ -19,7 +19,7 @@ maven-build:
 maven-test:
   stage: maventest
   tags:
-    - front_tag
+    - back_tag
   script:
     - cd Backend/Springboot
     - mvn test
@@ -35,7 +35,7 @@ maven-test:
 autoDeploy:
   stage: autodeploy
   tags:
-   - front_tag
+   - back_tag
   script:
     - cd Backend/Springboot
     - mvn package

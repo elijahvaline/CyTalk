@@ -1,4 +1,4 @@
-package uploading;
+package myProject.uploading;
 
 public class StorageException extends RuntimeException {
 

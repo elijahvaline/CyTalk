@@ -1,4 +1,4 @@
-package uploading;
+package myProject.uploading;
 
 import org.springframework.web.multipart.MultipartFile;
 

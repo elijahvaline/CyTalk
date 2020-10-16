@@ -15,8 +15,8 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.util.FileSystemUtils;
 
-import uploading.ImageService;
-import uploading.StorageProperties;
+import myProject.uploading.ImageService;
+import myProject.uploading.StorageProperties;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

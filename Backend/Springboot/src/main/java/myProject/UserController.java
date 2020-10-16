@@ -12,13 +12,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import uploading.StorageService;
+import myProject.uploading.StorageService;
+
+//import uploading.StorageService;
 
 @RestController
 public class UserController {
 
 	@Autowired
 	UserDB db;
+	@Autowired
 	StorageService storage;
 	
 	ServletContext servletContext;

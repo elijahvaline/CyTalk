@@ -1,4 +1,4 @@
-package uploading;
+package myProject.uploading;
 
 import java.io.IOException;
 import java.nio.file.Files;

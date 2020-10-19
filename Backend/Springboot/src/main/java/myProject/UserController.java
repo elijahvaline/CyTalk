@@ -1,7 +1,11 @@
 package myProject;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -9,7 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -37,12 +45,31 @@ public class UserController {
 		return db.findOne(id);
 	}
 	
-	@GetMapping("/user/{id}/image")
-	public void getImageAsByteArray(@PathVariable Integer id, HttpServletResponse response) throws IOException {
-	    InputStream in = servletContext.getResourceAsStream(storage.load(db.findOne(id).getEmail()).toString());
-	    response.setContentType(MediaType.IMAGE_JPEG_VALUE);
-	    IOUtils.copy(in, response.getOutputStream());
-	}
+	//@GetMapping("/user/{id}/{image}")
+	@RequestMapping(value = "/user/{id}/{image}", method = RequestMethod.GET)
+    public ResponseEntity<Resource> download(@PathVariable Integer id, @RequestParam("image") String image) throws IOException {
+		File file = null;
+//		if(image.equals("background")) {
+			file = storage.load(db.findOne(id).getBackground()).toFile();
+//		} else if(image.equals("profile")) {
+//			file = storage.load(db.findOne(id).getProfile()).toFile();
+//		}
+
+        HttpHeaders header = new HttpHeaders();
+        header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=img.jpg");
+        header.add("Cache-Control", "no-cache, no-store, must-revalidate");
+        header.add("Pragma", "no-cache");
+        header.add("Expires", "0");
+
+        Path path = Paths.get(file.getAbsolutePath());
+        ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(path));
+
+        return ResponseEntity.ok()
+                .headers(header)
+                .contentLength(file.length())
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .body(resource);
+    }
 	
 	@GetMapping("/users")
 	List<User> hello() {
@@ -63,11 +90,26 @@ public class UserController {
 		return old_u;
 	}
 	
-	@PostMapping("/user/{id}")
-	@ResponseBody
-	public void fileUpload(@RequestParam("file") MultipartFile file) {
-
+	//@PostMapping("/user/{id}/{image}")
+	@RequestMapping(value = "/user/{id}/{image}", method = RequestMethod.POST)
+	public void fileUpload(@PathVariable("id") Integer id, @PathVariable("image") String image, @RequestParam("file") MultipartFile file) {
+		if(image.equals("background")) {
+			storage.delete(db.findOne(id).getBackground());
+			db.findOne(id).setBackground(image);
+		} else if(image.equals("profile")) {
+			storage.delete(db.findOne(id).getProfile());
+			db.findOne(id).setProfile(image);
+		}
 		storage.store(file);
+	}
+	
+	@DeleteMapping("/user/{id}/{image}") 
+	public void deleteFile(@PathVariable("id") Integer id, @PathVariable("image") String image) {
+		if(image.equals("background")) {
+			storage.delete(db.findOne(id).getBackground());
+		} else if(image.equals("profile")) {
+			storage.delete(db.findOne(id).getProfile());
+		}
 	}
 
 }

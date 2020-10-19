@@ -2,6 +2,7 @@ package myProject;
 
 import myProject.uploading.StorageService;
 
+import org.junit.Before;
 //import junit/spring tests
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,6 +10,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -21,6 +23,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.InputStream;
+
+import javax.servlet.ServletContext;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
@@ -39,6 +43,12 @@ import static org.hamcrest.Matchers.is;
 @WebMvcTest(UserController.class)
 public class UserControllerUnitTest {
 	
+//	@Test
+//    public void shouldAnswerWithTrue()
+//    {
+//        assertTrue( true );
+//    }
+	
 	@Autowired
 	private MockMvc controller;
 
@@ -48,11 +58,18 @@ public class UserControllerUnitTest {
 	@MockBean // note that this repo is also needed in controller
 	private UserDB repo;
 
+	@Before
+	public void setUp() {
+		User l = new User();
+		l.setBackground("test");
+		when(repo.findOne(1)).thenReturn(l);
+	}
+	
 	@Test
 	public void uploadFile() throws Exception {
 		MockMultipartFile multipartFile = new MockMultipartFile("file", "test.txt",
 				"multipart/form-data", "Spring Framework".getBytes());
-		MvcResult result = controller.perform(MockMvcRequestBuilders.fileUpload("/user/1").file(multipartFile))
+		MvcResult result = controller.perform(MockMvcRequestBuilders.fileUpload("/user/?id=1&image=background").file(multipartFile))
 				.andExpect(status().is(200)).andReturn();
         assertEquals(200, result.getResponse().getStatus());
         assertNotNull(result.getResponse().getContentAsString());
@@ -61,7 +78,14 @@ public class UserControllerUnitTest {
 
 	@Test
 	public void downloadFile() throws Exception {
-        MvcResult result = controller.perform(MockMvcRequestBuilders.get("/user/1").contentType(MediaType.APPLICATION_OCTET_STREAM))
+        MvcResult result = controller.perform(MockMvcRequestBuilders.get("/user/?id=1&image=background").contentType(MediaType.APPLICATION_OCTET_STREAM))
+			.andExpect(MockMvcResultMatchers.status().is(200)).andReturn();
+        assertEquals(200, result.getResponse().getStatus());
+	}
+	
+	@Test
+	public void deleteFile() throws Exception {
+        MvcResult result = controller.perform(MockMvcRequestBuilders.delete("/user/?id=1&image=background").contentType(MediaType.APPLICATION_OCTET_STREAM))
 			.andExpect(MockMvcResultMatchers.status().is(200)).andReturn();
         assertEquals(200, result.getResponse().getStatus());
 	}

@@ -3,8 +3,10 @@ package myProject;
 import myProject.uploading.StorageService;
 
 import org.junit.Before;
+import org.junit.Rule;
 //import junit/spring tests
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -69,6 +72,9 @@ public class UserControllerUnitTest {
 		when(repo.findOne(1)).thenReturn(l);
 	}
 	
+	@Rule
+	public TemporaryFolder folder = new TemporaryFolder();
+	
 	@Test
 	public void uploadFile() throws Exception {
 		MockMultipartFile multipartFile = new MockMultipartFile("file", "test.txt",
@@ -82,17 +88,12 @@ public class UserControllerUnitTest {
 
 	@Test
 	public void downloadFile() throws Exception {
-		when(service.load(Mockito.anyString())).thenReturn(Paths.get("target/images"));
-		try {
-			Files.createDirectories(Paths.get("target/images"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		File test = folder.newFile("test.txt");
+		when(service.load(Mockito.anyString())).thenReturn(test.toPath());
         MvcResult result = controller.perform(MockMvcRequestBuilders.get("/user/1/background").contentType(MediaType.APPLICATION_OCTET_STREAM))
 			.andExpect(MockMvcResultMatchers.status().is(200)).andReturn();
         assertEquals(200, result.getResponse().getStatus());
-        verify(service.load("test"));
-        FileSystemUtils.deleteRecursively(Paths.get("target/images").toFile());
+        verify(service).load("test");
 	}
 	
 	@Test

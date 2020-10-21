@@ -75,7 +75,7 @@ public class UserController {
 	@PutMapping("/user/{id}")
 	User updateUser(@RequestBody User u, @PathVariable Integer id) {
 		User old_u = db.findOne(id);
-		old_u.setUser(u.getFName(), u.getLName(), u.getUName(), u.getPassword(), u.getEmail(), u.getType());
+		old_u.setUser(u.getFName(), u.getLName(), u.getUName(), u.getPassword(), u.getEmail(), u.getType(), u.getBio());
 		db.save(old_u);
 		return old_u;
 	}

@@ -1,5 +1,7 @@
 package myProject.uploading;
 
+import java.io.File;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -9,7 +11,7 @@ public class StorageProperties {
 	/**
 	 * Folder location for storing files
 	 */
-	private String location = "/srv/images";
+	private String location = "/srv/uploads/";
 
 	public String getLocation() {
 		return location;

@@ -17,12 +17,16 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.util.FileSystemUtils;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import javax.servlet.ServletContext;
 
@@ -69,7 +73,7 @@ public class UserControllerUnitTest {
 	public void uploadFile() throws Exception {
 		MockMultipartFile multipartFile = new MockMultipartFile("file", "test.txt",
 				"multipart/form-data", "Spring Framework".getBytes());
-		MvcResult result = controller.perform(MockMvcRequestBuilders.fileUpload("/user/?id=1&image=background").file(multipartFile))
+		MvcResult result = controller.perform(MockMvcRequestBuilders.fileUpload("/user/1/background").file(multipartFile))
 				.andExpect(status().is(200)).andReturn();
         assertEquals(200, result.getResponse().getStatus());
         assertNotNull(result.getResponse().getContentAsString());
@@ -78,15 +82,24 @@ public class UserControllerUnitTest {
 
 	@Test
 	public void downloadFile() throws Exception {
-        MvcResult result = controller.perform(MockMvcRequestBuilders.get("/user/?id=1&image=background").contentType(MediaType.APPLICATION_OCTET_STREAM))
+		when(service.load(Mockito.anyString())).thenReturn(Paths.get("target/images"));
+		try {
+			Files.createDirectories(Paths.get("target/images"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+        MvcResult result = controller.perform(MockMvcRequestBuilders.get("/user/1/background").contentType(MediaType.APPLICATION_OCTET_STREAM))
 			.andExpect(MockMvcResultMatchers.status().is(200)).andReturn();
         assertEquals(200, result.getResponse().getStatus());
+        verify(service.load("test"));
+        FileSystemUtils.deleteRecursively(Paths.get("target/images").toFile());
 	}
 	
 	@Test
 	public void deleteFile() throws Exception {
-        MvcResult result = controller.perform(MockMvcRequestBuilders.delete("/user/?id=1&image=background").contentType(MediaType.APPLICATION_OCTET_STREAM))
+        MvcResult result = controller.perform(MockMvcRequestBuilders.delete("/user/1/background").contentType(MediaType.APPLICATION_OCTET_STREAM))
 			.andExpect(MockMvcResultMatchers.status().is(200)).andReturn();
         assertEquals(200, result.getResponse().getStatus());
+        verify(service).delete("test");
 	}
 }

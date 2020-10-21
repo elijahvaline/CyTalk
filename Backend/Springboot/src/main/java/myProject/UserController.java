@@ -32,8 +32,6 @@ public class UserController {
 	@Autowired
 	UserDB db;
 	StorageService storage;
-	@Autowired
-	ServletContext servletContext;
 
 	@Autowired
 	public UserController(StorageService storageService) {
@@ -45,27 +43,19 @@ public class UserController {
 		return db.findOne(id);
 	}
 	
-	//@GetMapping("/user/{id}/{image}")
-	@RequestMapping(value = "/user/{id}/{image}", method = RequestMethod.GET)
-    public ResponseEntity<Resource> download(@PathVariable Integer id, @RequestParam("image") String image) throws IOException {
+	@GetMapping("/user/{id}/{image}")
+    public ResponseEntity<Resource> download(@PathVariable("id") Integer id, @PathVariable("image") String image) throws IOException {
 		File file = null;
-//		if(image.equals("background")) {
+		if(image.equals("background")) {
 			file = storage.load(db.findOne(id).getBackground()).toFile();
-//		} else if(image.equals("profile")) {
-//			file = storage.load(db.findOne(id).getProfile()).toFile();
-//		}
-
-        HttpHeaders header = new HttpHeaders();
-        header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=img.jpg");
-        header.add("Cache-Control", "no-cache, no-store, must-revalidate");
-        header.add("Pragma", "no-cache");
-        header.add("Expires", "0");
+		} else if(image.equals("profile")) {
+			file = storage.load(db.findOne(id).getProfile()).toFile();
+		}
 
         Path path = Paths.get(file.getAbsolutePath());
         ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(path));
 
         return ResponseEntity.ok()
-                .headers(header)
                 .contentLength(file.length())
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .body(resource);
@@ -90,8 +80,7 @@ public class UserController {
 		return old_u;
 	}
 	
-	//@PostMapping("/user/{id}/{image}")
-	@RequestMapping(value = "/user/{id}/{image}", method = RequestMethod.POST)
+	@PostMapping("/user/{id}/{image}")
 	public void fileUpload(@PathVariable("id") Integer id, @PathVariable("image") String image, @RequestParam("file") MultipartFile file) {
 		if(image.equals("background")) {
 			storage.delete(db.findOne(id).getBackground());

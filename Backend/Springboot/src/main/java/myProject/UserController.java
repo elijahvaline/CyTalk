@@ -44,7 +44,7 @@ public class UserController {
 	}
 	
 	@GetMapping("/user/{id}/{image}")
-    public ResponseEntity<Resource> download(@PathVariable("id") Integer id, @PathVariable("image") String image) throws IOException {
+    public ResponseEntity<Resource> downloadFile(@PathVariable("id") Integer id, @PathVariable("image") String image) throws IOException {
 		File file = null;
 		if(image.equals("background")) {
 			file = storage.load(db.findOne(id).getBackground()).toFile();
@@ -81,14 +81,18 @@ public class UserController {
 	}
 	
 	@PostMapping("/user/{id}/{image}")
-	public void fileUpload(@PathVariable("id") Integer id, @PathVariable("image") String image, @RequestParam("file") MultipartFile file) {
+	public void uploadFile(@PathVariable("id") Integer id, @PathVariable("image") String image, @RequestParam("file") MultipartFile file) {
+		User temp = db.findOne(id);
+		
 		if(image.equals("background")) {
 			storage.delete(db.findOne(id).getBackground());
-			db.findOne(id).setBackground(image);
+			temp.setBackground(file.getOriginalFilename());
 		} else if(image.equals("profile")) {
 			storage.delete(db.findOne(id).getProfile());
-			db.findOne(id).setProfile(image);
+			temp.setProfile(file.getOriginalFilename());
 		}
+		
+		db.save(temp);
 		storage.store(file);
 	}
 	

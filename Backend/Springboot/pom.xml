@@ -9,8 +9,6 @@
   <version>1.0-SNAPSHOT</version>
 
   <name>CyTalk</name>
-  <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
   
   <parent>
 		<groupId>org.springframework.boot</groupId>
@@ -24,6 +22,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+		<!--  toggle to skip tests --> <skipTests>false</skipTests>
 	</properties>
 	
 	<dependencies>

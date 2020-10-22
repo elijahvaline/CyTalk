@@ -28,7 +28,16 @@ class User {
 	@Column
 	private String type;
 	
-	public void setUser(String f, String l, String u, String p, String e, String t) {
+	@Column
+	private String background;
+	
+	@Column 
+	private String profile;
+	
+	@Column
+	private String bio;
+	
+	public void setUser(String f, String l, String u, String p, String e, String t, String b) {
 		if (f != null)
 		fname = f;
 		if (l != null)
@@ -41,6 +50,8 @@ class User {
 		email = e;
 		if (t != null)
 		type = t;
+		if (b != null)
+		bio = b;
 	}
 
 	public Integer getId() {
@@ -71,6 +82,18 @@ class User {
 		return type; 
 		}
 	
+	public String getBackground() { 
+		return background; 
+		}
+	
+	public String getProfile() { 
+		return profile; 
+		}
+	
+	public String getBio() {
+		return bio;
+	}
+	
 	public void setFName(String fname) { 
 		this.fname = fname; 
 	}
@@ -93,6 +116,16 @@ class User {
 	public void setType(String type) { 
 		this.type = type; 
 	}
-
-
+	
+	public void setBackground(String background) { 
+		this.background = background; 
+		}
+	
+	public void setProfile(String profile) { 
+		this.profile = profile;  
+		}
+	
+	public void setBio(String bio) {
+		this.bio = bio;
+	}
 }

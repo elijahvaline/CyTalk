@@ -6,6 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -14,8 +15,8 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.util.FileSystemUtils;
 
-import uploading.ImageService;
-import uploading.StorageProperties;
+import myProject.uploading.ImageService;
+import myProject.uploading.StorageProperties;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -46,7 +47,7 @@ public class ImageServiceTest {
 		service.store(new MockMultipartFile("test", "test.txt", MediaType.TEXT_PLAIN_VALUE,
 				"Hello World!".getBytes()));
 		assertThat(service.load("test.txt")).exists();
-		assertEquals("target/images/test.txt", service.load("test.txt").toString());
+		assertEquals("target" + File.separator + "images" + File.separator + "test.txt", service.load("test.txt").toString());
 	}
 
 	@Test

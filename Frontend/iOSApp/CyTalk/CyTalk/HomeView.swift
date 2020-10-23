@@ -71,7 +71,8 @@ struct HomeView : View {
                    }
                     
                 }) {
-                    //did this change. please change.
+                    //did this change. please change. frick me bruh
+                    
                     Text("New")
                         .foregroundColor(self.index == 1 ? .black : .white)
                         .fontWeight(.bold)

@@ -26,6 +26,7 @@ class ServerUtils {
 //    static let serverUrl = "http://192.168.86.45:8081";
     
     static let serverUrl = "https://ba7c40c2-ac2f-46ac-9026-85e9696af0df.mock.pstmn.io/";
+    static let serverUrl2 = "https://coms-309-sb-07.cs.iastate.edu:8080/"
 
     
     static func getPost(returnWith: @escaping (DataSet?, Bool)->()) {
@@ -85,6 +86,51 @@ class ServerUtils {
         
         // create post request
         let url = URL(string: serverUrl + "addPost/")!
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        // insert json data to the request
+        request.httpBody = jsonData
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+  
+            if (error != nil) {
+                returnWith(false)
+                return
+            }
+            guard let data = data, error == nil else {
+//                print(error?.localizedDescription ?? "No data")
+                return
+            }
+            let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
+            if let responseJSON = responseJSON as? [String: Any] {
+//                print(responseJSON)
+            }
+            print("Youre here")
+            returnWith(true)
+        }
+        
+        task.resume()
+    }
+    
+    static func addUser(userName:String, password:String, returnWith: @escaping (Bool)->() ){
+        
+        let json: [String: Any] = ["fname": "Ted",
+                                   "lname": "Danson",
+                                   "password": "help",
+                                   "email":"test@tester2.com",
+                                   "type": "User",
+                                   "uname": "testUser"
+                                    ]
+        
+        let jsonData = try? JSONSerialization.data(withJSONObject: json)
+        
+        print(String(data: jsonData!, encoding: .utf8))
+        
+        // create post request
+        let url = URL(string: serverUrl2 + "user")!
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"

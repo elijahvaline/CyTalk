@@ -43,7 +43,7 @@ struct ProfileView: View {
                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                 .frame(minHeight: 0, maxHeight: .infinity, alignment: .top)
                 .padding(.top)
-                .padding(.leading)
+                .padding(.leading, 25)
             }
         }
         .navigationBarHidden(true)

@@ -15,7 +15,7 @@ struct PostsView: View {
     var body: some View {
         
         return NavigationView {
-            VStack{
+            VStack(spacing:0){
                 HStack(spacing: 75){
                     
                     NavigationLink(destination: ProfileView()) {
@@ -27,42 +27,61 @@ struct PostsView: View {
                         .foregroundColor(Color("Color2"))
                         .padding(.leading, 30)
                     }
+                   
                     Image("smallLogo")
                     
+                    NavigationLink(destination: HomeView()) {
+                        
+                    
+                    Image(systemName: "person.crop.circle")
+                        .imageScale(.large)
+                        .font(.system(size: 25))
+                        .foregroundColor(Color("Color2"))
+                        .padding(.leading, 30)
+                    }
+                    
                 }
+                .padding(.bottom, 10)
                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                 
                 Divider()
                 
                 ScrollView{
                     
-                    ForEach(posts, id: \.self) { post in
+                    VStack(spacing: 0) {
                         
-                        HStack{
-                            Image(systemName: "person.crop.circle")
-                                .imageScale(.large)
-                                .font(.system(size: 15))
-                                .foregroundColor(Color("Color2"))
-                            Text(post.name!)
-                            Text(post.at!)
-                                .foregroundColor(.gray)
-                            Text(post.date!)
-                                .foregroundColor(.gray)
-                            Spacer()
+                        ForEach(posts, id: \.self) { post in
                             
-                        }
-                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                        .padding(.bottom, 0.5)
-                        
-                        Text(post.content!)
-                            .foregroundColor(.black)
-                            .multilineTextAlignment(.leading)
-                            
+                            HStack{
+                                Image(systemName: "person.crop.circle")
+                                    .imageScale(.large)
+                                    .font(.system(size: 15))
+                                    .foregroundColor(Color("Color2"))
+                                Text(post.name!)
+                                Text(post.at!)
+                                    .foregroundColor(.gray)
+                                Text(post.date!)
+                                    .foregroundColor(.gray)
+                                Spacer()
+                                
+                            }
                             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                            .padding(.bottom, 0.5)
+                            .padding(.top, 5)
+                            
+                            Text(post.content!)
+//                                .foregroundColor(.black)
+                                .multilineTextAlignment(.leading)
+                                
+                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                                .padding(.bottom, 5)
+                            
+                            Divider()
+                            
+                        }.frame(width: 375)//
                         
-                        Divider()
                         
-                    }.frame(width: 375)//
+                    }
                     
                 }
                 .navigationBarHidden(true)
@@ -83,6 +102,7 @@ struct PostsView: View {
                 
                 
                 Divider()
+                    .padding(.bottom, 10)
                 HStack{
                     NavigationLink(destination: NewPostView()) {
                         Image(systemName: "plus.circle.fill")

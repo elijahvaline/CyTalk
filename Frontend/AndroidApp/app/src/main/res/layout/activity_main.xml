@@ -9,22 +9,16 @@
     android:paddingTop="16dp"
     tools:context=".MainActivity" >
 
-    <Button android:id="@+id/btnStringRequest"
+    <Button android:id="@+id/btnViewPost"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:text="String Request" />
+        android:text="View Post" />
 
-    <Button android:id="@+id/btnJsonRequest"
-        android:layout_width="fill_parent"
+    <Button
+        android:id="@+id/btnCreatePost"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:text="JSON Request" />
-
-    <Button android:id="@+id/btnImageRequest"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:text="Image Request" />
+        android:text="Create Post" />
 
 </LinearLayout>

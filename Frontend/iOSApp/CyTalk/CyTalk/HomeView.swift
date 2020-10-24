@@ -72,7 +72,7 @@ struct Home : View {
             Image("logo")
             .resizable()
             .frame(width: 200, height: 150)
-                .shadow(radius: 10)
+//                .shadow(radius: 5)
             
             HStack{
                 
@@ -115,7 +115,7 @@ struct Home : View {
             }.background(Color.black.opacity(0.1))
             .clipShape(Capsule())
             .padding(.top, 25)
-            .shadow(radius: 10)
+            .shadow(radius: 5)
             
             if self.index == 0{
                 
@@ -184,7 +184,7 @@ struct Login : View {
             .background(Color.white)
             .cornerRadius(10)
             .padding(.top, 25)
-            .shadow(radius: 10)
+            .shadow(radius: 5)
             
             
             Button(action: {
@@ -204,7 +204,7 @@ struct Login : View {
             .cornerRadius(8)
             .offset(y: -40)
             .padding(.bottom, -40)
-            .shadow(radius: 15)
+            .shadow(radius: 5)
         }
     }
 }
@@ -309,7 +309,7 @@ struct SignUp : View {
             .cornerRadius(8)
             .offset(y: -40)
             .padding(.bottom, -40)
-            .shadow(radius: 15)
+            .shadow(radius: 5)
         }
     }
 }

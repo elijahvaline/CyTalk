@@ -51,6 +51,10 @@ struct PostsView: View {
                     VStack(spacing: 0) {
                         
                         ForEach(posts, id: \.self) { post in
+//
+//                            NavigationLink(destination: PostCommentView(content: post.content!, date: post.date!, name: post.name!, handle: post.at!)){
+//
+//                            }
                             
                             HStack{
                                 Image(systemName: "person.crop.circle")
@@ -69,12 +73,16 @@ struct PostsView: View {
                             .padding(.bottom, 0.5)
                             .padding(.top, 5)
                             
-                            Text(post.content!)
-//                                .foregroundColor(.black)
-                                .multilineTextAlignment(.leading)
-                                
-                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                                .padding(.bottom, 5)
+                            
+                            NavigationLink(destination: PostCommentView(content: post.content!, date: post.date!, name: post.name!, handle: post.at!)) {
+                                Text(post.content!)
+                                    .foregroundColor(.black)
+                                    .multilineTextAlignment(.leading)
+                                    
+                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                                    .padding(.bottom, 5)
+                            }
+                            
                             
                             Divider()
                             

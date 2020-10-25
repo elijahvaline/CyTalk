@@ -81,7 +81,7 @@ public class UserController {
 	@PostMapping("/user/{username}/{image}")
 	public void uploadFile(@PathVariable("username") String username, @PathVariable("image") String image, @RequestParam("file") MultipartFile file ) { //, @RequestParam("cookie") String cookie) {
 		User temp = db.findOneByUsername(username);
-		//if (cookie == temp.getCookie() || db.findOneByCookie(cookie).getType() >= 2) {
+		//if (cookie == temp.getCookie() || db.findOneByCookie(cookie).getType() > 0) {
 			if(image.equals("background")) {
 				storage.delete(db.findOneByUsername(username).getBackground());
 				temp.setBackground(file.getOriginalFilename());
@@ -97,7 +97,7 @@ public class UserController {
 	
 	@DeleteMapping("/user/{username}/{image}") 
 	public void deleteFile(@PathVariable("username") String username, @PathVariable("image") String image ) { //, @RequestParam("cookie") String cookie) {
-		//if (cookie == db.findOneByUsername(username).getCookie() || db.findOneByCookie(cookie).getType() >= 2) {
+		//if (cookie == db.findOneByUsername(username).getCookie() || db.findOneByCookie(cookie).getType() > 0) {
 			if(image.equals("background")) {
 				storage.delete(db.findOneByUsername(username).getBackground());
 			} else if(image.equals("profile")) {

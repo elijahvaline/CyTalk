@@ -71,7 +71,7 @@ public class UserControllerUnitTest {
 	public void setUp() {
 		User l = new User();
 		l.setBackground("test");
-		when(repo.findOne(1)).thenReturn(l);
+		when(repo.findOneByUsername("test")).thenReturn(l);
 	}
 	
 	@Rule
@@ -91,32 +91,32 @@ public class UserControllerUnitTest {
 				.andExpect(MockMvcResultMatchers.status().is(403)).andReturn();
 	}
 	
-//	@Test
-//	public void uploadFile() throws Exception {
-//		MockMultipartFile multipartFile = new MockMultipartFile("file", "test.txt",
-//				"multipart/form-data", "Spring Framework".getBytes());
-//		MvcResult result = controller.perform(MockMvcRequestBuilders.fileUpload("/user/1/background").file(multipartFile))
-//				.andExpect(status().is(200)).andReturn();
-//        assertEquals(200, result.getResponse().getStatus());
-//        assertNotNull(result.getResponse().getContentAsString());
-//        verify(service).store(multipartFile);
-//	}
+	@Test
+	public void uploadFile() throws Exception {
+		MockMultipartFile multipartFile = new MockMultipartFile("file", "test.txt",
+				"multipart/form-data", "Spring Framework".getBytes());
+		MvcResult result = controller.perform(MockMvcRequestBuilders.fileUpload("/user/test/background").file(multipartFile))
+				.andExpect(status().is(200)).andReturn();
+        assertEquals(200, result.getResponse().getStatus());
+        assertNotNull(result.getResponse().getContentAsString());
+        verify(service).store(multipartFile);
+	}
 
 	@Test
 	public void downloadFile() throws Exception {
 		File test = folder.newFile("test.txt");
 		when(service.load(Mockito.anyString())).thenReturn(test.toPath());
-        MvcResult result = controller.perform(MockMvcRequestBuilders.get("/user/1/background").contentType(MediaType.APPLICATION_OCTET_STREAM))
+        MvcResult result = controller.perform(MockMvcRequestBuilders.get("/user/test/background").contentType(MediaType.APPLICATION_OCTET_STREAM))
 			.andExpect(MockMvcResultMatchers.status().is(200)).andReturn();
         assertEquals(200, result.getResponse().getStatus());
         verify(service).load("test");
 	}
 	
-//	@Test
-//	public void deleteFile() throws Exception {
-//        MvcResult result = controller.perform(MockMvcRequestBuilders.delete("/user/1/background").contentType(MediaType.APPLICATION_OCTET_STREAM))
-//			.andExpect(MockMvcResultMatchers.status().is(200)).andReturn();
-//        assertEquals(200, result.getResponse().getStatus());
-//        verify(service).delete("test");
-//	}
+	@Test
+	public void deleteFile() throws Exception {
+        MvcResult result = controller.perform(MockMvcRequestBuilders.delete("/user/test/background").contentType(MediaType.APPLICATION_OCTET_STREAM))
+			.andExpect(MockMvcResultMatchers.status().is(200)).andReturn();
+        assertEquals(200, result.getResponse().getStatus());
+        verify(service).delete("test");
+	}
 }

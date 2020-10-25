@@ -32,18 +32,20 @@ public class UserController {
 		storage = storageService;
 	}
 
-	@GetMapping("/user/{id}")
-	User getPerson(@PathVariable Integer id) {
-		return db.findOne(id);
+	@GetMapping("/user/{username}")
+	public User getPerson(@PathVariable String username) {
+		User get = db.findOneByUsername(username);
+		get.setPasswd(null);
+		return get;
 	}
 	
-	@GetMapping("/user/{id}/{image}")
-    public ResponseEntity<Resource> downloadFile(@PathVariable("id") Integer id, @PathVariable("image") String image) throws IOException {
+	@GetMapping("/user/{username}/{image}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable("username") String username, @PathVariable("image") String image) throws IOException {
 		File file = null;
 		if(image.equals("background")) {
-			file = storage.load(db.findOne(id).getBackground()).toFile();
+			file = storage.load(db.findOneByUsername(username).getBackground()).toFile();
 		} else if(image.equals("profile")) {
-			file = storage.load(db.findOne(id).getProfile()).toFile();
+			file = storage.load(db.findOneByUsername(username).getProfile()).toFile();
 		}
 
         Path path = Paths.get(file.getAbsolutePath());
@@ -66,42 +68,42 @@ public class UserController {
 		return u;
 	}
 	
-	@PutMapping("/user/{id}")
-	User updateUser(@RequestBody User u, @PathVariable Integer id) {
-		User old_u = db.findOne(id);
-		if (u.getCookie() == old_u.getCookie()) {
+	@PutMapping("/user/{username}")
+	User updateUser(@RequestBody User u, @PathVariable String username) {
+		User old_u = db.findOneByUsername(username);
+		//if (u.getCookie() == old_u.getCookie()) {
 			old_u.setUser(u.getFName(), u.getLName(), u.getUName(), u.getPassword(), u.getEmail(), u.getType(), u.getBio());
 			db.save(old_u);
 			return old_u;
-		} else return null;
+		//} else return null;
 	}
 	
-	@PostMapping("/user/{id}/{image}")
-	public void uploadFile(@PathVariable("id") Integer id, @PathVariable("image") String image, @RequestParam("file") MultipartFile file, @RequestParam("cookie") String cookie) {
-		User temp = db.findOne(id);
-		if (cookie == temp.getCookie() || db.findOneByCookie(cookie).getType() >= 2) {
+	@PostMapping("/user/{username}/{image}")
+	public void uploadFile(@PathVariable("username") String username, @PathVariable("image") String image, @RequestParam("file") MultipartFile file ) { //, @RequestParam("cookie") String cookie) {
+		User temp = db.findOneByUsername(username);
+		//if (cookie == temp.getCookie() || db.findOneByCookie(cookie).getType() >= 2) {
 			if(image.equals("background")) {
-				storage.delete(db.findOne(id).getBackground());
+				storage.delete(db.findOneByUsername(username).getBackground());
 				temp.setBackground(file.getOriginalFilename());
 			} else if(image.equals("profile")) {
-				storage.delete(db.findOne(id).getProfile());
+				storage.delete(db.findOneByUsername(username).getProfile());
 				temp.setProfile(file.getOriginalFilename());
 			}
 
 			db.save(temp);
 			storage.store(file);
-		}
+		//}
 	}
 	
-	@DeleteMapping("/user/{id}/{image}") 
-	public void deleteFile(@PathVariable("id") Integer id, @PathVariable("image") String image, @RequestParam("cookie") String cookie) {
-		if (cookie == db.findOne(id).getCookie() || db.findOneByCookie(cookie).getType() >= 2) {
+	@DeleteMapping("/user/{username}/{image}") 
+	public void deleteFile(@PathVariable("username") String username, @PathVariable("image") String image ) { //, @RequestParam("cookie") String cookie) {
+		//if (cookie == db.findOneByUsername(username).getCookie() || db.findOneByCookie(cookie).getType() >= 2) {
 			if(image.equals("background")) {
-				storage.delete(db.findOne(id).getBackground());
+				storage.delete(db.findOneByUsername(username).getBackground());
 			} else if(image.equals("profile")) {
-				storage.delete(db.findOne(id).getProfile());
+				storage.delete(db.findOneByUsername(username).getProfile());
 			}
-		}
+		//}
 	}
 	
 	@GetMapping("/login")

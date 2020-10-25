@@ -2,25 +2,19 @@ package myProject;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Random;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import myProject.uploading.StorageService;
 
@@ -75,34 +69,55 @@ public class UserController {
 	@PutMapping("/user/{id}")
 	User updateUser(@RequestBody User u, @PathVariable Integer id) {
 		User old_u = db.findOne(id);
-		old_u.setUser(u.getFName(), u.getLName(), u.getUName(), u.getPassword(), u.getEmail(), u.getType(), u.getBio());
-		db.save(old_u);
-		return old_u;
+		if (u.getCookie() == old_u.getCookie()) {
+			old_u.setUser(u.getFName(), u.getLName(), u.getUName(), u.getPassword(), u.getEmail(), u.getType(), u.getBio());
+			db.save(old_u);
+			return old_u;
+		} else return null;
 	}
 	
 	@PostMapping("/user/{id}/{image}")
-	public void uploadFile(@PathVariable("id") Integer id, @PathVariable("image") String image, @RequestParam("file") MultipartFile file) {
+	public void uploadFile(@PathVariable("id") Integer id, @PathVariable("image") String image, @RequestParam("file") MultipartFile file, @RequestParam("cookie") String cookie) {
 		User temp = db.findOne(id);
-		
-		if(image.equals("background")) {
-			storage.delete(db.findOne(id).getBackground());
-			temp.setBackground(file.getOriginalFilename());
-		} else if(image.equals("profile")) {
-			storage.delete(db.findOne(id).getProfile());
-			temp.setProfile(file.getOriginalFilename());
+		if (cookie == temp.getCookie() || db.findOneByCookie(cookie).getType() >= 2) {
+			if(image.equals("background")) {
+				storage.delete(db.findOne(id).getBackground());
+				temp.setBackground(file.getOriginalFilename());
+			} else if(image.equals("profile")) {
+				storage.delete(db.findOne(id).getProfile());
+				temp.setProfile(file.getOriginalFilename());
+			}
+
+			db.save(temp);
+			storage.store(file);
 		}
-		
-		db.save(temp);
-		storage.store(file);
 	}
 	
 	@DeleteMapping("/user/{id}/{image}") 
-	public void deleteFile(@PathVariable("id") Integer id, @PathVariable("image") String image) {
-		if(image.equals("background")) {
-			storage.delete(db.findOne(id).getBackground());
-		} else if(image.equals("profile")) {
-			storage.delete(db.findOne(id).getProfile());
+	public void deleteFile(@PathVariable("id") Integer id, @PathVariable("image") String image, @RequestParam("cookie") String cookie) {
+		if (cookie == db.findOne(id).getCookie() || db.findOneByCookie(cookie).getType() >= 2) {
+			if(image.equals("background")) {
+				storage.delete(db.findOne(id).getBackground());
+			} else if(image.equals("profile")) {
+				storage.delete(db.findOne(id).getProfile());
+			}
 		}
 	}
-
+	
+	@GetMapping("/login")
+	public ResponseEntity<String> login(@RequestBody User u) {
+		User s = db.findOneByUsername(u.getUName());
+		if (s.getUName() != null && s.getPassword().equals(u.getPassword())) {
+			String c = s.getId().toString();
+			Random rand = new Random();
+			for (int i = 0; i < 11; i++) {
+				c += (char) (rand.nextInt(94) + 33);
+			}
+			s.setCookie(c);
+			db.save(s);
+			return ResponseEntity.ok().body(s.getCookie());
+		} else {
+			return ResponseEntity.status(403).body("Wrong username or password");
+		}
+	}
 }

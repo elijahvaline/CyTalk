@@ -64,6 +64,8 @@ public class UserControllerUnitTest {
 	
 	@MockBean // note that this repo is also needed in controller
 	private UserDB repo;
+	
+	@MockBean User u;
 
 	@Before
 	public void setUp() {
@@ -76,15 +78,29 @@ public class UserControllerUnitTest {
 	public TemporaryFolder folder = new TemporaryFolder();
 	
 	@Test
-	public void uploadFile() throws Exception {
-		MockMultipartFile multipartFile = new MockMultipartFile("file", "test.txt",
-				"multipart/form-data", "Spring Framework".getBytes());
-		MvcResult result = controller.perform(MockMvcRequestBuilders.fileUpload("/user/1/background").file(multipartFile))
-				.andExpect(status().is(200)).andReturn();
-        assertEquals(200, result.getResponse().getStatus());
-        assertNotNull(result.getResponse().getContentAsString());
-        verify(service).store(multipartFile);
+	public void login() throws Exception {
+		when(u.getId()).thenReturn(1);
+		when(u.getUName()).thenReturn("test");
+		when(u.getPassword()).thenReturn("password");
+		when(repo.findOneByUsername("test")).thenReturn(u);
+		String json = "{ \"uname\" : \"test\", \"password\" : \"password\"}";
+		MvcResult result = controller.perform(MockMvcRequestBuilders.get("/login").contentType(MediaType.APPLICATION_JSON).content(json))
+				.andExpect(MockMvcResultMatchers.status().is(200)).andReturn();
+		String json2 = "{ \"uname\" : \"test\", \"password\" : \"pass\"}";
+		MvcResult result1 = controller.perform(MockMvcRequestBuilders.get("/login").contentType(MediaType.APPLICATION_JSON).content(json2))
+				.andExpect(MockMvcResultMatchers.status().is(403)).andReturn();
 	}
+	
+//	@Test
+//	public void uploadFile() throws Exception {
+//		MockMultipartFile multipartFile = new MockMultipartFile("file", "test.txt",
+//				"multipart/form-data", "Spring Framework".getBytes());
+//		MvcResult result = controller.perform(MockMvcRequestBuilders.fileUpload("/user/1/background").file(multipartFile))
+//				.andExpect(status().is(200)).andReturn();
+//        assertEquals(200, result.getResponse().getStatus());
+//        assertNotNull(result.getResponse().getContentAsString());
+//        verify(service).store(multipartFile);
+//	}
 
 	@Test
 	public void downloadFile() throws Exception {
@@ -96,11 +112,11 @@ public class UserControllerUnitTest {
         verify(service).load("test");
 	}
 	
-	@Test
-	public void deleteFile() throws Exception {
-        MvcResult result = controller.perform(MockMvcRequestBuilders.delete("/user/1/background").contentType(MediaType.APPLICATION_OCTET_STREAM))
-			.andExpect(MockMvcResultMatchers.status().is(200)).andReturn();
-        assertEquals(200, result.getResponse().getStatus());
-        verify(service).delete("test");
-	}
+//	@Test
+//	public void deleteFile() throws Exception {
+//        MvcResult result = controller.perform(MockMvcRequestBuilders.delete("/user/1/background").contentType(MediaType.APPLICATION_OCTET_STREAM))
+//			.andExpect(MockMvcResultMatchers.status().is(200)).andReturn();
+//        assertEquals(200, result.getResponse().getStatus());
+//        verify(service).delete("test");
+//	}
 }

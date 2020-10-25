@@ -18,7 +18,7 @@ struct PostsView: View {
             VStack(spacing:0){
                 HStack(spacing: 75){
                     
-                    NavigationLink(destination: ProfileView()) {
+                    NavigationLink(destination: HomeView()) {
                         
                     
                     Image(systemName: "person.crop.circle")
@@ -29,16 +29,6 @@ struct PostsView: View {
                     }
                    
                     Image("smallLogo")
-                    
-                    NavigationLink(destination: HomeView()) {
-                        
-                    
-                    Image(systemName: "person.crop.circle")
-                        .imageScale(.large)
-                        .font(.system(size: 25))
-                        .foregroundColor(Color("Color2"))
-                        .padding(.leading, 30)
-                    }
                     
                 }
                 .padding(.bottom, 10)
@@ -56,19 +46,23 @@ struct PostsView: View {
 //
 //                            }
                             
-                            HStack{
-                                Image(systemName: "person.crop.circle")
-                                    .imageScale(.large)
-                                    .font(.system(size: 15))
-                                    .foregroundColor(Color("Color2"))
-                                Text(post.name!)
-                                Text(post.at!)
-                                    .foregroundColor(.gray)
-                                Text(post.date!)
-                                    .foregroundColor(.gray)
-                                Spacer()
-                                
+                            NavigationLink(destination: ProfileView(name: post.name!, handle: post.at!)){
+                                HStack{
+                                    Image(systemName: "person.crop.circle")
+                                        .imageScale(.large)
+                                        .font(.system(size: 15))
+                                        .foregroundColor(Color("Color2"))
+                                    Text(post.name!)
+                                        .foregroundColor(.black)
+                                    Text(post.at!)
+                                        .foregroundColor(.gray)
+                                    Text(post.date!)
+                                        .foregroundColor(.gray)
+                                    Spacer()
+                                    
+                                }
                             }
+                          
                             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                             .padding(.bottom, 0.5)
                             .padding(.top, 5)

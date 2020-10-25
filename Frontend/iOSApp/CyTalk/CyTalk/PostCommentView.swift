@@ -48,10 +48,14 @@ struct PostCommentView: View {
                 VStack{
                     Text(name)
                         .font(.system(size:25))
+                        .fontWeight(.light)
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                        
                     Text(handle)
+                        .fontWeight(.light)
                         .foregroundColor(.gray)
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                        
                 }.frame(alignment: .leading)
                 
                
@@ -61,10 +65,15 @@ struct PostCommentView: View {
             .padding(.bottom, 5)
             Text(content)
                 .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                .fontWeight(.light)
                 .padding(.horizontal)
+                .multilineTextAlignment(.leading)
+                
+                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
             
             HStack{
                 Text(date)
+                    .fontWeight(.light)
                     .foregroundColor(.gray)
                     .padding(.leading, 15)
                     .font(.system(size:20))
@@ -84,11 +93,14 @@ struct PostCommentView: View {
                     
                 TextField("What would you like to say?", text: $test)
                     .multilineTextAlignment(.center)
+                    
                     .foregroundColor(Color(UIColor.systemGray))
                     .background(Color(UIColor.systemGray5))
                     .cornerRadius(20)
                     .frame(width: 375, height: 50)
+                    
                     .font(.system(size:20))
+                    
                     
                     .padding(.horizontal, 20)
                 

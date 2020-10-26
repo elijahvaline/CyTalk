@@ -15,7 +15,7 @@ public class Comment {
 	private Integer cId;
 
 	@Column
-	private String date;
+	private double date;
 
 	@Column
 	private String content;
@@ -30,7 +30,7 @@ public class Comment {
 		return cId;
 	}
 
-	public String getDate() {
+	public double getDate() {
 		return date;
 	}
 

@@ -21,6 +21,11 @@ public class CommentController {
 		return db.findAll();
 	}
 
+	@GetMapping("/Comments/{iD}")
+	List<Post> getPost(@PathVariable int iD) {
+		return db.getCommentByiD(iD);
+	}
+	
 	@PostMapping("/Comment/{id}")
 	Comment createComment(@RequestBody Comment c) {
 		db.save(c);

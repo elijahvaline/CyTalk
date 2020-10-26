@@ -21,7 +21,7 @@ public class CommentController {
 		return db.findAll();
 	}
 
-	@GetMapping("/Comments/{iD}")
+	@GetMapping("/Comments/{pId}")
 	List<Post> getPost(@PathVariable int pId) {
 		return db.getCommentBypId(pId);
 	}

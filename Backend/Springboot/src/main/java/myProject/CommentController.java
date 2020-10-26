@@ -16,7 +16,7 @@ public class CommentController {
 		return db.findOne(id);
 	}
 
-	@GetMapping("/Comment")
+	@GetMapping("/Comments")
 	List<Comment> hello() {
 		return db.findAll();
 	}
@@ -29,9 +29,9 @@ public class CommentController {
 
 	@PutMapping("/Comment/{id}")
 	Comment updateComment(@RequestBody Comment c, @PathVariable Integer id) {
-		Comment old_p = db.findOne(id);
-		old_p.setContent(c.getContent());
-		db.save(old_p);
-		return old_p;
+		Comment old_c = db.findOne(id);
+		old_c.setContent(c.getContent());
+		db.save(old_c);
+		return old_c;
 	}
 }

@@ -21,7 +21,7 @@ public class CommentController {
 		return db.findAll();
 	}
 
-	@PostMapping("/Comment")
+	@PostMapping("/Comment/{id}")
 	Comment createComment(@RequestBody Comment c) {
 		db.save(c);
 		return c;

@@ -11,5 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @Repository
 public interface UserDB extends JpaRepository<User, Integer> {
-	
+	User findOneByUsername(String username);
+	User findOneByCookie(String cookie);
 }

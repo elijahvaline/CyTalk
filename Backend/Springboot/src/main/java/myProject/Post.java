@@ -15,9 +15,15 @@ class Post {
 
 	@Column
 	private Integer userId;
+	
+	@Column
+	private String userName;
 
 	@Column
 	private String content;
+	
+	@Column
+	private String name;
 
 	@Column
 	private Integer pVotes = 0;
@@ -40,7 +46,15 @@ class Post {
 	public String getContent() {
 		return content;
 	}
-
+	
+	public String getUserName() {
+		return userName;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
 	public Integer getPosVoteCount() {
 		return pVotes;
 	}
@@ -55,5 +69,9 @@ class Post {
 
 	public void setUserId(int i) {
 		userId = i;
+	}
+	
+	public void setUserName(String s) {
+		userName = s;
 	}
 }

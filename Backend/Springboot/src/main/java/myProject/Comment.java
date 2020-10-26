@@ -15,22 +15,22 @@ public class Comment {
 	private Integer cId;
 
 	@Column
-	private Integer date;
+	private String date;
 
 	@Column
 	private String content;
 
 	@Column
-	private Integer pVotes;
+	private Integer pVotes=0;
 
 	@Column
-	private Integer nVotes;
+	private Integer nVotes=0;
 
 	public Integer getCommentId() {
 		return cId;
 	}
 
-	public Integer getDate() {
+	public String getDate() {
 		return date;
 	}
 

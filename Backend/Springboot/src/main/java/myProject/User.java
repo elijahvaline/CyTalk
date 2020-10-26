@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
-class User {
+public class User {
 
 	@Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,8 +16,8 @@ class User {
 	@Column
 	private String lname;
 	
-	@Column
-	private String user_name;
+	@Column (unique = true)
+	private String username;
 
 	@Column
 	private String password;
@@ -26,7 +26,7 @@ class User {
 	private String email;
 	
 	@Column
-	private String type;
+	private int type;
 	
 	@Column
 	private String background;
@@ -37,18 +37,21 @@ class User {
 	@Column
 	private String bio;
 	
-	public void setUser(String f, String l, String u, String p, String e, String t, String b) {
+	@Column
+	private String cookie;
+	
+	public void setUser(String f, String l, String u, String p, String e, int t, String b) {
 		if (f != null)
 		fname = f;
 		if (l != null)
 		lname = l;
 		if (u != null)
-		user_name = u;
+		username = u;
 		if (p != null)
 		password = p;
 		if (e != null)
 		email = e;
-		if (t != null)
+		if (t != 0)
 		type = t;
 		if (b != null)
 		bio = b;
@@ -67,7 +70,7 @@ class User {
 	}
 	
 	public String getUName() { 
-		return user_name; 
+		return username; 
 	}
 	
 	public String getPassword() { 
@@ -78,7 +81,7 @@ class User {
 		return email; 
 	}
 	
-	public String getType() { 
+	public int getType() { 
 		return type; 
 		}
 	
@@ -93,6 +96,9 @@ class User {
 	public String getBio() {
 		return bio;
 	}
+	public String getCookie() {
+		return cookie;
+	}
 	
 	public void setFName(String fname) { 
 		this.fname = fname; 
@@ -102,7 +108,7 @@ class User {
 	}
 	
 	public void setUName(String uname) { 
-		user_name = uname; 
+		username = uname; 
 	}
 	
 	public void setPasswd(String password) { 
@@ -113,7 +119,7 @@ class User {
 		this.email = email; 
 	}
 	
-	public void setType(String type) { 
+	public void setType(int type) { 
 		this.type = type; 
 	}
 	
@@ -127,5 +133,9 @@ class User {
 	
 	public void setBio(String bio) {
 		this.bio = bio;
+	}
+	
+	public void setCookie(String cookie) {
+		this.cookie = cookie;
 	}
 }

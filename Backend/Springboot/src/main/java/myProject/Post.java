@@ -11,7 +11,7 @@ class Post {
 	private Integer pId;
 
 	@Column
-	private String date;
+	private double date;
 
 	@Column
 	private Integer userId;
@@ -35,7 +35,7 @@ class Post {
 		return pId;
 	}
 
-	public String getDate() {
+	public double getDate() {
 		return date;
 	}
 

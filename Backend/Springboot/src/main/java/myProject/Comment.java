@@ -15,6 +15,9 @@ public class Comment {
 	private Integer cId;
 
 	@Column
+	private Integer pId;
+	
+	@Column
 	private double date;
 
 	@Column

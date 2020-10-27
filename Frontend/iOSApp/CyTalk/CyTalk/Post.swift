@@ -13,14 +13,15 @@ final class Post: NSObject {
     let date: String?
     let name: String?
     let at: String?
-
+    let isInitialized: Bool?
     
     init(content: String?,
-         date: String?, name: String?, at: String?) {
+         date: String?, name: String?, at: String?, initialized: Bool?) {
         self.content = content
         self.date = date
         self.name = name
         self.at = at
+        self.isInitialized = initialized
     }
 }
 

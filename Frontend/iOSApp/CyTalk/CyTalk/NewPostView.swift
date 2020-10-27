@@ -27,7 +27,7 @@ struct NewPostView: View {
                     .font(.system(size: 50))
                 
                 Button(action: {
-                    ServerUtils.addPost(content: postContent, returnWith: {success in
+                    ServerUtils.addPost(name: "anon", username: "anon", content: postContent, returnWith: {success in
                         
                         if (!success ){
                             message = "Ope! Having trouble connecting"
@@ -43,17 +43,20 @@ struct NewPostView: View {
                         }
                         
                     })
+                    
+                    self.presentationMode.wrappedValue.dismiss()
                         }) {
                 Image(systemName: "arrowshape.turn.up.right.fill")
                     .foregroundColor(Color("Color2"))
                     .font(.system(size: 30))
-                }
+                }.accessibility(identifier: "post")
             }
             
             TextField("Whats up?", text: $postContent)
                 .multilineTextAlignment(.center)
                 .padding(.top, 5)
                 .frame(width: 400)
+                .accessibility(identifier: "worked")
                 
 
             Spacer()

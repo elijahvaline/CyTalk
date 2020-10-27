@@ -52,6 +52,7 @@ struct HomeView: View {
         
        
         .navigationBarHidden(true)
+        .accessibility(identifier: "loginView")
     }
 }
 

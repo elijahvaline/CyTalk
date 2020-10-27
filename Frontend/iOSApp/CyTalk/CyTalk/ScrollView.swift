@@ -72,7 +72,7 @@ struct PostsView: View {
                                 }
                                 .accessibility(identifier: post.at!)
                                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                                .padding(.bottom, 0.5)
+                                .padding(.bottom, 1)
                                 .padding(.top, 5)
                                 .padding(.horizontal, 15)
                             
@@ -120,12 +120,22 @@ struct PostsView: View {
                 
                 Divider()
                     .padding(.bottom, 10)
-                HStack{
+                HStack(){
+                    Button(action: {
+                        updatePosts()
+                    }) {
+                        Image(systemName: "arrow.clockwise")
+                            .foregroundColor(Color("Color2"))
+                            .font(.system(size: 35))
+                    }.padding(.leading, 30)
+                    .padding(.trailing, 110)
                     NavigationLink(destination: NewPostView()) {
                         Image(systemName: "plus.circle.fill")
                             .foregroundColor(Color("Color2"))
                             .font(.system(size: 50))
                     }.accessibility(identifier: "newPostButton")
+                    
+                    Spacer()
                 }
                 .frame(width: 414, height: 50).foregroundColor(.white)
                 
@@ -164,12 +174,30 @@ struct PostsView: View {
                 formatter.dateStyle = .short
                 let myNSDate = Date(timeIntervalSince1970: curPost.date)
                 let todaysDate:String = formatter.string(from: myNSDate)
+                let postName:String
+                let userName:String
                 
-                tempPost.append(Post(content: curPost.content, date: todaysDate, name: curPost.name, at: curPost.at, initialized:true))
+                if (curPost.name == nil){
+                    postName = "Anon"
+                }
+                else{
+                    postName = curPost.name
+                }
+                
+                if (curPost.userName == nil){
+                    userName = "Anon"
+                }
+                else{
+                    userName = curPost.userName
+                }
+                
+                
+                tempPost.append(Post(content: curPost.content, date: todaysDate, name: postName, at: userName, initialized:true))
 
             }
             
             // Copy array over
+            tempPost.reverse()
             self.posts = tempPost
             
         })

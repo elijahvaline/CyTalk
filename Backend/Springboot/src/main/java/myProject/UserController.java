@@ -113,7 +113,10 @@ public class UserController {
 			String c = s.getId().toString();
 			Random rand = new Random();
 			for (int i = 0; i < 11; i++) {
-				c += (char) (rand.nextInt(94) + 33);
+				char a = (char) (rand.nextInt(90) + 33);
+				if (a != 41 && a != 40 && a != 60 && a != 62 && !(a <= 93 && a >= 91)) {
+					c += a;
+				} else i--;
 			}
 			s.setCookie(c);
 			db.save(s);

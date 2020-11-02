@@ -13,6 +13,8 @@ struct PostsView: View {
     @State private var post:[String] = ["First","Second","Third"]
     @State private var refreshCount = 0
     
+    
+    // View for navigation
     var body: some View {
         
         return NavigationView {

@@ -14,6 +14,7 @@
 		B62F71CE2516D76900AF8F36 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B62F71CD2516D76900AF8F36 /* Assets.xcassets */; };
 		B62F71D12516D76900AF8F36 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B62F71D02516D76900AF8F36 /* Preview Assets.xcassets */; };
 		B62F71D42516D76900AF8F36 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B62F71D22516D76900AF8F36 /* LaunchScreen.storyboard */; };
+		B641787B254891B9004D4254 /* CyTalkUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A59D39254526F5006F0F6A /* CyTalkUITests.swift */; };
 		B662A18E25185F170082E103 /* ServerUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = B662A18D25185F170082E103 /* ServerUtils.swift */; };
 		B662A191251861140082E103 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B662A190251861140082E103 /* HomeView.swift */; };
 		B662A196251869CE0082E103 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = B662A195251869CE0082E103 /* Post.swift */; };
@@ -303,6 +304,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B641787B254891B9004D4254 /* CyTalkUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -44,7 +44,7 @@ class CyTalkUITests: XCTestCase {
     func test_post_view() throws {
         let app = XCUIApplication()
         app.launch()
-        let button = app.buttons["Benman"]
+        let button = app.buttons["Eli"]
         button.tap()
         
     }
@@ -52,7 +52,7 @@ class CyTalkUITests: XCTestCase {
     func test_profile_view() throws {
         let app = XCUIApplication()
         app.launch()
-        let button = app.buttons["@mrpit"]
+        let button = app.buttons["evaline"]
         button.tap()
         
     }

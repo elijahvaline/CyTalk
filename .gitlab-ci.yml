@@ -7,7 +7,6 @@ stages:
 iosbuild_project:
   stage: iosbuild
   script:
-    - xcodebuild clean -project ./Frontend/iOSApp/CyTalk/CyTalk.xcodeproj -scheme CyTalk
     - xcodebuild build -project ./Frontend/iOSApp/CyTalk/CyTalk.xcodeproj -scheme CyTalk
     - xcodebuild test -project ./Frontend/iOSApp/CyTalk/CyTalk.xcodeproj -scheme CyTalk -destination 'platform=iOS Simulator,name=iPhone 11,OS=14.0'
   tags:

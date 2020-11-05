@@ -1,4 +1,4 @@
-package myProject;
+package myProject.post;
 
 import java.util.List;
 
@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CommentDB extends JpaRepository<Comment, Integer> {
-	List<Post> getCommentBypId(int pId);
+public interface PostDB extends JpaRepository<Post, Integer> {
+	List<Post> getPostsByuserName(String userName);
 }

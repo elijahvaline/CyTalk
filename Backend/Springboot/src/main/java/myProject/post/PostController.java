@@ -1,4 +1,4 @@
-package myProject;
+package myProject.post;
 
 import java.util.List;
 

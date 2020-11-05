@@ -1,6 +1,9 @@
 package myProject;
 
 import myProject.uploading.StorageService;
+import myProject.user.User;
+import myProject.user.UserController;
+import myProject.user.UserDB;
 
 import org.junit.Before;
 import org.junit.Rule;

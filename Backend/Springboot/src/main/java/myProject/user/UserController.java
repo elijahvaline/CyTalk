@@ -1,4 +1,4 @@
-package myProject;
+package myProject.user;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,7 +33,7 @@ public class UserController {
 	}
 
 	@GetMapping("/user/{username}")
-	public User getPerson(@PathVariable String username) {
+	public User getUser(@PathVariable String username) {
 		User get = db.findOneByUsername(username);
 		get.setPasswd(null);
 		return get;
@@ -58,12 +58,12 @@ public class UserController {
     }
 	
 	@GetMapping("/users")
-	List<User> hello() {
+	List<User> getListUsers() {
 		return db.findAll();
 	}
 
 	@PostMapping("/user")
-	User createPerson(@RequestBody User u) {
+	User createUser(@RequestBody User u) {
 		db.save(u);
 		return u;
 	}

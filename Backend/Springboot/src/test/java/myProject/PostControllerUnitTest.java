@@ -1,4 +1,7 @@
 package myProject;
+import myProject.post.Post;
+import myProject.post.PostController;
+import myProject.post.PostDB;
 import myProject.uploading.StorageService;
 
 import org.junit.Before;

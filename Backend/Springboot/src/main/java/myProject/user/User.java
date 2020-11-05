@@ -1,4 +1,4 @@
-package myProject;
+package myProject.user;
 
 import javax.persistence.*;
 

@@ -1,9 +1,11 @@
-package myProject;
+package myProject.comment;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import myProject.post.Post;
 
 @RestController
 public class CommentController {

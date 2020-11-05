@@ -49,11 +49,19 @@ public class Comment {
 		return nVotes;
 	}
 
+	public Integer getpId() {
+		return pId;
+	}
+	
 	public void setContent(String c) {
 		content = c;
 	}
 	
 	public void setCommentId(int i) {
 		cId = i;
+	}
+	
+	public void setpId(int i) {
+		pId = i;
 	}
 }

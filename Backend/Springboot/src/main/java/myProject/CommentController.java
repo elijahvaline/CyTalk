@@ -22,7 +22,7 @@ public class CommentController {
 	}
 
 	@GetMapping("/Comments/{pId}")
-	List<Post> getPost(@PathVariable int pId) {
+	List<Post> getComment(@PathVariable int pId) {
 		return db.getCommentBypId(pId);
 	}
 	

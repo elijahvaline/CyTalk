@@ -1,4 +1,4 @@
-package myProject;
+package myProject.comment;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

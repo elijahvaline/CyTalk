@@ -1,4 +1,7 @@
 package myProject;
+import myProject.comment.Comment;
+import myProject.comment.CommentController;
+import myProject.comment.CommentDB;
 import myProject.uploading.StorageService;
 
 import org.junit.Before;

@@ -10,6 +10,11 @@ iosbuild_project:
     - xcodebuild test -project Frontend/iOSApp/CyTalk/CyTalk.xcodeproj -scheme CyTalk -destination 'platform=iOS Simulator,name=iPhone 11,OS=14.0'
   tags:
     - ios_tag
+  only:
+    refs:
+    - master
+    changes:
+    - Frontend/**/*
 
 maven-build:
   stage: mavenbuild

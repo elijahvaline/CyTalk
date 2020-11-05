@@ -34,7 +34,7 @@ public class CommentController {
 		return c;
 	}
 
-	@PutMapping("/Comment/{id}")
+	@PutMapping("/Comment/update/{id}")
 	Comment updateComment(@RequestBody Comment c, @PathVariable Integer id) {
 		Comment old_c = db.findOne(id);
 		old_c.setContent(c.getContent());

@@ -28,7 +28,7 @@ public class CommentController {
 		return db.getCommentBypId(pId);
 	}
 	
-	@PostMapping("/Comment/{id}")
+	@PostMapping("/Comment")
 	Comment createComment(@RequestBody Comment c) {
 		db.save(c);
 		return c;

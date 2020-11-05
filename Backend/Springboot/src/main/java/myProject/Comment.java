@@ -52,4 +52,8 @@ public class Comment {
 	public void setContent(String c) {
 		content = c;
 	}
+	
+	public void setCommentId(int i) {
+		cId = i;
+	}
 }

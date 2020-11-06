@@ -36,6 +36,7 @@ public class UserController {
 	public User getUser(@PathVariable String username) {
 		User get = db.findOneByUsername(username);
 		get.setPasswd(null);
+		get.setCookie(null);
 		return get;
 	}
 	
@@ -59,11 +60,17 @@ public class UserController {
 	
 	@GetMapping("/users")
 	List<User> getListUsers() {
-		return db.findAll();
+		List<User> get = db.findAll();
+		for(User g : get) {
+			g.setCookie(null);
+			g.setPasswd(null);
+		}
+		return get;
 	}
 
 	@PostMapping("/user")
 	User createUser(@RequestBody User u) {
+		u.setType(0);
 		db.save(u);
 		return u;
 	}
@@ -72,7 +79,17 @@ public class UserController {
 	User updateUser(@RequestBody User u, @PathVariable String username) {
 		User old_u = db.findOneByUsername(username);
 		//if (u.getCookie() == old_u.getCookie()) {
-			old_u.setUser(u.getFName(), u.getLName(), u.getUName(), u.getPassword(), u.getEmail(), u.getType(), u.getBio());
+			old_u.setUser(u.getFName(), u.getLName(), u.getUName(), u.getPassword(), u.getEmail(), u.getBio());
+			db.save(old_u);
+			return old_u;
+		//} else return null;
+	}
+	
+	@PutMapping("/user/{username}/type")
+	User updateUserType(@RequestBody User u, @PathVariable String username) {
+		User old_u = db.findOneByUsername(username);
+		//if (db.findOneByCookie(u.cookie).getType() > 0) {
+			old_u.setType(u.getType());
 			db.save(old_u);
 			return old_u;
 		//} else return null;
@@ -81,7 +98,7 @@ public class UserController {
 	@PostMapping("/user/{username}/{image}")
 	public void uploadFile(@PathVariable("username") String username, @PathVariable("image") String image, @RequestParam("file") MultipartFile file ) { //, @RequestParam("cookie") String cookie) {
 		User temp = db.findOneByUsername(username);
-		//if (cookie == temp.getCookie() || db.findOneByCookie(cookie).getType() > 0) {
+		//if (cookie == temp.getCookie()) {
 			if(image.equals("background")) {
 				storage.delete(db.findOneByUsername(username).getBackground());
 				temp.setBackground(file.getOriginalFilename());
@@ -106,8 +123,8 @@ public class UserController {
 		//}
 	}
 	
-	@GetMapping("/login")
-	public ResponseEntity<String> login(@RequestBody User u) {
+	@PostMapping("/login")
+	public ResponseEntity<User> login(@RequestBody User u) {
 		User s = db.findOneByUsername(u.getUName());
 		if (s.getUName() != null && s.getPassword().equals(u.getPassword())) {
 			String c = s.getId().toString();
@@ -120,9 +137,9 @@ public class UserController {
 			}
 			s.setCookie(c);
 			db.save(s);
-			return ResponseEntity.ok().body(s.getCookie());
+			return ResponseEntity.ok().body(s);
 		} else {
-			return ResponseEntity.status(403).body("Wrong username or password");
+			return ResponseEntity.status(403).body(null);
 		}
 	}
 }

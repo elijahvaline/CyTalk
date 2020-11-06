@@ -136,4 +136,8 @@ public class User {
 	public void setCookie(String cookie) {
 		this.cookie = cookie;
 	}
+	
+	public void setId(int i) {
+		this.id = i;
+	}
 }

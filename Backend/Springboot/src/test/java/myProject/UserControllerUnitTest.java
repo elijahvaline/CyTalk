@@ -23,6 +23,9 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.util.FileSystemUtils;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -67,8 +70,6 @@ public class UserControllerUnitTest {
 	
 	@MockBean // note that this repo is also needed in controller
 	private UserDB repo;
-	
-	@MockBean User u;
 
 	@Before
 	public void setUp() {
@@ -76,22 +77,29 @@ public class UserControllerUnitTest {
 		l.setBackground("test");
 		when(repo.findOneByUsername("test")).thenReturn(l);
 	}
-	
+//	public static String asJsonString(final Object obj) {
+//	    try {
+//	        return new ObjectMapper().writeValueAsString(obj);
+//	    } catch (Exception e) {
+//	        throw new RuntimeException(e);
+//	    }
+//	}
 	@Rule
 	public TemporaryFolder folder = new TemporaryFolder();
 	
 	@Test
 	public void login() throws Exception {
-		when(u.getId()).thenReturn(1);
-		when(u.getUName()).thenReturn("test");
-		when(u.getPassword()).thenReturn("password");
-		when(repo.findOneByUsername("test")).thenReturn(u);
+		User s = new User();
+		s.setId(1);
+		s.setUName("test");
+		s.setPasswd("password");
+		when(repo.findOneByUsername("test")).thenReturn(s);
 		String json = "{ \"uname\" : \"test\", \"password\" : \"password\"}";
 		MvcResult result = controller.perform(MockMvcRequestBuilders.get("/login").contentType(MediaType.APPLICATION_JSON).content(json))
-				.andExpect(MockMvcResultMatchers.status().is(200)).andReturn();
+				.andExpect(status().isOk()).andReturn();
 		String json2 = "{ \"uname\" : \"test\", \"password\" : \"pass\"}";
 		MvcResult result1 = controller.perform(MockMvcRequestBuilders.get("/login").contentType(MediaType.APPLICATION_JSON).content(json2))
-				.andExpect(MockMvcResultMatchers.status().is(403)).andReturn();
+				.andExpect(status().is(403)).andReturn();
 	}
 	
 	@Test

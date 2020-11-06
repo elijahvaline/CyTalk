@@ -40,7 +40,7 @@ public class User {
 	@Column
 	private String cookie;
 	
-	public void setUser(String f, String l, String u, String p, String e, int t, String b) {
+	public void setUser(String f, String l, String u, String p, String e, String b) {
 		if (f != null)
 		fname = f;
 		if (l != null)
@@ -51,8 +51,6 @@ public class User {
 		password = p;
 		if (e != null)
 		email = e;
-		if (t != 0)
-		type = t;
 		if (b != null)
 		bio = b;
 	}

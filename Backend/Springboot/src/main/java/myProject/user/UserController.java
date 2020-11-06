@@ -123,7 +123,7 @@ public class UserController {
 		//}
 	}
 	
-	@GetMapping("/login")
+	@PostMapping("/login")
 	public ResponseEntity<User> login(@RequestBody User u) {
 		User s = db.findOneByUsername(u.getUName());
 		if (s.getUName() != null && s.getPassword().equals(u.getPassword())) {

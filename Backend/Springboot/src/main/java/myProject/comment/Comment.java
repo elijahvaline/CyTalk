@@ -24,6 +24,12 @@ public class Comment {
 	private String content;
 
 	@Column
+	private String name;
+	
+	@Column
+	private String userName;
+	
+	@Column
 	private Integer pVotes=0;
 
 	@Column
@@ -49,6 +55,14 @@ public class Comment {
 		return nVotes;
 	}
 
+	public String getUserName() {
+		return userName;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
 	public Integer getpId() {
 		return pId;
 	}

@@ -70,7 +70,7 @@ public class PostControllerUnitTest {
 	
 	@Test
 	public void newPost() throws Exception{
-		when(p.getPostId()).thenReturn(1);
+		when(p.getpId()).thenReturn(1);
 		when(p.getName()).thenReturn("test");
 		when(p.getContent()).thenReturn("hello");
 		String json = "{ \"userName\" : \"test\", \"content\" : \"hello\"}";
@@ -79,7 +79,7 @@ public class PostControllerUnitTest {
 	
 	@Test
 	public void addPost() throws Exception{
-		when(p.getPostId()).thenReturn(1);
+		when(p.getpId()).thenReturn(1);
 		when(p.getName()).thenReturn("akash");
 		when(p.getContent()).thenReturn("hello");
 		String json = "{ \"userName\" : \"akash\", \"content\" : \"hi akash\"}";

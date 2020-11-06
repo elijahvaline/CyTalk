@@ -95,10 +95,10 @@ public class UserControllerUnitTest {
 		s.setPasswd("password");
 		when(repo.findOneByUsername("test")).thenReturn(s);
 		String json = "{ \"uname\" : \"test\", \"password\" : \"password\"}";
-		MvcResult result = controller.perform(MockMvcRequestBuilders.get("/login").contentType(MediaType.APPLICATION_JSON).content(json))
+		MvcResult result = controller.perform(MockMvcRequestBuilders.post("/login").contentType(MediaType.APPLICATION_JSON).content(json))
 				.andExpect(status().isOk()).andReturn();
 		String json2 = "{ \"uname\" : \"test\", \"password\" : \"pass\"}";
-		MvcResult result1 = controller.perform(MockMvcRequestBuilders.get("/login").contentType(MediaType.APPLICATION_JSON).content(json2))
+		MvcResult result1 = controller.perform(MockMvcRequestBuilders.post("/login").contentType(MediaType.APPLICATION_JSON).content(json2))
 				.andExpect(status().is(403)).andReturn();
 	}
 	

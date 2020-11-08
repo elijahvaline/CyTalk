@@ -28,7 +28,7 @@ public class ChatSocket {
   // cannot autowire static directly (instead we do it by the below
   // method
 	private static MessageRepository msgRepo; 
-
+	private static GroupRepository groupRepo; 
 	/*
    * Grabs the MessageRepository singleton from the Spring Application
    * Context.  This works because of the @Controller annotation on this
@@ -37,8 +37,9 @@ public class ChatSocket {
    * easiest.
 	 */
 	@Autowired
-	public void setMessageRepository(MessageRepository repo) {
+	public void setMessageRepository(MessageRepository repo, GroupRepository group) {
 		msgRepo = repo;  // we are setting the static variable
+		groupRepo = group;
 	}
 
 	// Store all socket session and their corresponding username.
@@ -58,7 +59,7 @@ public class ChatSocket {
 		usernameSessionMap.put(username, session);
 
 		//Send chat history to the newly connected user
-		sendMessageToPArticularUser(username, getChatHistory());
+		sendMessageToParticularUser(username, getChatHistory());
 		
     // broadcast that new user joined
 		String message = "User:" + username + " has Joined the Chat";
@@ -78,8 +79,8 @@ public class ChatSocket {
 			String destUsername = message.split(" ")[0].substring(1); 
 
       // send the message to the sender and receiver
-			sendMessageToPArticularUser(destUsername, "[DM] " + username + ": " + message);
-			sendMessageToPArticularUser(username, "[DM] " + username + ": " + message);
+			sendMessageToParticularUser(destUsername, "[DM] " + username + ": " + message);
+			sendMessageToParticularUser(username, "[DM] " + username + ": " + message);
 
 		} 
     else { // broadcast
@@ -114,7 +115,7 @@ public class ChatSocket {
 	}
 
 
-	private void sendMessageToPArticularUser(String username, String message) {
+	private void sendMessageToParticularUser(String username, String message) {
 		try {
 			usernameSessionMap.get(username).getBasicRemote().sendText(message);
 		} 

@@ -1,6 +1,10 @@
 package myProject.user;
 
+import java.util.Set;
+
 import javax.persistence.*;
+
+import myProject.webSocket.Group;
 
 @Entity
 @Table(name = "users")
@@ -39,6 +43,9 @@ public class User {
 	
 	@Column
 	private String cookie;
+	
+	@ManyToMany(mappedBy= "groups")
+	Set<Group> join;
 	
 	public void setUser(String f, String l, String u, String p, String e, String b) {
 		if (f != null)

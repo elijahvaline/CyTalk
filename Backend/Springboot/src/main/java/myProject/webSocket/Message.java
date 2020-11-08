@@ -7,7 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -37,7 +39,11 @@ public class Message {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "sent")
     private Date sent = new Date();
-	
+		
+	@ManyToOne
+	@JoinColumn
+	(name="group_id", nullable=false)
+	private Group group;
 	
 	public Message() {};
 	
@@ -47,7 +53,14 @@ public class Message {
 	}
 
 	public String getUserName() {
-		// TODO Auto-generated method stub
-		return null;
+		return userName;
+	}
+
+	public String getContent() {
+		return content;
+	}
+	
+	public Group getGroup() {
+		return group;
 	}
 }

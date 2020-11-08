@@ -10,5 +10,5 @@ import myProject.post.Post;
 
 @Repository
 public interface CommentDB extends JpaRepository<Comment, Integer> {
-	List<Post> getCommentBypId(int pId);
+	List<Comment> getCommentBypId(int pId);
 }

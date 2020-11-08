@@ -31,7 +31,7 @@ public class Post {
 	@Column
 	private Integer nVotes = 0;
 
-	public Integer getPostId() {
+	public Integer getpId() {
 		return pId;
 	}
 

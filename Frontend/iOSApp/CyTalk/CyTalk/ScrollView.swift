@@ -9,9 +9,10 @@ import SwiftUI
 
 struct PostsView: View {
     
-    @State var posts: [Post] = [Post(content: "stirng", date: "string", name: "string", at: "Strng", initialized: false)]
+    @State var posts: [Post] = [Post(content: "stirng", date: "string", name: "string", at: "Strng", initialized: false, pId:0)]
     @State private var post:[String] = ["First","Second","Third"]
     @State private var refreshCount = 0
+    @ObservedObject public var systemUser = User()
     
     
     // View for navigation
@@ -21,17 +22,17 @@ struct PostsView: View {
             VStack(spacing:0){
                 HStack(spacing: 75){
                     
-                    NavigationLink(destination: HomeView()) {
+                    NavigationLink(destination: HomeView(systemUser: self.systemUser)) {
                         
-                    
-                    Image(systemName: "person.crop.circle")
-                        .imageScale(.large)
-                        .font(.system(size: 25))
-                        .foregroundColor(Color("Color2"))
-                        .padding(.leading, 30)
+                        
+                        Image(systemName: "person.crop.circle")
+                            .imageScale(.large)
+                            .font(.system(size: 25))
+                            .foregroundColor(Color("Color2"))
+                            .padding(.leading, 30)
                         
                     }.accessibility(identifier: "loginScreen")
-                   
+                    
                     Image("smallLogo")
                     
                 }
@@ -45,14 +46,14 @@ struct PostsView: View {
                     VStack(spacing: 0) {
                         
                         if posts[0].isInitialized! {
-                        ForEach(posts, id: \.self) { post in
-//
-//                            NavigationLink(destination: PostCommentView(content: post.content!, date: post.date!, name: po st.name!, handle: post.at!)){
-//
-//                            }
-                            
-                            
-                                NavigationLink(destination: ProfileView(name: post.name!, handle: post.at!)){
+                            ForEach(posts, id: \.self) { post in
+                                //
+                                //                            NavigationLink(destination: PostCommentView(content: post.content!, date: post.date!, name: po st.name!, handle: post.at!)){
+                                //
+                                //                            }
+                                
+                                
+                                NavigationLink(destination: ProfileView(name: post.name!, handle: post.at!, systemUser: self.systemUser)){
                                     HStack{
                                         Image(systemName: "person.crop.circle")
                                             .imageScale(.large)
@@ -60,14 +61,14 @@ struct PostsView: View {
                                             .foregroundColor(Color("Color2"))
                                         Text(post.name!)
                                             .foregroundColor(.black)
-                                            
+                                        
                                         Text(post.at!)
                                             .foregroundColor(.gray)
-                                            
+                                        
                                         Text(post.date!)
                                             .foregroundColor(.gray)
-                                         
-                                            
+                                        
+                                        
                                         Spacer()
                                         
                                     }
@@ -77,28 +78,28 @@ struct PostsView: View {
                                 .padding(.bottom, 1)
                                 .padding(.top, 5)
                                 .padding(.horizontal, 15)
-                            
-                            NavigationLink(destination: PostCommentView(content: post.content!, date: post.date!, name: post.name!, handle: post.at!)) {
-                                Text(post.content!)
-                                    .foregroundColor(.black)
-                                    .multilineTextAlignment(.leading)
-                                    
-                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                                    .padding(.bottom, 5)
+                                
+                                NavigationLink(destination: PostCommentView(content: post.content!, date: post.date!, name: post.name!, handle: post.at!, pId: post.pId!, systemUser: self.systemUser)) {
+                                    Text(post.content!)
+                                        .foregroundColor(.black)
+                                        .multilineTextAlignment(.leading)
+                                        
+                                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                                        .padding(.bottom, 5)
+                                }
+                                .padding(.horizontal, 15)
+                                .accessibility(identifier: post.name!)
+                                //                            .hidden(!post.isInitialized)
+                                
+                                
+                                
+                                Divider()
+                                
+                                
                             }
-                            .padding(.horizontal, 15)
-                            .accessibility(identifier: post.name!)
-//                            .hidden(!post.isInitialized)
-                            
-                            
-                            
-                            Divider()
-                               
                             
                         }
-                        
-                    }
-//                        .frame(width: 375)
+                        //                        .frame(width: 375)
                         
                     }
                     
@@ -122,6 +123,7 @@ struct PostsView: View {
                 
                 Divider()
                     .padding(.bottom, 10)
+                
                 HStack(){
                     Button(action: {
                         updatePosts()
@@ -131,7 +133,7 @@ struct PostsView: View {
                             .font(.system(size: 35))
                     }.padding(.leading, 30)
                     .padding(.trailing, 110)
-                    NavigationLink(destination: NewPostView()) {
+                    NavigationLink(destination: NewPostView(systemUser: self.systemUser)) {
                         Image(systemName: "plus.circle.fill")
                             .foregroundColor(Color("Color2"))
                             .font(.system(size: 50))
@@ -146,7 +148,7 @@ struct PostsView: View {
         }
         .onAppear(){
             updatePosts()
-        
+            
         }
     }
     
@@ -161,9 +163,9 @@ struct PostsView: View {
             
             
             let postSet:[SinglePost] = response!
-                
             
-    
+            
+            
             var curPost:SinglePost
             
             // Cant modify state variable directly multiple times without swiftui class
@@ -194,8 +196,8 @@ struct PostsView: View {
                 }
                 
                 
-                tempPost.append(Post(content: curPost.content, date: todaysDate, name: postName, at: userName, initialized:true))
-
+                tempPost.append(Post(content: curPost.content, date: todaysDate, name: postName, at: userName, initialized:true, pId: curPost.pId))
+                
             }
             
             // Copy array over

@@ -9,8 +9,12 @@
 import SwiftUI
 
 struct HomeView: View {
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @Environment(\.presentationMode) public var presentationMode: Binding<PresentationMode>
+    @ObservedObject public var systemUser:User
+    @State var exit = false;
+   
     var body: some View {
+        
         
         
         ZStack{
@@ -20,16 +24,17 @@ struct HomeView: View {
                 
                 if UIScreen.main.bounds.height > 800{
                     
-                    Home()
+                    Home(systemUser: self.systemUser)
                 }
                 else{
                     
                     ScrollView(.vertical, showsIndicators: false) {
                         
-                        Home()
+                        Home(systemUser: self.systemUser)
                     }
                 }
             }
+            
             
             VStack{
                 HStack{
@@ -54,6 +59,8 @@ struct HomeView: View {
         .navigationBarHidden(true)
         .accessibility(identifier: "loginView")
     }
+    
+  
 }
 
 struct HomeView_Previews: PreviewProvider {
@@ -65,6 +72,8 @@ struct HomeView_Previews: PreviewProvider {
 struct Home : View {
     
     @State var index = 0
+    @ObservedObject public var systemUser:User
+    
     
     var body : some View{
         
@@ -120,11 +129,11 @@ struct Home : View {
             
             if self.index == 0{
                 
-                Login()
+                Login(systemUser: self.systemUser)
             }
             else{
                 
-                SignUp()
+                SignUp(systemUser: self.systemUser)
             }
             
             if self.index == 0{
@@ -139,8 +148,11 @@ struct Home : View {
 
 struct Login : View {
     
-    @State var mail = ""
+    @State var user = ""
     @State var pass = ""
+    @ObservedObject public var systemUser:User
+    @Environment(\.presentationMode) public var presentationMode: Binding<PresentationMode>
+    
     
     var body : some View{
         
@@ -153,7 +165,7 @@ struct Login : View {
                     Image(systemName: "person.crop.circle")
                         .foregroundColor(.black)
                     
-                    TextField("Enter Username", text: self.$mail)
+                    TextField("Enter Username", text: self.$user)
                     
                 }.padding(.vertical, 20)
                 
@@ -169,6 +181,8 @@ struct Login : View {
                     SecureField("Password", text: self.$pass)
                     
                     Button(action: {
+                        
+                       
                         
                     }) {
                         
@@ -189,6 +203,28 @@ struct Login : View {
             
             
             Button(action: {
+                
+                
+                ServerUtils.login(returnWith: { response, success in
+                    
+                    if (success){
+                        
+                        let temp:newUser = response!
+                        systemUser.username = temp.uname
+                        systemUser.name = temp.fname + " " + temp.lname
+                        
+                        print("Success")
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now()) {
+                            self.presentationMode.wrappedValue.dismiss()
+                        }
+                        
+                    }
+                    if (!success){
+                        print("fail")
+                    }
+                    
+                })
                 
             }) {
                 
@@ -212,9 +248,17 @@ struct Login : View {
 
 struct SignUp : View {
     
-    @State var mail = ""
+
+    @ObservedObject public var systemUser:User
+    
+    @State var username = ""
     @State var pass = ""
-    @State var repass = ""
+    @State var email = ""
+    @State var fName = ""
+    @State var lName = ""
+    @Environment(\.presentationMode) public var presentationMode: Binding<PresentationMode>
+    @State var exit = false
+    
     
     var body : some View{
         
@@ -227,7 +271,8 @@ struct SignUp : View {
                     Image(systemName: "person.crop.circle")
                         .foregroundColor(.black)
                     
-                    TextField("Enter Username", text: self.$mail)
+                    TextField("Username", text: self.$username)
+                        .autocapitalization(.none)
                     
                 }.padding(.vertical, 20)
                 
@@ -245,9 +290,6 @@ struct SignUp : View {
                     Button(action: {
                         
                     }) {
-                        
-                        Image(systemName: "eyee")
-                            .foregroundColor(.black)
                     }
                     
                 }.padding(.vertical, 20)
@@ -256,20 +298,48 @@ struct SignUp : View {
                 
                 HStack(spacing: 15){
                     
-                    Image(systemName: "lock")
+                    Image(systemName: "person")
                     .resizable()
                     .frame(width: 15, height: 18)
                     .foregroundColor(.black)
                     
-                    SecureField("Re-Enter", text: self.$repass)
-                    
-                    Button(action: {}) {
-                        
-                        Image(systemName: "eyee")
-                            .foregroundColor(.black)
-                    }
+                    TextField("First Name", text: self.$fName)
+                        .autocapitalization(.none)
+                     
                     
                 }.padding(.vertical, 20)
+                
+                Divider()
+                
+                HStack(spacing: 15){
+                    
+                    Image(systemName: "person")
+                    .resizable()
+                    .frame(width: 15, height: 18)
+                    .foregroundColor(.black)
+                    
+                    TextField("Last Name", text: self.$lName)
+                        .autocapitalization(.none)
+                     
+                    
+                }.padding(.vertical, 20)
+                
+                Divider()
+                
+               
+                
+                Divider()
+                
+                HStack(spacing: 15){
+                    
+                    Image(systemName: "envelope")
+                        .foregroundColor(.black)
+                    
+                    TextField("Email", text: self.$email)
+                        .autocapitalization(.none)
+                    
+                }.padding(.vertical, 20)
+                
                 
             }
             .padding(.vertical)
@@ -278,11 +348,12 @@ struct SignUp : View {
             .background(Color.white)
             .cornerRadius(10)
             .padding(.top, 25)
+            .shadow(radius: 5)
             
-            
+          
             Button(action: {
-                ServerUtils.addUser(userName: mail, password: pass, returnWith: {success in
-                    
+                ServerUtils.addUser(userName: username, password: pass, firstName: fName, lastName: lName, email: email, returnWith: {success in
+                   
                     if (!success ){
                         
                         print("fail")
@@ -290,10 +361,19 @@ struct SignUp : View {
                     }
                     else{
                         print("success")
-//                            self.presentationMode.wrappedValue.dismiss()
-                    }
+                        systemUser.username = self.username
+                        systemUser.name = self.fName + " " + self.lName
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now()) {
+                            self.presentationMode.wrappedValue.dismiss()
+                        }
+                        
+                        
+                        }
                     
                 })
+                
+                
                 
             }) {
                 
@@ -311,6 +391,8 @@ struct SignUp : View {
             .offset(y: -40)
             .padding(.bottom, -40)
             .shadow(radius: 5)
+            
+            
         }
     }
 }

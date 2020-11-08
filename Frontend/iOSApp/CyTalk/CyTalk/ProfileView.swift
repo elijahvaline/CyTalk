@@ -11,7 +11,8 @@ struct ProfileView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State var name:String
     @State var handle:String
-    @State var posts: [Post] = [Post(content: "stirng", date: "string", name: "string", at: "Strng", initialized: false)]
+    @State var posts: [Post] = [Post(content: "stirng", date: "string", name: "string", at: "Strng", initialized: false, pId: 1)]
+    @ObservedObject public var systemUser:User
     
     var body: some View {
         
@@ -95,7 +96,7 @@ struct ProfileView: View {
                                     .padding(.top, 5)
                                     .padding(.horizontal, 15)
                                 
-                                NavigationLink(destination: PostCommentView(content: post.content!, date: post.date!, name: post.name!, handle: post.at!)) {
+                                NavigationLink(destination: PostCommentView(content: post.content!, date: post.date!, name: post.name!, handle: post.at!, pId: post.pId!, systemUser: self.systemUser)) {
                                     Text(post.content!)
                                         .foregroundColor(.black)
                                         .multilineTextAlignment(.leading)
@@ -208,7 +209,7 @@ struct ProfileView: View {
                 }
                 
                 
-                tempPost.append(Post(content: curPost.content, date: todaysDate, name: postName, at: userName, initialized:true))
+                tempPost.append(Post(content: curPost.content, date: todaysDate, name: postName, at: userName, initialized:true, pId: curPost.pId))
 
             }
             tempPost.reverse()

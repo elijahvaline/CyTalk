@@ -16,10 +16,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import myProject.uploading.StorageService;
 
 //import uploading.StorageService;
-
+@Api(value = "UserController", description = "REST APIs for User data by Casey Wong")
 @RestController
 public class UserController {
 
@@ -32,14 +34,16 @@ public class UserController {
 		storage = storageService;
 	}
 
+	@ApiOperation(value = "Get User information by username")
 	@GetMapping("/user/{username}")
 	public User getUser(@PathVariable String username) {
 		User get = db.findOneByUsername(username);
-		get.setPasswd(null);
+		get.setPassword(null);
 		get.setCookie(null);
 		return get;
 	}
 	
+	@ApiOperation(value = "Get User's profile image")
 	@GetMapping("/user/{username}/{image}")
     public ResponseEntity<Resource> downloadFile(@PathVariable("username") String username, @PathVariable("image") String image) throws IOException {
 		File file = null;
@@ -58,16 +62,18 @@ public class UserController {
                 .body(resource);
     }
 	
+	@ApiOperation(value = "Get list of all users")
 	@GetMapping("/users")
 	List<User> getListUsers() {
 		List<User> get = db.findAll();
 		for(User g : get) {
 			g.setCookie(null);
-			g.setPasswd(null);
+			g.setPassword(null);
 		}
 		return get;
 	}
 
+	@ApiOperation(value = "Create a new User")
 	@PostMapping("/user")
 	User createUser(@RequestBody User u) {
 		u.setType(0);
@@ -75,6 +81,7 @@ public class UserController {
 		return u;
 	}
 	
+	@ApiOperation(value = "Update or change a User's information")
 	@PutMapping("/user/{username}")
 	User updateUser(@RequestBody User u, @PathVariable String username) {
 		User old_u = db.findOneByUsername(username);
@@ -85,6 +92,7 @@ public class UserController {
 		//} else return null;
 	}
 	
+	@ApiOperation(value = "Update User's type")
 	@PutMapping("/user/{username}/type")
 	User updateUserType(@RequestBody User u, @PathVariable String username) {
 		User old_u = db.findOneByUsername(username);
@@ -95,6 +103,7 @@ public class UserController {
 		//} else return null;
 	}
 	
+	@ApiOperation(value = "Upload User's profile image")
 	@PostMapping("/user/{username}/{image}")
 	public void uploadFile(@PathVariable("username") String username, @PathVariable("image") String image, @RequestParam("file") MultipartFile file ) { //, @RequestParam("cookie") String cookie) {
 		User temp = db.findOneByUsername(username);
@@ -112,6 +121,7 @@ public class UserController {
 		//}
 	}
 	
+	@ApiOperation(value = "Delete User's profile image")
 	@DeleteMapping("/user/{username}/{image}") 
 	public void deleteFile(@PathVariable("username") String username, @PathVariable("image") String image ) { //, @RequestParam("cookie") String cookie) {
 		//if (cookie == db.findOneByUsername(username).getCookie() || db.findOneByCookie(cookie).getType() > 0) {
@@ -123,6 +133,7 @@ public class UserController {
 		//}
 	}
 	
+	@ApiOperation(value = "User login")
 	@PostMapping("/login")
 	public ResponseEntity<User> login(@RequestBody User u) {
 		User s = db.findOneByUsername(u.getUName());

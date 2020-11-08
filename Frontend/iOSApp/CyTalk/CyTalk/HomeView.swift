@@ -258,6 +258,7 @@ struct SignUp : View {
     @State var lName = ""
     @Environment(\.presentationMode) public var presentationMode: Binding<PresentationMode>
     @State var exit = false
+    //why doesnt this work
     
     
     var body : some View{

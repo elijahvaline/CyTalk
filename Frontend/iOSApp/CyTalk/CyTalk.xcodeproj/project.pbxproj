@@ -14,7 +14,9 @@
 		B62F71CE2516D76900AF8F36 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B62F71CD2516D76900AF8F36 /* Assets.xcassets */; };
 		B62F71D12516D76900AF8F36 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B62F71D02516D76900AF8F36 /* Preview Assets.xcassets */; };
 		B62F71D42516D76900AF8F36 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B62F71D22516D76900AF8F36 /* LaunchScreen.storyboard */; };
+		B63BA9A925586AE4008BA788 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63BA9A825586AE4008BA788 /* Comment.swift */; };
 		B641787B254891B9004D4254 /* CyTalkUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A59D39254526F5006F0F6A /* CyTalkUITests.swift */; };
+		B6549A482554E33600E72DBA /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6549A472554E33600E72DBA /* User.swift */; };
 		B662A18E25185F170082E103 /* ServerUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = B662A18D25185F170082E103 /* ServerUtils.swift */; };
 		B662A191251861140082E103 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B662A190251861140082E103 /* HomeView.swift */; };
 		B662A196251869CE0082E103 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = B662A195251869CE0082E103 /* Post.swift */; };
@@ -51,6 +53,8 @@
 		B62F71D02516D76900AF8F36 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B62F71D32516D76900AF8F36 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B62F71D52516D76900AF8F36 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B63BA9A825586AE4008BA788 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		B6549A472554E33600E72DBA /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		B662A18D25185F170082E103 /* ServerUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerUtils.swift; sourceTree = "<group>"; };
 		B662A190251861140082E103 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		B662A195251869CE0082E103 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
@@ -123,10 +127,12 @@
 				B62F71C92516D76400AF8F36 /* SceneDelegate.swift */,
 				B62F71C72516D76400AF8F36 /* AppDelegate.swift */,
 				B662A195251869CE0082E103 /* Post.swift */,
+				B63BA9A825586AE4008BA788 /* Comment.swift */,
 				B62F71D52516D76900AF8F36 /* Info.plist */,
 				B62F71D22516D76900AF8F36 /* LaunchScreen.storyboard */,
 				B62F71CD2516D76900AF8F36 /* Assets.xcassets */,
 				B62F71CF2516D76900AF8F36 /* Preview Content */,
+				B6549A472554E33600E72DBA /* User.swift */,
 			);
 			path = CyTalk;
 			sourceTree = "<group>";
@@ -294,9 +300,11 @@
 				B62F71CA2516D76400AF8F36 /* SceneDelegate.swift in Sources */,
 				B62F429425193C440094786E /* NewPostView.swift in Sources */,
 				B662A196251869CE0082E103 /* Post.swift in Sources */,
+				B63BA9A925586AE4008BA788 /* Comment.swift in Sources */,
 				B66CAFED25195B7C006AD4C2 /* ScrollView.swift in Sources */,
 				B662A191251861140082E103 /* HomeView.swift in Sources */,
 				B62F71CC2516D76400AF8F36 /* ContentView.swift in Sources */,
+				B6549A482554E33600E72DBA /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -394,7 +402,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -449,7 +457,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

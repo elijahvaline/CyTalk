@@ -139,8 +139,8 @@ public class UserController {
 				} else i--;
 			}
 			s.setCookie(c);
-			s.clearSet();
 			db.save(s);
+			s.clearSet();
 			return ResponseEntity.ok().body(s);
 		} else {
 			return ResponseEntity.status(403).body(null);

@@ -1,7 +1,10 @@
 package myProject.webSocket;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -58,14 +61,6 @@ public class ChatSocket {
       throws IOException {
 
 		logger.info("Entered into Open");
-//		if (userRepo.findOneByUsername(username) == null || groupRepo.findOne(group) == null) {
-//			session.getBasicRemote().sendText("Can't find user/group");
-//			return;
-//		}
-//		if (!groupRepo.findOne(group).getUsers().contains(userRepo.findOneByUsername(username))) {
-//			session.getBasicRemote().sendText("Can't connect to group");
-//			return;
-//		}
 		this.groupChat = groupRepo.findOne(group);
     // store connecting user information
 		sessionUsernameMap.put(session, username);
@@ -142,6 +137,7 @@ public class ChatSocket {
 		Set<User> s = groupChat.getUsers();
 		for (User u: s) {
 			try {
+				if (usernameSessionMap.containsKey(u.getUName()))
 				usernameSessionMap.get(u.getUName()).getBasicRemote().sendText(message);
 			} 
 	    catch (IOException e) {

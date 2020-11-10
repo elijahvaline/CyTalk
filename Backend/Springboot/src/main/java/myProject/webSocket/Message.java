@@ -47,8 +47,9 @@ public class Message {
 	
 	public Message() {};
 	
-	public Message(String userName, String content) {
+	public Message(String userName, Group group, String content) {
 		this.userName = userName;
+		this.group = group;
 		this.content = content;
 	}
 

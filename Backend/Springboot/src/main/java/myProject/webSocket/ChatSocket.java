@@ -1,12 +1,10 @@
 package myProject.webSocket;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
@@ -21,14 +19,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import myProject.user.User;
+import myProject.user.UserDB;
+
 @Controller      // this is needed for this to be an endpoint to springboot
-@ServerEndpoint(value = "/chat/{username}")  // this is Websocket url
+@ServerEndpoint(value = "/chat/{username}/{group}")  // this is Websocket url
 public class ChatSocket {
 
   // cannot autowire static directly (instead we do it by the below
   // method
 	private static MessageRepository msgRepo; 
 	private static GroupRepository groupRepo; 
+	private static UserDB userRepo;
+	private Group groupChat;
 	/*
    * Grabs the MessageRepository singleton from the Spring Application
    * Context.  This works because of the @Controller annotation on this
@@ -37,9 +40,11 @@ public class ChatSocket {
    * easiest.
 	 */
 	@Autowired
-	public void setMessageRepository(MessageRepository repo, GroupRepository group) {
+	public void setMessageRepository(MessageRepository repo, GroupRepository group, UserDB users) {
 		msgRepo = repo;  // we are setting the static variable
 		groupRepo = group;
+		userRepo = users;
+		
 	}
 
 	// Store all socket session and their corresponding username.
@@ -49,11 +54,19 @@ public class ChatSocket {
 	private final Logger logger = LoggerFactory.getLogger(ChatSocket.class);
 
 	@OnOpen
-	public void onOpen(Session session, @PathParam("username") String username) 
+	public void onOpen(Session session, @PathParam("username") String username, @PathParam("group") long group) 
       throws IOException {
 
 		logger.info("Entered into Open");
-
+//		if (userRepo.findOneByUsername(username) == null || groupRepo.findOne(group) == null) {
+//			session.getBasicRemote().sendText("Can't find user/group");
+//			return;
+//		}
+//		if (!groupRepo.findOne(group).getUsers().contains(userRepo.findOneByUsername(username))) {
+//			session.getBasicRemote().sendText("Can't connect to group");
+//			return;
+//		}
+		this.groupChat = groupRepo.findOne(group);
     // store connecting user information
 		sessionUsernameMap.put(session, username);
 		usernameSessionMap.put(username, session);
@@ -74,21 +87,20 @@ public class ChatSocket {
 		logger.info("Entered into Message: Got Message:" + message);
 		String username = sessionUsernameMap.get(session);
 
-    // Direct message to a user using the format "@username <message>"
-		if (message.startsWith("@")) {
-			String destUsername = message.split(" ")[0].substring(1); 
+//    // Direct message to a user using the format "@username <message>"
+//		if (message.startsWith("@")) {
+//			String destUsername = message.split(" ")[0].substring(1); 
+//
+//      // send the message to the sender and receiver
+//			sendMessageToParticularUser(destUsername, "[DM] " + username + ": " + message);
+//			sendMessageToParticularUser(username, "[DM] " + username + ": " + message);
+//
+//		} 
 
-      // send the message to the sender and receiver
-			sendMessageToParticularUser(destUsername, "[DM] " + username + ": " + message);
-			sendMessageToParticularUser(username, "[DM] " + username + ": " + message);
-
-		} 
-    else { // broadcast
-			broadcast(username + ": " + message);
-		}
+		broadcast(username + ": " + message);
 
 		// Saving chat history to repository
-		msgRepo.save(new Message(username, message));
+		msgRepo.save(new Message(username, groupChat, message));
 	}
 
 
@@ -127,23 +139,33 @@ public class ChatSocket {
 
 
 	private void broadcast(String message) {
-		sessionUsernameMap.forEach((session, username) -> {
+		Set<User> s = groupChat.getUsers();
+		for (User u: s) {
 			try {
-				session.getBasicRemote().sendText(message);
+				usernameSessionMap.get(u.getUName()).getBasicRemote().sendText(message);
 			} 
-      catch (IOException e) {
+	    catch (IOException e) {
 				logger.info("Exception: " + e.getMessage().toString());
 				e.printStackTrace();
 			}
-
-		});
+		}
+//		sessionUsernameMap.forEach((session, username) -> {
+//			try {
+//					session.getBasicRemote().sendText(message);
+//			} 
+//      catch (IOException e) {
+//				logger.info("Exception: " + e.getMessage().toString());
+//				e.printStackTrace();
+//			}
+//
+//		});
 
 	}
 	
 
   // Gets the Chat history from the repository
 	private String getChatHistory() {
-		List<Message> messages = msgRepo.findAll();
+		List<Message> messages = msgRepo.findAllByGroupId(groupChat.getGroupId());
     
     // convert the list to a string
 		StringBuilder sb = new StringBuilder();

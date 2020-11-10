@@ -1,8 +1,13 @@
 package myProject.user;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import myProject.webSocket.Group;
 
@@ -44,8 +49,22 @@ public class User {
 	@Column
 	private String cookie;
 	
-	@ManyToMany(mappedBy= "groups")
+	@JsonIgnore
+	@ManyToMany(mappedBy= "members")
 	Set<Group> join;
+	
+	public void addGroup(Group g) {
+		if (join == null) join = new HashSet<>();
+		this.join.add(g);
+	}
+	
+	public void removeGroup(Group g) {
+		this.join.remove(g);
+	}
+	
+	public List<Group> getGroup() {
+		return new ArrayList<Group>(join);
+	}
 	
 	public void setUser(String f, String l, String u, String p, String e, String b) {
 		if (f != null)

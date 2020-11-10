@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import myProject.uploading.StorageService;
+import myProject.webSocket.Group;
 
 //import uploading.StorageService;
 
@@ -141,5 +142,11 @@ public class UserController {
 		} else {
 			return ResponseEntity.status(403).body(null);
 		}
+	}
+	
+	@GetMapping("/user/{username}/group")
+	public List<Group> getUserGroups(@PathVariable String username) {
+		User get = db.findOneByUsername(username);
+		return get.getGroup();
 	}
 }

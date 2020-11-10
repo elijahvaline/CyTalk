@@ -8,10 +8,13 @@
 import SwiftUI
 
 struct NewPostView: View {
+    
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State var postContent:String = ""
     @State var message:String = ""
     @State var showPopUp:Bool = false
+    @ObservedObject public var systemUser:User
+    
     var body: some View {
         VStack{
             HStack(spacing: 130){
@@ -27,7 +30,7 @@ struct NewPostView: View {
                     .font(.system(size: 50))
                 
                 Button(action: {
-                    ServerUtils.addPost(name: "anon", username: "anon", content: postContent, returnWith: {success in
+                    ServerUtils.addPost(name: systemUser.name, username: systemUser.username, content: postContent, returnWith: {success in
                         
                         if (!success ){
                             message = "Ope! Having trouble connecting"
@@ -89,11 +92,5 @@ struct NewPostView: View {
         }
         
         .navigationBarHidden(true)
-    }
-}
-
-struct NewPostView_Previews: PreviewProvider {
-    static var previews: some View {
-        NewPostView()
     }
 }

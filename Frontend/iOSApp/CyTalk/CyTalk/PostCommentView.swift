@@ -10,12 +10,15 @@ import SwiftUI
 struct PostCommentView: View {
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-
+    
     @State var content:String
     @State var date:String
     @State var name:String
     @State var handle:String
     @State var test:String = ""
+    @State var pId:Int
+    @State var comments: [Comment] = [Comment(content: "stirng", date: "string", name: "string", at: "Strng", initialized: false)]
+    @ObservedObject public var systemUser:User
     
     var body: some View {
         
@@ -83,33 +86,119 @@ struct PostCommentView: View {
             
             Divider().padding(.horizontal)
       
-            ZStack{
-                Rectangle()
-                    .frame(width: 375, height: 40)
-                    .cornerRadius(25)
-                    .foregroundColor(Color(UIColor.systemGray5))
+           
+               
 //                    .background(Color(UIColor.systemGray5))
 
+            HStack(spacing: 0){
+                    ZStack{
+                        
+                        Rectangle()
+                            .frame(width: 340, height: 40)
+                            .cornerRadius(25)
+                            .foregroundColor(Color(UIColor.systemGray5))
+                        
+                        TextField("What would you like to say?", text: $test)
+                            .multilineTextAlignment(.center)
+                            .cornerRadius(20)
+                            .frame(width: 340, height: 50)
+                            
+                            .font(.system(size:20))
+                            
+                            
+                            .padding(.horizontal, 20)
+                        
+                    }
                     
-                TextField("What would you like to say?", text: $test)
-                    .multilineTextAlignment(.center)
+                    Button(action: {
+                        addComment(content:self.test)
+                        
+                    }) {
+                        Image(systemName: "arrowshape.turn.up.right.fill")
+                            .foregroundColor(Color("Color2"))
+                            .font(.system(size:30))
+                        
+                    }
+                    .padding(.leading, -10)
+                
+                
                     
-                    .foregroundColor(Color(UIColor.systemGray))
-                    .background(Color(UIColor.systemGray5))
-                    .cornerRadius(20)
-                    .frame(width: 375, height: 50)
-                    
-                    .font(.system(size:20))
-                    
-                    
-                    .padding(.horizontal, 20)
+                }
+                
                 
             
                 
-            }
+            
             
             Divider().padding(.horizontal)
                 
+            ScrollView{
+                
+                
+                    
+                    VStack(spacing: 0) {
+                        if comments.count != 0{
+                        if comments[0].isInitialized! {
+                            ForEach(comments, id: \.self) { post in
+                                //
+                                //                            NavigationLink(destination: PostCommentView(content: post.content!, date: post.date!, name: po st.name!, handle: post.at!)){
+                                //
+                                //                            }
+                                
+                                
+                                
+                                    HStack{
+                                        Image(systemName: "person.crop.circle")
+                                            .imageScale(.large)
+                                            .font(.system(size: 15))
+                                            .foregroundColor(Color("Color2"))
+                                        Text(post.name!)
+                                            .foregroundColor(.black)
+                                        
+                                        Text(post.at!)
+                                            .foregroundColor(.gray)
+                                        
+                                        Text(post.date!)
+                                            .foregroundColor(.gray)
+                                        
+                                        
+                                        Spacer()
+                                        
+                                    }
+                                
+                                .accessibility(identifier: post.at!)
+                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                                .padding(.bottom, 1)
+                                .padding(.top, 5)
+                                .padding(.horizontal, 15)
+                                
+                                
+                                    Text(post.content!)
+                                        .foregroundColor(.black)
+                                        .multilineTextAlignment(.leading)
+                                        
+                                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                                        .padding(.bottom, 5)
+                                        .padding(.horizontal, 15)
+                                
+                        
+                                
+                                
+                                Divider()
+                                
+                                
+                            }
+                            
+                        }
+                    }
+                        //                        .frame(width: 375)
+                        
+                    }
+                    
+                }
+                
+            
+            
             
             
             Spacer()
@@ -118,11 +207,94 @@ struct PostCommentView: View {
                 .navigationBarHidden(true)
             
         }
-        
+        .onAppear(){
+            updateComments()
+            
+        }
         
         
     }
+    func addComment(content:String){
+        
+        ServerUtils.addComment(name: systemUser.name, username: systemUser.username, content: content, postId: self.pId, returnWith: {success in
+            
+            if (!success ){
+//                message = "Ope! Having trouble connecting"
+//                showPopUp = true
+                print("fail")
+                return
+            }
+            else{
+//                showPopUp = true
+//                message = "Good to go"
+                print("success")
+                DispatchQueue.main.asyncAfter(deadline: .now()) {
+                    updateComments()
+                    self.test = ""
+                }
+//                            self.presentationMode.wrappedValue.dismiss()
+            }
+            
+        })
+       
+    }
+    
+    func updateComments() {
+        ServerUtils.getComments(pId: self.pId, returnWith:  { response, success in
+            if (!success) {
+                
+                // Show error UI here
+                print("OH NO IT FAILED")
+                return;
+            }
+            
+            
+            let commentSet:[SingleComment] = response!
+            
+            
+            
+            var curComment:SingleComment
+            
+            // Cant modify state variable directly multiple times without swiftui class
+            var tempComment:[Comment] = []
+            for fish in commentSet {
+                
+                curComment = fish
+                
+                let formatter = DateFormatter()
+                formatter.dateStyle = .short
+                let myNSDate = Date(timeIntervalSince1970: curComment.date)
+                let todaysDate:String = formatter.string(from: myNSDate)
+                let postName:String
+                let userName:String
+                
+                if (curComment.name == nil){
+                    postName = "Anon"
+                }
+                else{
+                    postName = curComment.name
+                }
+                
+                if (curComment.userName == nil){
+                    userName = "Anon"
+                }
+                else{
+                    userName = curComment.userName
+                }
+                
+                
+                tempComment.append(Comment(content: curComment.content, date: todaysDate, name: postName, at: userName, initialized:true ))
+                
+            }
+            
+            // Copy array over
+            tempComment.reverse()
+            self.comments = tempComment
+            
+        })
+    }
 }
+
 //
 //struct PostCommentView_Previews: PreviewProvider {
 //    static var previews: some View {

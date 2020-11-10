@@ -1,0 +1,494 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><head>
+    <title>ServerUtils</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+ <meta name="generator" content="HeaderDoc" />
+<meta name="xcode-display" content="render" />
+<style type="text/css"><!--.char {background: #ffffff; color:#0000ff;}.comment {background:#ffffff; color:#236e25}.function {background:#ffffff; color:#000000;}.keyword {background:#ffffff; color:#761550;}.number {background: #ffffff; color:#0000ff;}.param {background:#ffffff; color:#000000;}.preprocessor {background:#ffffff; color:#236e25}.string {background: #ffffff; color:#891315;}.template {background:#ffffff; color:#761550;}.type {background:#ffffff; color:#761550;}.var {background:#ffffff; color:#000000;}body {border: 0px; margin: 0px;}div {font-size: 10pt; text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #000000;}td {font-size: 10pt; text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #000000;}span.hd_tocAccessSpace { display: block; font-size: 1px; height: 3px; min-height: 3px; }span.hd_tocGroupSpace { display: block; font-size: 1px; height: 3px; min-height: 3px; }span.hd_tocGroup { display: block; font-weight: bold; font-size: 10pt; text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #000000; margin-left: 0px; padding-left: 40px; }span.hd_tocGroup + span.hd_tocAccess { padding-top: 5px; }td.toc_contents_text {font-size: 11pt; text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #000000; }li.tocSubEntry {font-size: 11pt; text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #000000;}p {font-size: 10pt; text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #000000;}a:link {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #36c;}a:visited {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #36c;}a:visited:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #36c;}a:active {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #36c;}a:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #36c;}h2.h2tight { margin-top: 0px; padding-top: 0px; }h1 { margin-top: 13px; padding-top: 0px; }h4 {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: tiny; font-weight: bold;}h5 {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: 10.1pt; font-weight: bold;}pre {text-decoration: none; font-family: Courier, Consolas, monospace; color: #666; font-size: 10pt;}pre a { font-family: Courier, Consolas, monospace; color: #666;font-size: 10pt;}pre a:link { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}pre a:visited { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}pre a:visited:hover { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}pre a:active { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}pre a:hover { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}code {text-decoration: none; font-family: Courier, Consolas, monospace; color: #666;font-size: 10pt;}code a { font-family: Courier, Consolas, monospace; color: #666;font-size: 10pt;}code a:link { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}code a:visited { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}code a:visited:hover { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}code a:active { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}code a:hover { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}tt {text-decoration: none; font-family: Courier, Consolas, monospace; color: #666;font-size: 10pt;}tt a { font-family: Courier, Consolas, monospace; color: #666;font-size: 10pt;}tt a:link { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}tt a:visited { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}tt a:visited:hover { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}tt a:active { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}tt a:hover { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}body  {text-decoration: none; font-family: Courier, Consolas, monospace; color: #666;font-size: 10pt; padding-left: 0px; padding-top: 0px; margin-left: 0px; margin-top: 0px; border: none; }#hd_outermost_table { margin-left: 0px; border-spacing: 0px; margin-top: 0px; padding-left: 0px; padding-top: 0px; border: none; }#hd_outermost_table > tr { border-spacing: 0px; margin-left: 0px; margin-top: 0px; padding-left: 0px; padding-top: 0px; border: none; }#hd_outermost_table > tr > td { border-spacing: 0px; margin-left: 0px; margin-top: 0px; }#hd_outermost_table > tbody > tr { border-spacing: 0px; margin-left: 0px; margin-top: 0px; padding-left: 0px; padding-top: 0px; border: none; }#hd_outermost_table > tbody > tr > td { border-spacing: 0px; margin-left: 0px; margin-top: 0px; padding-top: 3px; }.afterName { display: none; }.list_indent { margin-left: 40px; }.declaration_indent { margin-left: 40px; margin-top: 0px; margin-bottom: 0px; padding-top: 0px; padding-bottom: 0px; min-height: 12px; vertical-align: middle; }.declaration_indent pre { margin-top: 20px; padding-top: 0px; margin-bottom: 20px; padding-bottom: 0px; }.gapBeforeFooter { display: none; }hr { height: 0px; min-height: 0px; border-top: none; border-left: none; border-right: none; border-bottom: 1px solid #909090;}hr.afterHeader { display: none }.param_group_indent { margin-left: 25px; }.param_indent { margin-left: 40px; margin-top: 0px; padding-top: 0px; }.param_indent dl { margin-top: 4px; padding-top: 0px; }dl dd > p:first-child { margin-top: 2px; padding-top: 0px; }.param_indent dl dd > p:first-child { margin-top: 2px; padding-top: 0px; }.group_indent { margin-left: 40px; }.group_desc_indent { margin-left: 20px; }.warning_indent { margin-left: 40px; }.important_indent { margin-left: 40px; }.note_indent { margin-left: 40px; }h3 {       color: #3C4C6C;}.tight {       margin-top: 2px; margin-bottom: 0px;       padding-top: 0px; padding-bottom: 0px;}h3 a {       color: #3C4C6C;	font-size: 16px;	font-style: normal;	font-variant: normal;	font-weight: bold;	height: 0px;	line-height: normal;}.hd_tocAccess { display: block; margin-left: 40px; font-style: italic; font-size: 10px; font-weight: normal; color: #303030; }.tocSubheading { margin-bottom: 4px; }--></style><style><!--
+body {
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+}
+.toc_contents_text {
+    padding-left: 1em;
+    text-indent: -1em;
+}
+
+ul.tocSubEntryList li.tocSubEntry {
+    list-style: none;
+}
+
+#colorbox {
+		display: none;
+}
+.spec_sheet_line {
+		margin-bottom: 1px;
+}
+.collapsible {
+		display: none;
+}
+.toc_leadspace {
+		width: 10; min-width: 10;
+}
+.disclosure_triangle_td {
+		width: 14; min-width: 14;
+		font-size: 10px;
+		vertical-align: middle;
+}
+.specbox td {
+		font-size: 13px;
+}
+.specbox td a {
+		font-size: 13px;
+}
+.specbox td code {
+		font-size: 13px;
+}
+.specbox td tt {
+		font-size: 13px;
+}
+.specbox td pre {
+		font-size: 13px;
+}
+.specbox a {
+		font-size: 12px;
+}
+.disclosure_triangle_td a {
+		text-decoration: none;
+}
+.disclosure_triangle_td a:link {
+		text-decoration: none;
+}
+.disclosure_triangle_td a:active {
+		text-decoration: none;
+}
+.disclosure_triangle_td a:visited:hover {
+		text-decoration: none;
+}
+.disclosure_triangle_td a:hover {
+		text-decoration: none;
+}
+.hd_toc_box {
+		padding-top: 10px;
+		padding-right: 15px;
+}.tocSeparator {
+		margin-top: 15px;
+		padding-bottom: 0px;
+		margin-bottom: 0px;
+}
+.tocSubEntryList {
+		margin-left: 0px;
+		padding-left: 40px;
+		padding-top: 0px;
+		margin-top: 2px;
+		padding-bottom: 0px;
+		margin-bottom: 8px;
+}
+.hd_toc_heading_table {
+		margin-top: 2px;
+		margin-bottom: 2px;
+}
+.hd_toc_entry_table {
+		margin-top: 2px;
+		margin-bottom: 2px;
+}
+.tocSubEntry {
+		margin-left: 0px;
+		padding-left: 0px;
+		margin-top: 0px;
+		margin-bottom: 1px;
+}
+.tocSubEntry a {
+		font-size: 10pt;
+}
+.tocSubheading {
+		padding-left: 14px;
+		margin-left: 0px;
+		margin-top: 5px;
+		padding-top: 0px;
+		font-size: 16px;
+		color: #808080;
+}
+
+#hd_outermost_table { margin-left: 0px; border-spacing: 0px; margin-top: 0px; padding-left: 0px; padding-top: 0px; border: none; }
+#hd_outermost_table > tr { border-spacing: 0px; margin-left: 0px; margin-top: 0px; padding-left: 0px; padding-top: 0px; border: none; }
+#hd_outermost_table > tr > td { border-spacing: 0px; margin-left: 0px; margin-top: 0px; }
+#hd_outermost_table > tbody > tr { border-spacing: 0px; margin-left: 0px; margin-top: 0px; padding-left: 0px; padding-top: 0px; border: none; }
+#hd_outermost_table > tbody > tr > td { border-spacing: 0px; margin-left: 0px; margin-top: 0px; padding-top: 3px; }
+
+#tocMenu {
+		border-right: 1px solid #c0c0c0;
+		background-color: #f4f4ff;
+		top:0px;
+		left:0px;
+		width:230px;
+		height:100%;
+}
+#bodyContents {
+		width: auto;
+		padding-left: 15px;
+}
+--></style>
+<style id="disable_before_iOS_5"><!--
+#tocMenu {
+		position: fixed;
+		height: 100%;
+		overflow: auto;
+}
+#bodyContents {
+		width: auto;
+		left: 235px;
+		right: 0;
+		padding-left: 15px;
+		position: fixed;
+		height: 100%;
+		overflow-y: scroll;
+}
+--></style>
+<script language="JavaScript" type="text/javascript"><!--
+    if (navigator.platform && (navigator.platform.match(/iPad/) || navigator.platform.match(/iPhone/) || navigator.platform.match(/iPod/))) {
+        if (navigator.userAgent.match(/OS 1(_\d)+/) ||
+            navigator.userAgent.match(/OS 2(_\d)+/) ||
+            navigator.userAgent.match(/OS 3(_\d)+/) ||
+            navigator.userAgent.match(/OS 4(_\d)+/)) {
+                /* Earlier iOS versions require different scrolling gestures with position: fixed. */
+                var del_style_elt = document.getElementById("disable_before_iOS_5");
+                if (del_style_elt) del_style_elt.parentNode.removeChild(del_style_elt);
+        }
+    }
+// --></script>
+<script language="JavaScript" type="text/javascript"><!--
+function getNewHTTPObject()
+{
+        var xmlhttp;
+
+        /** Special IE only code ... */
+        /*@cc_on
+          @if (@_jscript_version >= 5)
+              try
+              {
+                  xmlhttp = new ActiveXObject('Msxml2.XMLHTTP');
+              }
+              catch (e)
+              {
+                  try
+                  {
+                      xmlhttp = new ActiveXObject('Microsoft.XMLHTTP');
+                  }
+                  catch (E)
+                  {
+                      xmlhttp = false;
+                  }
+             }
+          @else
+             xmlhttp = false;
+        @end @*/
+
+        /** Every other browser on the planet */
+        if (!xmlhttp && typeof XMLHttpRequest != 'undefined')
+        {
+            try
+            {
+                xmlhttp = new XMLHttpRequest();
+            }
+            catch (e)
+            {
+                xmlhttp = false;
+            }
+        }
+
+        return xmlhttp;
+}
+
+function hidetoc() {
+	var toc = document.getElementById('tocMenu');
+	var src = toc.getAttribute('src');
+	var xhr = getNewHTTPObject();
+	xhr.open('GET', src, true);
+	xhr.onreadystatechange = function() {
+		if(xhr.readyState == 4) {
+			var toc = document.getElementById('tocMenu');
+			toc.innerHTML = xhr.responseText;
+		}
+	}
+	xhr.send(null);
+	var origURL = parent.document.URL;
+	var contentURL = origURL.substring(origURL.indexOf('?')+1, origURL.length);
+	if (contentURL.length == origURL.length) {
+		jumpPos = origURL.substring(origURL.indexOf('#')+1, origURL.length);
+	}
+	if (contentURL == "hidetoc") {
+		var body = document.getElementById('bodyContents');
+		if (toc && body) {
+			toc.style.display = 'none';
+			body.style.marginLeft = '0px';
+		}
+	}
+}
+
+function disclosure_triangle(elt) {
+   var linkelt = elt;
+   while (elt && elt.tagName != 'TABLE') { elt = elt.parentNode;}
+   if (!elt) { return; }
+   while (elt && elt.tagName != 'DIV') { elt = elt.nextSibling;}
+   if (!elt) { return; }
+   if (parseInt(linkelt.getAttribute('state'))) {
+      // It's open.  Close it
+      linkelt.innerHTML = '&#x25B7;';
+      linkelt.setAttribute('state', 0);
+      linkelt.setAttribute('class', 'closed_disclosure_triangle');
+      elt.style.display = 'none';
+   } else {
+      // It's closed.  Open it
+      linkelt.innerHTML = '&#x25BC;';
+      linkelt.setAttribute('state', 1);
+      linkelt.setAttribute('class', 'open_disclosure_triangle');
+      elt.style.display = 'block';
+   }
+}
+--></script>
+<style type="text/css"><!--.char {background: #ffffff; color:#0000ff;}.comment {background:#ffffff; color:#236e25}.function {background:#ffffff; color:#000000;}.keyword {background:#ffffff; color:#761550;}.number {background: #ffffff; color:#0000ff;}.param {background:#ffffff; color:#000000;}.preprocessor {background:#ffffff; color:#236e25}.string {background: #ffffff; color:#891315;}.template {background:#ffffff; color:#761550;}.type {background:#ffffff; color:#761550;}.var {background:#ffffff; color:#000000;}body {border: 0px; margin: 0px;}div {font-size: 10pt; text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #000000;}td {font-size: 10pt; text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #000000;}span.hd_tocAccessSpace { display: block; font-size: 1px; height: 3px; min-height: 3px; }span.hd_tocGroupSpace { display: block; font-size: 1px; height: 3px; min-height: 3px; }span.hd_tocGroup { display: block; font-weight: bold; font-size: 10pt; text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #000000; margin-left: 0px; padding-left: 40px; }span.hd_tocGroup + span.hd_tocAccess { padding-top: 5px; }td.toc_contents_text {font-size: 11pt; text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #000000; }li.tocSubEntry {font-size: 11pt; text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #000000;}p {font-size: 10pt; text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #000000;}a:link {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #36c;}a:visited {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #36c;}a:visited:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #36c;}a:active {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #36c;}a:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #36c;}h2.h2tight { margin-top: 0px; padding-top: 0px; }h1 { margin-top: 13px; padding-top: 0px; }h4 {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: tiny; font-weight: bold;}h5 {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: 10.1pt; font-weight: bold;}pre {text-decoration: none; font-family: Courier, Consolas, monospace; color: #666; font-size: 10pt;}pre a { font-family: Courier, Consolas, monospace; color: #666;font-size: 10pt;}pre a:link { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}pre a:visited { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}pre a:visited:hover { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}pre a:active { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}pre a:hover { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}code {text-decoration: none; font-family: Courier, Consolas, monospace; color: #666;font-size: 10pt;}code a { font-family: Courier, Consolas, monospace; color: #666;font-size: 10pt;}code a:link { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}code a:visited { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}code a:visited:hover { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}code a:active { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}code a:hover { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}tt {text-decoration: none; font-family: Courier, Consolas, monospace; color: #666;font-size: 10pt;}tt a { font-family: Courier, Consolas, monospace; color: #666;font-size: 10pt;}tt a:link { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}tt a:visited { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}tt a:visited:hover { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}tt a:active { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}tt a:hover { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}body  {text-decoration: none; font-family: Courier, Consolas, monospace; color: #666;font-size: 10pt; padding-left: 0px; padding-top: 0px; margin-left: 0px; margin-top: 0px; border: none; }#hd_outermost_table { margin-left: 0px; border-spacing: 0px; margin-top: 0px; padding-left: 0px; padding-top: 0px; border: none; }#hd_outermost_table > tr { border-spacing: 0px; margin-left: 0px; margin-top: 0px; padding-left: 0px; padding-top: 0px; border: none; }#hd_outermost_table > tr > td { border-spacing: 0px; margin-left: 0px; margin-top: 0px; }#hd_outermost_table > tbody > tr { border-spacing: 0px; margin-left: 0px; margin-top: 0px; padding-left: 0px; padding-top: 0px; border: none; }#hd_outermost_table > tbody > tr > td { border-spacing: 0px; margin-left: 0px; margin-top: 0px; padding-top: 3px; }.afterName { display: none; }.list_indent { margin-left: 40px; }.declaration_indent { margin-left: 40px; margin-top: 0px; margin-bottom: 0px; padding-top: 0px; padding-bottom: 0px; min-height: 12px; vertical-align: middle; }.declaration_indent pre { margin-top: 20px; padding-top: 0px; margin-bottom: 20px; padding-bottom: 0px; }.gapBeforeFooter { display: none; }hr { height: 0px; min-height: 0px; border-top: none; border-left: none; border-right: none; border-bottom: 1px solid #909090;}hr.afterHeader { display: none }.param_group_indent { margin-left: 25px; }.param_indent { margin-left: 40px; margin-top: 0px; padding-top: 0px; }.param_indent dl { margin-top: 4px; padding-top: 0px; }dl dd > p:first-child { margin-top: 2px; padding-top: 0px; }.param_indent dl dd > p:first-child { margin-top: 2px; padding-top: 0px; }.group_indent { margin-left: 40px; }.group_desc_indent { margin-left: 20px; }.warning_indent { margin-left: 40px; }.important_indent { margin-left: 40px; }.note_indent { margin-left: 40px; }h3 {       color: #3C4C6C;}.tight {       margin-top: 2px; margin-bottom: 0px;       padding-top: 0px; padding-bottom: 0px;}h3 a {       color: #3C4C6C;	font-size: 16px;	font-style: normal;	font-variant: normal;	font-weight: bold;	height: 0px;	line-height: normal;}.hd_tocAccess { display: block; margin-left: 40px; font-style: italic; font-size: 10px; font-weight: normal; color: #303030; }.tocSubheading { margin-bottom: 4px; }--></style></head><body bgcolor="#ffffff" onload="hidetoc();" >
+<!-- headerDoc=cl; uid=//apple_ref/cpp/cl/ServerUtils;  name=ServerUtils-->
+<a name="//apple_ref/cpp/cl/ServerUtils"></a><table id="hd_outermost_table" height="100%" width="100%"><tr><td valign='top' id='tocMenu' src='toc.html'></td>
+<td id='bodyContents' valign='top'>
+<a name="top"></a>
+<h1><a name="ServerUtils">ServerUtils</a></h1>
+<div class="spec_sheet_info_box"><table cellspacing="0" class="specbox">
+<tr><td scope="row"><b>Declared In:</b></td><td><div style="margin-bottom:1px"><div class="content_text"><a href="../../index.html" logicalPath="//apple_ref/doc/header/ServerUtils.m" target="_top" machineGenerated="true">ServerUtils.m</a></div></div></td></tr>
+</table></div>
+<h2>Introduction</h2>
+<p><!-- headerDoc=abstract;uid=//apple_ref/cpp/cl/ServerUtils;name=start --><!-- begin abstract --><p>Controller class with static functions for bringing information from the model to the views
+<!-- end abstract --><!-- headerDoc=abstract;uid=//apple_ref/cpp/cl/ServerUtils;name=end --></p>
+<hr class="afterClassOrHeaderInfo"><br><a name="HeaderDoc_functions"></a>
+<h2 class="h2tight">Member Functions</h2>
+<dl>
+<dt><tt><a href="index.html#//apple_ref/cpp/clm/ServerUtils/addComment/func/(name,username,content,postId,returnWith)" target="_top">addComment</a></tt></dt>
+<dd><p>Post request to add a comment to the db
+</dd>
+<dt><tt><a href="index.html#//apple_ref/cpp/clm/ServerUtils/addPost/func/(name,username,content,returnWith)" target="_top">addPost</a></tt></dt>
+<dd><p>Post request to add a new post to the db
+</dd>
+<dt><tt><a href="index.html#//apple_ref/cpp/clm/ServerUtils/addUser/func/(userName,password,firstName,lastName,email,returnWith)" target="_top">addUser</a></tt></dt>
+<dd><p>Post request to add a new user to the db
+</dd>
+<dt><tt><a href="index.html#//apple_ref/cpp/clm/ServerUtils/getComments/func/(pId,returnWith)" target="_top">getComments</a></tt></dt>
+<dd><p>Get request to get all the available comments for a specific post
+</dd>
+<dt><tt><a href="index.html#//apple_ref/cpp/clm/ServerUtils/getPost/func/(returnWith)" target="_top">getPost</a></tt></dt>
+<dd><p>Get request to get all the posts in the db
+@parameter returnWith: Asykchronous Callback
+</dd>
+<dt><tt><a href="index.html#//apple_ref/cpp/clm/ServerUtils/getPostFromUser/func/(username,returnWith)" target="_top">getPostFromUser</a></tt></dt>
+<dd><p>Get request to get all the posts from a specific user
+</dd>
+<dt><tt><a href="index.html#//apple_ref/cpp/clm/ServerUtils/login/func/(returnWith)" target="_top">login</a></tt></dt>
+<dd><p>post request for logging in
+</dd>
+</dl>
+<hr class="betweenAPIEntries"><!-- headerDoc=clm;  uid=//apple_ref/cpp/clm/ServerUtils/addComment/func/(name,username,content,postId,returnWith);   name=ServerUtils::addComment -->
+<a name="//apple_ref/cpp/clm/ServerUtils/addComment/func/(name,username,content,postId,returnWith)"></a>
+<h3><a name="addComment">addComment</a></h3>
+<hr class="afterName"><p><!-- headerDoc=abstract;uid=//apple_ref/cpp/clm/ServerUtils/addComment/func/(name,username,content,postId,returnWith);name=start --><!-- begin abstract --><p>Post request to add a comment to the db
+<!-- end abstract --><!-- headerDoc=abstract;uid=//apple_ref/cpp/clm/ServerUtils/addComment/func/(name,username,content,postId,returnWith);name=end --></p>
+<div class='declaration_indent'>
+<pre><tt>protected</tt>
+<br><span class="keyword">static</span> <!-- a logicalPath="//apple_ref/cpp/cl/func //apple_ref/cpp/tdef/func //apple_ref/cpp/tag/func //apple_ref/cpp/struct/func //apple_ref/cpp/intf/func //apple_ref/doc/anysymbol/func" machineGenerated="true" --><span class="type">func</span><!-- /a --> <!-- a logicalPath="//apple_ref/cpp/instm/ServerUtils/addComment //apple_ref/cpp/clm/ServerUtils/addComment //apple_ref/cpp/intfcm/ServerUtils/addComment //apple_ref/cpp/intfm/ServerUtils/addComment //apple_ref/cpp/func/addComment //apple_ref/cpp/ftmplt/ServerUtils/addComment //apple_ref/cpp/defn/addComment //apple_ref/cpp/macro/addComment //apple_ref/doc/anysymbol/addComment" machineGenerated="true" --><span class="function">addComment</span><!-- /a -->(
+    <!-- a logicalPath="//apple_ref/cpp/cl/name //apple_ref/cpp/tdef/name //apple_ref/cpp/tag/name //apple_ref/cpp/struct/name //apple_ref/cpp/intf/name //apple_ref/doc/anysymbol/name" machineGenerated="true" --><span class="type">name</span><!-- /a -->:<span class="param">String</span>,
+    <!-- a logicalPath="//apple_ref/cpp/cl/username //apple_ref/cpp/tdef/username //apple_ref/cpp/tag/username //apple_ref/cpp/struct/username //apple_ref/cpp/intf/username //apple_ref/doc/anysymbol/username" machineGenerated="true" --><span class="type">username</span><!-- /a -->:<span class="param">String</span>,
+    <!-- a logicalPath="//apple_ref/cpp/cl/content //apple_ref/cpp/tdef/content //apple_ref/cpp/tag/content //apple_ref/cpp/struct/content //apple_ref/cpp/intf/content //apple_ref/doc/anysymbol/content" machineGenerated="true" --><span class="type">content</span><!-- /a -->:<span class="param">String</span>,
+    <!-- a logicalPath="//apple_ref/cpp/cl/postId //apple_ref/cpp/tdef/postId //apple_ref/cpp/tag/postId //apple_ref/cpp/struct/postId //apple_ref/cpp/intf/postId //apple_ref/doc/anysymbol/postId" machineGenerated="true" --><span class="type">postId</span><!-- /a -->:<span class="param">Int</span>,
+    <!-- a logicalPath="//apple_ref/cpp/cl/returnWith //apple_ref/cpp/tdef/returnWith //apple_ref/cpp/tag/returnWith //apple_ref/cpp/struct/returnWith //apple_ref/cpp/intf/returnWith //apple_ref/doc/anysymbol/returnWith" machineGenerated="true" --><span class="type">returnWith</span><!-- /a -->: @<!-- a logicalPath="//apple_ref/cpp/instm/ServerUtils/escaping //apple_ref/cpp/clm/ServerUtils/escaping //apple_ref/cpp/intfcm/ServerUtils/escaping //apple_ref/cpp/intfm/ServerUtils/escaping //apple_ref/cpp/func/escaping //apple_ref/cpp/ftmplt/ServerUtils/escaping //apple_ref/cpp/defn/escaping //apple_ref/cpp/macro/escaping //apple_ref/doc/anysymbol/escaping" machineGenerated="true" --><span class="function">escaping</span><!-- /a --> (
+        <span class="param">Bool</span>)-&gt;() )</pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class='param_indent'>
+<dl>
+<dt><!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/ServerUtils/addComment/name:;   name=addComment::name: -->
+<a name="//apple_ref/doc/functionparam/ServerUtils/addComment/name:"></a>
+<code>name:</code></dt><dd><p>Name of the commenter</dd>
+<dt><!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/ServerUtils/addComment/username:;   name=addComment::username: -->
+<a name="//apple_ref/doc/functionparam/ServerUtils/addComment/username:"></a>
+<code>username:</code></dt><dd><p>Username of the commenter</dd>
+<dt><!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/ServerUtils/addComment/content:;   name=addComment::content: -->
+<a name="//apple_ref/doc/functionparam/ServerUtils/addComment/content:"></a>
+<code>content:</code></dt><dd><p>content of the comment</dd>
+<dt><!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/ServerUtils/addComment/postId:;   name=addComment::postId: -->
+<a name="//apple_ref/doc/functionparam/ServerUtils/addComment/postId:"></a>
+<code>postId:</code></dt><dd><p>id of the post comment is relating to</dd>
+<dt><!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/ServerUtils/addComment/returnWith:;   name=addComment::returnWith: -->
+<a name="//apple_ref/doc/functionparam/ServerUtils/addComment/returnWith:"></a>
+<code>returnWith:</code></dt><dd><p>Asynchronous Callbackk</dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5><p><!-- begin return value --><p>boolean for the success/failure of the request
+
+<!-- end return value --></p><hr class="betweenAPIEntries"><!-- headerDoc=clm;  uid=//apple_ref/cpp/clm/ServerUtils/addPost/func/(name,username,content,returnWith);   name=ServerUtils::addPost -->
+<a name="//apple_ref/cpp/clm/ServerUtils/addPost/func/(name,username,content,returnWith)"></a>
+<h3><a name="addPost">addPost</a></h3>
+<hr class="afterName"><p><!-- headerDoc=abstract;uid=//apple_ref/cpp/clm/ServerUtils/addPost/func/(name,username,content,returnWith);name=start --><!-- begin abstract --><p>Post request to add a new post to the db
+<!-- end abstract --><!-- headerDoc=abstract;uid=//apple_ref/cpp/clm/ServerUtils/addPost/func/(name,username,content,returnWith);name=end --></p>
+<div class='declaration_indent'>
+<pre><tt>protected</tt>
+<br><span class="keyword">static</span> <!-- a logicalPath="//apple_ref/cpp/cl/func //apple_ref/cpp/tdef/func //apple_ref/cpp/tag/func //apple_ref/cpp/struct/func //apple_ref/cpp/intf/func //apple_ref/doc/anysymbol/func" machineGenerated="true" --><span class="type">func</span><!-- /a --> <!-- a logicalPath="//apple_ref/cpp/instm/ServerUtils/addPost //apple_ref/cpp/clm/ServerUtils/addPost //apple_ref/cpp/intfcm/ServerUtils/addPost //apple_ref/cpp/intfm/ServerUtils/addPost //apple_ref/cpp/func/addPost //apple_ref/cpp/ftmplt/ServerUtils/addPost //apple_ref/cpp/defn/addPost //apple_ref/cpp/macro/addPost //apple_ref/doc/anysymbol/addPost" machineGenerated="true" --><span class="function">addPost</span><!-- /a -->(
+    <!-- a logicalPath="//apple_ref/cpp/cl/name //apple_ref/cpp/tdef/name //apple_ref/cpp/tag/name //apple_ref/cpp/struct/name //apple_ref/cpp/intf/name //apple_ref/doc/anysymbol/name" machineGenerated="true" --><span class="type">name</span><!-- /a -->:<span class="param">String</span>,
+    <!-- a logicalPath="//apple_ref/cpp/cl/username //apple_ref/cpp/tdef/username //apple_ref/cpp/tag/username //apple_ref/cpp/struct/username //apple_ref/cpp/intf/username //apple_ref/doc/anysymbol/username" machineGenerated="true" --><span class="type">username</span><!-- /a -->:<span class="param">String</span>,
+    <!-- a logicalPath="//apple_ref/cpp/cl/content //apple_ref/cpp/tdef/content //apple_ref/cpp/tag/content //apple_ref/cpp/struct/content //apple_ref/cpp/intf/content //apple_ref/doc/anysymbol/content" machineGenerated="true" --><span class="type">content</span><!-- /a -->:<span class="param">String</span>,
+    <!-- a logicalPath="//apple_ref/cpp/cl/returnWith //apple_ref/cpp/tdef/returnWith //apple_ref/cpp/tag/returnWith //apple_ref/cpp/struct/returnWith //apple_ref/cpp/intf/returnWith //apple_ref/doc/anysymbol/returnWith" machineGenerated="true" --><span class="type">returnWith</span><!-- /a -->: @<!-- a logicalPath="//apple_ref/cpp/instm/ServerUtils/escaping //apple_ref/cpp/clm/ServerUtils/escaping //apple_ref/cpp/intfcm/ServerUtils/escaping //apple_ref/cpp/intfm/ServerUtils/escaping //apple_ref/cpp/func/escaping //apple_ref/cpp/ftmplt/ServerUtils/escaping //apple_ref/cpp/defn/escaping //apple_ref/cpp/macro/escaping //apple_ref/doc/anysymbol/escaping" machineGenerated="true" --><span class="function">escaping</span><!-- /a --> (
+        <span class="param">Bool</span>)-&gt;() )</pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class='param_indent'>
+<dl>
+<dt><!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/ServerUtils/addPost/name:;   name=addPost::name: -->
+<a name="//apple_ref/doc/functionparam/ServerUtils/addPost/name:"></a>
+<code>name:</code></dt><dd><p>Name of the poster</dd>
+<dt><!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/ServerUtils/addPost/username:;   name=addPost::username: -->
+<a name="//apple_ref/doc/functionparam/ServerUtils/addPost/username:"></a>
+<code>username:</code></dt><dd><p>Username of the poster</dd>
+<dt><!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/ServerUtils/addPost/content:;   name=addPost::content: -->
+<a name="//apple_ref/doc/functionparam/ServerUtils/addPost/content:"></a>
+<code>content:</code></dt><dd><p>Content of the post</dd>
+<dt><!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/ServerUtils/addPost/returnWith:;   name=addPost::returnWith: -->
+<a name="//apple_ref/doc/functionparam/ServerUtils/addPost/returnWith:"></a>
+<code>returnWith:</code></dt><dd><p>asynchronous callback</dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5><p><!-- begin return value --><p>Boolean indicating success of the request
+
+<!-- end return value --></p><hr class="betweenAPIEntries"><!-- headerDoc=clm;  uid=//apple_ref/cpp/clm/ServerUtils/addUser/func/(userName,password,firstName,lastName,email,returnWith);   name=ServerUtils::addUser -->
+<a name="//apple_ref/cpp/clm/ServerUtils/addUser/func/(userName,password,firstName,lastName,email,returnWith)"></a>
+<h3><a name="addUser">addUser</a></h3>
+<hr class="afterName"><p><!-- headerDoc=abstract;uid=//apple_ref/cpp/clm/ServerUtils/addUser/func/(userName,password,firstName,lastName,email,returnWith);name=start --><!-- begin abstract --><p>Post request to add a new user to the db
+<!-- end abstract --><!-- headerDoc=abstract;uid=//apple_ref/cpp/clm/ServerUtils/addUser/func/(userName,password,firstName,lastName,email,returnWith);name=end --></p>
+<div class='declaration_indent'>
+<pre><tt>protected</tt>
+<br><span class="keyword">static</span> <!-- a logicalPath="//apple_ref/cpp/cl/func //apple_ref/cpp/tdef/func //apple_ref/cpp/tag/func //apple_ref/cpp/struct/func //apple_ref/cpp/intf/func //apple_ref/doc/anysymbol/func" machineGenerated="true" --><span class="type">func</span><!-- /a --> <!-- a logicalPath="//apple_ref/cpp/instm/ServerUtils/addUser //apple_ref/cpp/clm/ServerUtils/addUser //apple_ref/cpp/intfcm/ServerUtils/addUser //apple_ref/cpp/intfm/ServerUtils/addUser //apple_ref/cpp/func/addUser //apple_ref/cpp/ftmplt/ServerUtils/addUser //apple_ref/cpp/defn/addUser //apple_ref/cpp/macro/addUser //apple_ref/doc/anysymbol/addUser" machineGenerated="true" --><span class="function">addUser</span><!-- /a -->(
+    <!-- a logicalPath="//apple_ref/cpp/cl/userName //apple_ref/cpp/tdef/userName //apple_ref/cpp/tag/userName //apple_ref/cpp/struct/userName //apple_ref/cpp/intf/userName //apple_ref/doc/anysymbol/userName" machineGenerated="true" --><span class="type">userName</span><!-- /a -->:<span class="param">String</span>,
+    <!-- a logicalPath="//apple_ref/cpp/cl/password //apple_ref/cpp/tdef/password //apple_ref/cpp/tag/password //apple_ref/cpp/struct/password //apple_ref/cpp/intf/password //apple_ref/doc/anysymbol/password" machineGenerated="true" --><span class="type">password</span><!-- /a -->:<span class="param">String</span>,
+    <!-- a logicalPath="//apple_ref/cpp/cl/firstName //apple_ref/cpp/tdef/firstName //apple_ref/cpp/tag/firstName //apple_ref/cpp/struct/firstName //apple_ref/cpp/intf/firstName //apple_ref/doc/anysymbol/firstName" machineGenerated="true" --><span class="type">firstName</span><!-- /a -->:<span class="param">String</span>,
+    <!-- a logicalPath="//apple_ref/cpp/cl/lastName //apple_ref/cpp/tdef/lastName //apple_ref/cpp/tag/lastName //apple_ref/cpp/struct/lastName //apple_ref/cpp/intf/lastName //apple_ref/doc/anysymbol/lastName" machineGenerated="true" --><span class="type">lastName</span><!-- /a -->:<span class="param">String</span>,
+    <!-- a logicalPath="//apple_ref/cpp/cl/email //apple_ref/cpp/tdef/email //apple_ref/cpp/tag/email //apple_ref/cpp/struct/email //apple_ref/cpp/intf/email //apple_ref/doc/anysymbol/email" machineGenerated="true" --><span class="type">email</span><!-- /a -->:<span class="param">String</span>,
+    <!-- a logicalPath="//apple_ref/cpp/cl/returnWith //apple_ref/cpp/tdef/returnWith //apple_ref/cpp/tag/returnWith //apple_ref/cpp/struct/returnWith //apple_ref/cpp/intf/returnWith //apple_ref/doc/anysymbol/returnWith" machineGenerated="true" --><span class="type">returnWith</span><!-- /a -->: @<!-- a logicalPath="//apple_ref/cpp/instm/ServerUtils/escaping //apple_ref/cpp/clm/ServerUtils/escaping //apple_ref/cpp/intfcm/ServerUtils/escaping //apple_ref/cpp/intfm/ServerUtils/escaping //apple_ref/cpp/func/escaping //apple_ref/cpp/ftmplt/ServerUtils/escaping //apple_ref/cpp/defn/escaping //apple_ref/cpp/macro/escaping //apple_ref/doc/anysymbol/escaping" machineGenerated="true" --><span class="function">escaping</span><!-- /a --> (
+        <span class="param">Bool</span>)-&gt;() )</pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class='param_indent'>
+<dl>
+<dt><!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/ServerUtils/addUser/userName:;   name=addUser::userName: -->
+<a name="//apple_ref/doc/functionparam/ServerUtils/addUser/userName:"></a>
+<code>userName:</code></dt><dd><p>The username</dd>
+<dt><!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/ServerUtils/addUser/password:;   name=addUser::password: -->
+<a name="//apple_ref/doc/functionparam/ServerUtils/addUser/password:"></a>
+<code>password:</code></dt><dd><p>The password</dd>
+<dt><!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/ServerUtils/addUser/firstName:;   name=addUser::firstName: -->
+<a name="//apple_ref/doc/functionparam/ServerUtils/addUser/firstName:"></a>
+<code>firstName:</code></dt><dd><p>First name</dd>
+<dt><!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/ServerUtils/addUser/lastName:;   name=addUser::lastName: -->
+<a name="//apple_ref/doc/functionparam/ServerUtils/addUser/lastName:"></a>
+<code>lastName:</code></dt><dd><p>Last name</dd>
+<dt><!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/ServerUtils/addUser/email:;   name=addUser::email: -->
+<a name="//apple_ref/doc/functionparam/ServerUtils/addUser/email:"></a>
+<code>email:</code></dt><dd><p>Email of the new user</dd>
+<dt><!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/ServerUtils/addUser/returnWith:;   name=addUser::returnWith: -->
+<a name="//apple_ref/doc/functionparam/ServerUtils/addUser/returnWith:"></a>
+<code>returnWith:</code></dt><dd><p>Asynchronous Callback</dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5><p><!-- begin return value --><p>Boolea for success of the request
+
+<!-- end return value --></p><hr class="betweenAPIEntries"><!-- headerDoc=clm;  uid=//apple_ref/cpp/clm/ServerUtils/getComments/func/(pId,returnWith);   name=ServerUtils::getComments -->
+<a name="//apple_ref/cpp/clm/ServerUtils/getComments/func/(pId,returnWith)"></a>
+<h3><a name="getComments">getComments</a></h3>
+<hr class="afterName"><p><!-- headerDoc=abstract;uid=//apple_ref/cpp/clm/ServerUtils/getComments/func/(pId,returnWith);name=start --><!-- begin abstract --><p>Get request to get all the available comments for a specific post
+<!-- end abstract --><!-- headerDoc=abstract;uid=//apple_ref/cpp/clm/ServerUtils/getComments/func/(pId,returnWith);name=end --></p>
+<div class='declaration_indent'>
+<pre><tt>protected</tt>
+<br><span class="keyword">static</span> <!-- a logicalPath="//apple_ref/cpp/cl/func //apple_ref/cpp/tdef/func //apple_ref/cpp/tag/func //apple_ref/cpp/struct/func //apple_ref/cpp/intf/func //apple_ref/doc/anysymbol/func" machineGenerated="true" --><span class="type">func</span><!-- /a --> <!-- a logicalPath="//apple_ref/cpp/instm/ServerUtils/getComments //apple_ref/cpp/clm/ServerUtils/getComments //apple_ref/cpp/intfcm/ServerUtils/getComments //apple_ref/cpp/intfm/ServerUtils/getComments //apple_ref/cpp/func/getComments //apple_ref/cpp/ftmplt/ServerUtils/getComments //apple_ref/cpp/defn/getComments //apple_ref/cpp/macro/getComments //apple_ref/doc/anysymbol/getComments" machineGenerated="true" --><span class="function">getComments</span><!-- /a -->(
+    <!-- a logicalPath="//apple_ref/cpp/cl/pId //apple_ref/cpp/tdef/pId //apple_ref/cpp/tag/pId //apple_ref/cpp/struct/pId //apple_ref/cpp/intf/pId //apple_ref/doc/anysymbol/pId" machineGenerated="true" --><span class="type">pId</span><!-- /a -->:<span class="param">Int</span>,
+    <!-- a logicalPath="//apple_ref/cpp/cl/returnWith //apple_ref/cpp/tdef/returnWith //apple_ref/cpp/tag/returnWith //apple_ref/cpp/struct/returnWith //apple_ref/cpp/intf/returnWith //apple_ref/doc/anysymbol/returnWith" machineGenerated="true" --><span class="type">returnWith</span><!-- /a -->: @<!-- a logicalPath="//apple_ref/cpp/instm/ServerUtils/escaping //apple_ref/cpp/clm/ServerUtils/escaping //apple_ref/cpp/intfcm/ServerUtils/escaping //apple_ref/cpp/intfm/ServerUtils/escaping //apple_ref/cpp/func/escaping //apple_ref/cpp/ftmplt/ServerUtils/escaping //apple_ref/cpp/defn/escaping //apple_ref/cpp/macro/escaping //apple_ref/doc/anysymbol/escaping" machineGenerated="true" --><span class="function">escaping</span><!-- /a --> (
+        [<!-- a logicalPath="//apple_ref/cpp/cl/SingleComment //apple_ref/cpp/tdef/SingleComment //apple_ref/cpp/tag/SingleComment //apple_ref/cpp/struct/SingleComment //apple_ref/cpp/intf/SingleComment //apple_ref/doc/anysymbol/SingleComment" machineGenerated="true" --><span class="type">SingleComment</span><!-- /a -->]?,
+        <span class="param">Bool</span>)-&gt;()) </pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class='param_indent'>
+<dl>
+<dt><!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/ServerUtils/getComments/pId:;   name=getComments::pId: -->
+<a name="//apple_ref/doc/functionparam/ServerUtils/getComments/pId:"></a>
+<code>pId:</code></dt><dd><p>The id of the post for the desired comments</dd>
+<dt><!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/ServerUtils/getComments/returnWith:;   name=getComments::returnWith: -->
+<a name="//apple_ref/doc/functionparam/ServerUtils/getComments/returnWith:"></a>
+<code>returnWith:</code></dt><dd><p>Asynchronous callback</dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5><p><!-- begin return value --><p>the array of comment objects and the boolean indication success
+
+<!-- end return value --></p><hr class="betweenAPIEntries"><!-- headerDoc=clm;  uid=//apple_ref/cpp/clm/ServerUtils/getPost/func/(returnWith);   name=ServerUtils::getPost -->
+<a name="//apple_ref/cpp/clm/ServerUtils/getPost/func/(returnWith)"></a>
+<h3><a name="getPost">getPost</a></h3>
+<hr class="afterName"><p><!-- headerDoc=abstract;uid=//apple_ref/cpp/clm/ServerUtils/getPost/func/(returnWith);name=start --><!-- begin abstract --><p>Get request to get all the posts in the db
+@parameter returnWith: Asykchronous Callback
+<!-- end abstract --><!-- headerDoc=abstract;uid=//apple_ref/cpp/clm/ServerUtils/getPost/func/(returnWith);name=end --></p>
+<div class='declaration_indent'>
+<pre><tt>protected</tt>
+<br><span class="keyword">static</span> <!-- a logicalPath="//apple_ref/cpp/cl/func //apple_ref/cpp/tdef/func //apple_ref/cpp/tag/func //apple_ref/cpp/struct/func //apple_ref/cpp/intf/func //apple_ref/doc/anysymbol/func" machineGenerated="true" --><span class="type">func</span><!-- /a --> <!-- a logicalPath="//apple_ref/cpp/instm/ServerUtils/getPost //apple_ref/cpp/clm/ServerUtils/getPost //apple_ref/cpp/intfcm/ServerUtils/getPost //apple_ref/cpp/intfm/ServerUtils/getPost //apple_ref/cpp/func/getPost //apple_ref/cpp/ftmplt/ServerUtils/getPost //apple_ref/cpp/defn/getPost //apple_ref/cpp/macro/getPost //apple_ref/doc/anysymbol/getPost" machineGenerated="true" --><span class="function">getPost</span><!-- /a -->(
+    <!-- a logicalPath="//apple_ref/cpp/cl/returnWith //apple_ref/cpp/tdef/returnWith //apple_ref/cpp/tag/returnWith //apple_ref/cpp/struct/returnWith //apple_ref/cpp/intf/returnWith //apple_ref/doc/anysymbol/returnWith" machineGenerated="true" --><span class="type">returnWith</span><!-- /a -->: @<!-- a logicalPath="//apple_ref/cpp/instm/ServerUtils/escaping //apple_ref/cpp/clm/ServerUtils/escaping //apple_ref/cpp/intfcm/ServerUtils/escaping //apple_ref/cpp/intfm/ServerUtils/escaping //apple_ref/cpp/func/escaping //apple_ref/cpp/ftmplt/ServerUtils/escaping //apple_ref/cpp/defn/escaping //apple_ref/cpp/macro/escaping //apple_ref/doc/anysymbol/escaping" machineGenerated="true" --><span class="function">escaping</span><!-- /a --> (
+        [<!-- a logicalPath="//apple_ref/cpp/cl/SinglePost //apple_ref/cpp/tdef/SinglePost //apple_ref/cpp/tag/SinglePost //apple_ref/cpp/struct/SinglePost //apple_ref/cpp/intf/SinglePost //apple_ref/doc/anysymbol/SinglePost" machineGenerated="true" --><span class="type">SinglePost</span><!-- /a -->]?,
+        <span class="param">Bool</span>)-&gt;()) </pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5><p><!-- begin return value --><p>Success boolean and array of post objects
+
+<!-- end return value --></p><hr class="betweenAPIEntries"><!-- headerDoc=clm;  uid=//apple_ref/cpp/clm/ServerUtils/getPostFromUser/func/(username,returnWith);   name=ServerUtils::getPostFromUser -->
+<a name="//apple_ref/cpp/clm/ServerUtils/getPostFromUser/func/(username,returnWith)"></a>
+<h3><a name="getPostFromUser">getPostFromUser</a></h3>
+<hr class="afterName"><p><!-- headerDoc=abstract;uid=//apple_ref/cpp/clm/ServerUtils/getPostFromUser/func/(username,returnWith);name=start --><!-- begin abstract --><p>Get request to get all the posts from a specific user
+<!-- end abstract --><!-- headerDoc=abstract;uid=//apple_ref/cpp/clm/ServerUtils/getPostFromUser/func/(username,returnWith);name=end --></p>
+<div class='declaration_indent'>
+<pre><tt>protected</tt>
+<br><span class="keyword">static</span> <!-- a logicalPath="//apple_ref/cpp/cl/func //apple_ref/cpp/tdef/func //apple_ref/cpp/tag/func //apple_ref/cpp/struct/func //apple_ref/cpp/intf/func //apple_ref/doc/anysymbol/func" machineGenerated="true" --><span class="type">func</span><!-- /a --> <!-- a logicalPath="//apple_ref/cpp/instm/ServerUtils/getPostFromUser //apple_ref/cpp/clm/ServerUtils/getPostFromUser //apple_ref/cpp/intfcm/ServerUtils/getPostFromUser //apple_ref/cpp/intfm/ServerUtils/getPostFromUser //apple_ref/cpp/func/getPostFromUser //apple_ref/cpp/ftmplt/ServerUtils/getPostFromUser //apple_ref/cpp/defn/getPostFromUser //apple_ref/cpp/macro/getPostFromUser //apple_ref/doc/anysymbol/getPostFromUser" machineGenerated="true" --><span class="function">getPostFromUser</span><!-- /a -->(
+    <!-- a logicalPath="//apple_ref/cpp/cl/username //apple_ref/cpp/tdef/username //apple_ref/cpp/tag/username //apple_ref/cpp/struct/username //apple_ref/cpp/intf/username //apple_ref/doc/anysymbol/username" machineGenerated="true" --><span class="type">username</span><!-- /a -->:<span class="param">String</span>,
+    <!-- a logicalPath="//apple_ref/cpp/cl/returnWith //apple_ref/cpp/tdef/returnWith //apple_ref/cpp/tag/returnWith //apple_ref/cpp/struct/returnWith //apple_ref/cpp/intf/returnWith //apple_ref/doc/anysymbol/returnWith" machineGenerated="true" --><span class="type">returnWith</span><!-- /a -->: @<!-- a logicalPath="//apple_ref/cpp/instm/ServerUtils/escaping //apple_ref/cpp/clm/ServerUtils/escaping //apple_ref/cpp/intfcm/ServerUtils/escaping //apple_ref/cpp/intfm/ServerUtils/escaping //apple_ref/cpp/func/escaping //apple_ref/cpp/ftmplt/ServerUtils/escaping //apple_ref/cpp/defn/escaping //apple_ref/cpp/macro/escaping //apple_ref/doc/anysymbol/escaping" machineGenerated="true" --><span class="function">escaping</span><!-- /a --> (
+        [<!-- a logicalPath="//apple_ref/cpp/cl/SinglePost //apple_ref/cpp/tdef/SinglePost //apple_ref/cpp/tag/SinglePost //apple_ref/cpp/struct/SinglePost //apple_ref/cpp/intf/SinglePost //apple_ref/doc/anysymbol/SinglePost" machineGenerated="true" --><span class="type">SinglePost</span><!-- /a -->]?,
+        <span class="param">Bool</span>)-&gt;()) </pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class='param_indent'>
+<dl>
+<dt><!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/ServerUtils/getPostFromUser/username:;   name=getPostFromUser::username: -->
+<a name="//apple_ref/doc/functionparam/ServerUtils/getPostFromUser/username:"></a>
+<code>username:</code></dt><dd><p>Username of desired posts</dd>
+<dt><!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/ServerUtils/getPostFromUser/returnWith:;   name=getPostFromUser::returnWith: -->
+<a name="//apple_ref/doc/functionparam/ServerUtils/getPostFromUser/returnWith:"></a>
+<code>returnWith:</code></dt><dd><p>Asynchronous callback</dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5><p><!-- begin return value --><p>The array of post objects and boolean for success
+
+<!-- end return value --></p><hr class="betweenAPIEntries"><!-- headerDoc=clm;  uid=//apple_ref/cpp/clm/ServerUtils/login/func/(returnWith);   name=ServerUtils::login -->
+<a name="//apple_ref/cpp/clm/ServerUtils/login/func/(returnWith)"></a>
+<h3><a name="login">login</a></h3>
+<hr class="afterName"><p><!-- headerDoc=abstract;uid=//apple_ref/cpp/clm/ServerUtils/login/func/(returnWith);name=start --><!-- begin abstract --><p>post request for logging in
+<!-- end abstract --><!-- headerDoc=abstract;uid=//apple_ref/cpp/clm/ServerUtils/login/func/(returnWith);name=end --></p>
+<div class='declaration_indent'>
+<pre><tt>protected</tt>
+<br><span class="keyword">static</span> <!-- a logicalPath="//apple_ref/cpp/cl/func //apple_ref/cpp/tdef/func //apple_ref/cpp/tag/func //apple_ref/cpp/struct/func //apple_ref/cpp/intf/func //apple_ref/doc/anysymbol/func" machineGenerated="true" --><span class="type">func</span><!-- /a --> <!-- a logicalPath="//apple_ref/cpp/instm/ServerUtils/login //apple_ref/cpp/clm/ServerUtils/login //apple_ref/cpp/intfcm/ServerUtils/login //apple_ref/cpp/intfm/ServerUtils/login //apple_ref/cpp/func/login //apple_ref/cpp/ftmplt/ServerUtils/login //apple_ref/cpp/defn/login //apple_ref/cpp/macro/login //apple_ref/doc/anysymbol/login" machineGenerated="true" --><span class="function">login</span><!-- /a -->(
+    <!-- a logicalPath="//apple_ref/cpp/cl/returnWith //apple_ref/cpp/tdef/returnWith //apple_ref/cpp/tag/returnWith //apple_ref/cpp/struct/returnWith //apple_ref/cpp/intf/returnWith //apple_ref/doc/anysymbol/returnWith" machineGenerated="true" --><span class="type">returnWith</span><!-- /a -->: @<!-- a logicalPath="//apple_ref/cpp/instm/ServerUtils/escaping //apple_ref/cpp/clm/ServerUtils/escaping //apple_ref/cpp/intfcm/ServerUtils/escaping //apple_ref/cpp/intfm/ServerUtils/escaping //apple_ref/cpp/func/escaping //apple_ref/cpp/ftmplt/ServerUtils/escaping //apple_ref/cpp/defn/escaping //apple_ref/cpp/macro/escaping //apple_ref/doc/anysymbol/escaping" machineGenerated="true" --><span class="function">escaping</span><!-- /a --> (
+        <!-- a logicalPath="//apple_ref/cpp/cl/newUser //apple_ref/cpp/tdef/newUser //apple_ref/cpp/tag/newUser //apple_ref/cpp/struct/newUser //apple_ref/cpp/intf/newUser //apple_ref/doc/anysymbol/newUser" machineGenerated="true" --><span class="type">newUser</span><!-- /a -->?,
+        <span class="param">Bool</span>)-&gt;()) </pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class='param_indent'>
+<dl>
+<dt><!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/ServerUtils/login/returnWith:;   name=login::returnWith: -->
+<a name="//apple_ref/doc/functionparam/ServerUtils/login/returnWith:"></a>
+<code>returnWith:</code></dt><dd><p>Asynchronous Callback</dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5><p><!-- begin return value --><p>the new user object and a boolean indication of request success
+
+<!-- end return value --></p><p class="gapBeforeFooter">&nbsp;</p><hr class="afterFooter"><div class="hd_copyright_and_timestamp">
+<p class="hd_timestamp">Last Updated: Sunday, November 08, 2020
+</p></div>
+</td></tr></table>
+</body></html>

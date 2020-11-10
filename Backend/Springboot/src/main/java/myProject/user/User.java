@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
+import io.swagger.annotations.ApiModelProperty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -19,33 +22,44 @@ public class User {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	@ApiModelProperty(notes = "First name of the User",name="fname",value="John")
 	@Column
 	private String fname;
 	
+	@ApiModelProperty(notes = "Last name of the User",name="lname",value="Doe")
 	@Column
 	private String lname;
 	
+	@ApiModelProperty(notes = "Username of the User",name="username",value="JD")
 	@Column (unique = true)
+	@NotNull
 	private String username;
 
+	@ApiModelProperty(notes = "Password of the User",name="password",value="pass")
 	@Column
 	private String password;
 	
+	@ApiModelProperty(notes = "Email of the User",name="email",value="John@mail.com")
 	@Column
 	private String email;
 	
+	@ApiModelProperty(notes = "Type of User (1 = Admin, 0 = General)",name="type",value="1")
 	@Column
 	private int type;
 	
+	@ApiModelProperty(notes = "Background image of the User",name="background",value="test.png")
 	@Column
 	private String background;
 	
+	@ApiModelProperty(notes = "{Profile image of the User",name="profile",value="test.png")
 	@Column 
 	private String profile;
 	
+	@ApiModelProperty(notes = "Bio information of the User",name="bio",value="Hello world")
 	@Column
 	private String bio;
 	
+	@ApiModelProperty(notes = "Cookie of User when logged in",name="cookie",value="cookie")
 	@Column
 	private String cookie;
 	
@@ -140,7 +154,7 @@ public class User {
 		username = uname; 
 	}
 	
-	public void setPasswd(String password) { 
+	public void setPassword(String password) { 
 		this.password = password; 
 	}
 	

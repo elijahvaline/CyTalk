@@ -92,7 +92,7 @@ public class UserControllerUnitTest {
 		User s = new User();
 		s.setId(1);
 		s.setUName("test");
-		s.setPasswd("password");
+		s.setPassword("password");
 		when(repo.findOneByUsername("test")).thenReturn(s);
 		String json = "{ \"uname\" : \"test\", \"password\" : \"password\"}";
 		MvcResult result = controller.perform(MockMvcRequestBuilders.post("/login").contentType(MediaType.APPLICATION_JSON).content(json))

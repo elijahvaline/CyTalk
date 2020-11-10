@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import myProject.uploading.StorageService;
+import myProject.webSocket.Group;
 
 //import uploading.StorageService;
 @Api(value = "UserController", description = "REST APIs for User data by Casey Wong")
@@ -40,6 +41,7 @@ public class UserController {
 		User get = db.findOneByUsername(username);
 		get.setPassword(null);
 		get.setCookie(null);
+		//get.clearSet();
 		return get;
 	}
 	
@@ -148,9 +150,16 @@ public class UserController {
 			}
 			s.setCookie(c);
 			db.save(s);
+			s.clearSet();
 			return ResponseEntity.ok().body(s);
 		} else {
 			return ResponseEntity.status(403).body(null);
 		}
+	}
+	
+	@GetMapping("/user/{username}/group")
+	public List<Group> getUserGroups(@PathVariable String username) {
+		User get = db.findOneByUsername(username);
+		return get.getGroup();
 	}
 }

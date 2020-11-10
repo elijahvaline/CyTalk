@@ -1,9 +1,18 @@
 package myProject.user;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 import io.swagger.annotations.ApiModelProperty;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import myProject.webSocket.Group;
 
 @Entity
 @Table(name = "users")
@@ -53,6 +62,28 @@ public class User {
 	@ApiModelProperty(notes = "Cookie of User when logged in",name="cookie",value="cookie")
 	@Column
 	private String cookie;
+	
+	@JsonIgnore
+	@ManyToMany(mappedBy= "members")
+	Set<Group> join;
+	
+	public void addGroup(Group g) {
+		if (join == null) join = new HashSet<>();
+		this.join.add(g);
+	}
+	
+	public void removeGroup(Group g) {
+		this.join.remove(g);
+	}
+	
+	@JsonIgnore
+	public List<Group> getGroup() {
+		return new ArrayList<Group>(join);
+	}
+	
+	public void clearSet() {
+		join = new HashSet<>();
+	}
 	
 	public void setUser(String f, String l, String u, String p, String e, String b) {
 		if (f != null)

@@ -38,6 +38,7 @@ public class UserController {
 		User get = db.findOneByUsername(username);
 		get.setPasswd(null);
 		get.setCookie(null);
+		//get.clearSet();
 		return get;
 	}
 	
@@ -65,6 +66,7 @@ public class UserController {
 		for(User g : get) {
 			g.setCookie(null);
 			g.setPasswd(null);
+			//g.clearSet();
 		}
 		return get;
 	}
@@ -137,6 +139,7 @@ public class UserController {
 				} else i--;
 			}
 			s.setCookie(c);
+			s.clearSet();
 			db.save(s);
 			return ResponseEntity.ok().body(s);
 		} else {

@@ -31,6 +31,17 @@ public class GroupController {
 		return s;
 	}
 	
+	@PostMapping("/user/{username}/private")
+	public Group createPrivate(@RequestBody User u, @PathVariable String username) {
+		Group g = new Group();
+		g.setGroupName("DM");
+		g.addUser(userRepo.findOneByUsername(username));
+		g.addUser(userRepo.findOneByUsername(u.getUName()));
+		groupRepo.save(g);
+		g.clearSet();
+		return g;
+	}
+	
 	@PutMapping("/user/{username}/{group}")
 	public Group addToGroup(@PathVariable String username, @PathVariable long group) {
 		Group s = groupRepo.findOne(group);

@@ -62,8 +62,13 @@ public class User {
 		this.join.remove(g);
 	}
 	
+	@JsonIgnore
 	public List<Group> getGroup() {
 		return new ArrayList<Group>(join);
+	}
+	
+	public void clearSet() {
+		join = new HashSet<>();
 	}
 	
 	public void setUser(String f, String l, String u, String p, String e, String b) {

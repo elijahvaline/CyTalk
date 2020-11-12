@@ -9,46 +9,117 @@ import SwiftUI
 
 struct ChatView: View {
     @State private var message = ""
-    @StateObject private var model = ChatSession()
+    @ObservedObject private var model = ChatSession()
+    @ObservedObject public var systemUser:User
+    @State var ID:Int
+    @State var messages:[String] = []
+    @State var name1:String
+    @State var name2:String
+
 
     private func onAppear() {
-            model.connect()
+            model.connect(ID: ID)
         }
     private func onDis(){
         model.disconnect()
     }
-    
+    private func onCommit() {
+            if !message.isEmpty {
+                model.send(text: message)
+                message = ""
+            }
+        }
+    private func scrollToLastMessage(proxy: ScrollViewProxy) {
+        if let lastMessage = model.messages.last {
+            withAnimation(.easeOut(duration: 0.4)) {
+                proxy.scrollTo(lastMessage.id, anchor: .bottom)
+            }
+        }
+    }
+
     var body: some View {
         VStack {
             // Chat history.
-            ScrollView { // 1
-                // Coming soon!
+           
+            ScrollView {
+                ScrollViewReader{ proxy in
+                    LazyVStack(spacing: 8) {
+                        ForEach(model.messages) { message in
+                            ChatMessageRow(message: message.message, isUser: message.user == systemUser.username, user: message.user, name1: self.name1, name2: self.name2)
+                                .id(message.id)
+                        }
+                    }
+                    .padding(10)
+                    .onChange(of: model.messages.count) { _ in
+                        scrollToLastMessage(proxy: proxy)
+                    }
+     
+                }
             }
 
             // Message field.
             HStack {
-                TextField("Message", text: $message) // 2
+                TextField("Message", text: $message, onEditingChanged: { _ in }, onCommit: onCommit)
                     .padding(10)
                     .background(Color.secondary.opacity(0.2))
                     .cornerRadius(5)
-                
-                Button(action: {}) { // 3
+
+                Button(action: onCommit) {
                     Image(systemName: "arrowshape.turn.up.right")
                         .font(.system(size: 20))
+                        .padding(6)
                 }
-                .padding()
-                .disabled(message.isEmpty) // 4
+                .cornerRadius(5)
+                .disabled(message.isEmpty)
+                .hoverEffect(.highlight)
             }
             .padding()
         }
-        
+        .navigationTitle("Chat")
         .onAppear(perform: onAppear)
         .onDisappear(perform: onDis)
     }
 }
 
-struct ChatView_Previews: PreviewProvider {
-    static var previews: some View {
-        ChatView()
+
+private struct ChatMessageRow: View {
+    static private let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .none
+        formatter.timeStyle = .short
+        return formatter
+    }()
+
+    let message:String
+    let isUser: Bool
+    let user:String
+
+    let name1:String
+    let name2:String
+    var body: some View {
+        HStack {
+            if isUser {
+                Spacer()
+            }
+
+            VStack(alignment: .leading, spacing: 10) {
+                HStack {
+                    Text(isUser ? name1 : name2)
+                        .fontWeight(.bold)
+                        .font(.system(size: 12))
+                }
+
+                Text(message)
+            }
+            .foregroundColor(isUser ? .white : .black)
+            .padding(10)
+            .background(isUser ? Color("Color2") : Color(white: 0.95))
+            .cornerRadius(10)
+
+            if !isUser {
+                Spacer()
+            }
+        }
+        .transition(.scale(scale: 0, anchor: isUser ? .topTrailing : .topLeading))
     }
 }

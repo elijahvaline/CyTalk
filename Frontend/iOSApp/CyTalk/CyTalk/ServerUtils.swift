@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 //This one works but we need a new one
 //struct DataSet: Decodable {
 //    let fish: [SinglePost]
@@ -30,6 +31,12 @@ struct SinglePost: Decodable {
     let negVoteCount:Int
     
     let posVoteCount:Int
+}
+
+struct SingleChat: Decodable {
+    let groupName:String
+    let groupID:Int
+    let users:[newUser]
 }
 
 /// User object for JSON
@@ -99,6 +106,44 @@ class ServerUtils {
                         
                         let postSet = try decoder.decode([SinglePost].self, from: Data(dataString.utf8))
                         returnWith(postSet, true)
+                        
+                    }
+                        
+                    catch let jsonError {
+                        print("Error Serializing JSON", jsonError)
+                        returnWith(nil, false)
+                    }
+                } else {
+                  returnWith(nil, false)
+                }
+                
+            })
+            
+            task.resume()
+            
+        }
+    }
+    
+    static func getChats(userName:String, returnWith: @escaping ([SingleChat]?, Bool)->()) {
+        
+        let session = URLSession.shared
+        let decoder = JSONDecoder()
+        let uString = serverUrl
+        
+        if let url = URL(string: serverUrl2 + "/user/" + userName + "/group") {
+            let task = session.dataTask(with: url, completionHandler: { data1, response, error in
+                if (error != nil) {
+                    returnWith(nil, false)
+                    return
+                }
+                
+                if let dataString = String(data: data1!, encoding: .utf8) {
+                    print(dataString)
+                    
+                    do {
+                        
+                        let chatSet = try decoder.decode([SingleChat].self, from: Data(dataString.utf8))
+                        returnWith(chatSet, true)
                         
                     }
                         
@@ -434,6 +479,49 @@ class ServerUtils {
                 print(responseJSON)
             }
             
+            returnWith(true)
+        }
+        
+        task.resume()
+    }
+    
+    
+    
+    static func addImage(userName:String, image:UIImage, password:String, firstName:String, lastName:String, email:String, returnWith: @escaping (Bool)->() ){
+        
+       
+        
+//        let jsonData = try? JSONSerialization.data(withJSONObject: json)
+        
+//        print(String(data: jsonData!, encoding: .utf8))
+        
+        // create post request
+        let url = URL(string: serverUrl2 + "user")!
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        let imageData = image.pngData()
+        
+        // insert json data to the request
+        request.httpBody = imageData!
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+  
+            if (error != nil) {
+                print(error)
+                returnWith(false)
+                return
+            }
+            guard let data = data, error == nil else {
+//                print(error?.localizedDescription ?? "No data")
+                return
+            }
+            let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
+            if let responseJSON = responseJSON as? [String: Any] {
+//                print(responseJSON)
+            }
+            print("Youre here")
             returnWith(true)
         }
         

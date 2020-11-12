@@ -11,8 +11,15 @@ struct SubmittedChatMessage: Encodable {
     let message: String
 }
 
-struct ReceivingChatMessage: Decodable, Identifiable {
-    let date: Date
+struct ReceivingChatMessage: Identifiable {
+    
     let id: UUID
     let message: String
+    let user:String
+    
+    init(content:String, curuser:String){
+        id = UUID()
+        message = content
+        user = curuser
+    }
 }   

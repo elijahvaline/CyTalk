@@ -132,7 +132,7 @@ struct PostsView: View {
                             .foregroundColor(Color("Color2"))
                             .font(.system(size: 35))
                     }.padding(.leading, 30)
-                    .padding(.trailing, 110)
+                    Spacer()
                     NavigationLink(destination: NewPostView(systemUser: self.systemUser)) {
                         Image(systemName: "plus.circle.fill")
                             .foregroundColor(Color("Color2"))
@@ -140,6 +140,16 @@ struct PostsView: View {
                     }.accessibility(identifier: "newPostButton")
                     
                     Spacer()
+                    NavigationLink(destination: ChatDelagateView(systemUser: self.systemUser)) {
+                        Image(systemName: "envelope")
+                            .foregroundColor(Color("Color2"))
+                            .font(.system(size: 35))
+                    }.accessibility(identifier: "pmButton")
+                    .padding(.trailing, 30)
+                    
+                    
+                    
+                   
                 }
                 .frame(width: 414, height: 50).foregroundColor(.white)
                 

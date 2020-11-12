@@ -8,9 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -57,4 +55,11 @@ public class CommentController {
 		db.save(old_c);
 		return old_c;
 	}
+	
+	@ApiOperation(value = "Delete a comment")
+	@DeleteMapping("/Commentdelete/{p}") 
+	public void deleteComment(@RequestBody Comment c) {
+		db.delete(c);
+	}
+	
 }

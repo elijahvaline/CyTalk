@@ -13,7 +13,6 @@ import myProject.user.User;
 
 @Entity
 @Table(name = "chatGroups")
-@Data
 public class Group {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

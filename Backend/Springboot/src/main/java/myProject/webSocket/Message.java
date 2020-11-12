@@ -20,7 +20,6 @@ import lombok.Data;
 
 @Entity
 @Table(name = "messages")
-@Data
 public class Message {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

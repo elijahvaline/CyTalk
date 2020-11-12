@@ -68,10 +68,6 @@ public class ChatSocket {
 
 		//Send chat history to the newly connected user
 		sendMessageToParticularUser(username, getChatHistory());
-		
-    // broadcast that new user joined
-		String message = "User:" + username + " has Joined the Chat";
-		broadcast(message);
 	}
 
 
@@ -82,17 +78,7 @@ public class ChatSocket {
 		logger.info("Entered into Message: Got Message:" + message);
 		String username = sessionUsernameMap.get(session);
 
-//    // Direct message to a user using the format "@username <message>"
-//		if (message.startsWith("@")) {
-//			String destUsername = message.split(" ")[0].substring(1); 
-//
-//      // send the message to the sender and receiver
-//			sendMessageToParticularUser(destUsername, "[DM] " + username + ": " + message);
-//			sendMessageToParticularUser(username, "[DM] " + username + ": " + message);
-//
-//		} 
-
-		broadcast(username + ": " + message);
+		broadcast(username + ": " + message + "*");
 
 		// Saving chat history to repository
 		msgRepo.save(new Message(username, groupChat, message));
@@ -107,10 +93,6 @@ public class ChatSocket {
 		String username = sessionUsernameMap.get(session);
 		sessionUsernameMap.remove(session);
 		usernameSessionMap.remove(username);
-
-    // broadcase that the user disconnected
-		String message = username + " disconnected";
-		broadcast(message);
 	}
 
 
@@ -145,16 +127,6 @@ public class ChatSocket {
 				e.printStackTrace();
 			}
 		}
-//		sessionUsernameMap.forEach((session, username) -> {
-//			try {
-//					session.getBasicRemote().sendText(message);
-//			} 
-//      catch (IOException e) {
-//				logger.info("Exception: " + e.getMessage().toString());
-//				e.printStackTrace();
-//			}
-//
-//		});
 
 	}
 	
@@ -167,7 +139,7 @@ public class ChatSocket {
 		StringBuilder sb = new StringBuilder();
 		if(messages != null && messages.size() != 0) {
 			for (Message message : messages) {
-				sb.append(message.getUserName() + ": " + message.getContent() + "\n");
+				sb.append(message.getUserName() + ": " + message.getContent() + "*\n");
 			}
 		}
 		return sb.toString();

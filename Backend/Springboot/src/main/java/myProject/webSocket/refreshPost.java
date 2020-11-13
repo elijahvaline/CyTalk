@@ -95,7 +95,7 @@ public class refreshPost {
 		broadcast(username + ": " + message);
 
 		// Saving chat history to repository
-		msgRepo.save(new Message(username, groupChat, message));
+		msgRepo.save(new Message(userRepo.findOneByUsername(username), groupChat, message));
 	}
 
 

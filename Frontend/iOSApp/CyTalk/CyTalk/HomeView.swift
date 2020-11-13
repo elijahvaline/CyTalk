@@ -197,6 +197,7 @@ struct Login : View {
                         .foregroundColor(.black)
                     
                     TextField("Enter Username", text: self.$user)
+                        .autocapitalization(.none)
                     
                 }.padding(.vertical, 20)
                 

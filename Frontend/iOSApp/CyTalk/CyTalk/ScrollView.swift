@@ -115,38 +115,10 @@ struct PostsView: View {
                 }
                 .navigationBarHidden(true)
                 .navigationBarTitle("")
-                .navigationBarItems(leading:
-                                        
-                                        HStack{
-                                            Image(systemName: "person.crop.circle")
-                                                .imageScale(.large)
-                                                .font(.system(size: 25))
-                                                .foregroundColor(Color("Color2"))
-                                            
-                                            Image("logo")
-                                                .imageScale(.large)
-                                                .padding(.leading, 75)
-                                        }
-                )
-                
                 
                 Divider()
                     .padding(.bottom, 10)
                 
-                Button(action: {
-                    let status = KeyChain.save(key: "Ufde", data: "Eli")
-                    print("status: ", status)
-                    let receivedData = KeyChain.load(key: "Ufde")
-                        print(receivedData)
-
-                    
-                }) {
-                    Image(systemName: "arrow.clockwise")
-                        .foregroundColor(Color("Color2"))
-                        .font(.system(size: 35))
-                }.padding(.leading, 30)
-                
-                Divider()
                 
                 HStack(){
                     Button(action: {
@@ -161,15 +133,21 @@ struct PostsView: View {
                         Image(systemName: "plus.circle.fill")
                             .foregroundColor(Color("Color2"))
                             .font(.system(size: 50))
+                            
                     }.accessibility(identifier: "newPostButton")
+                    .disabled(!systemUser.loggedIn)
+                    
+                    
                     
                     Spacer()
                     NavigationLink(destination: ChatDelagateView(systemUser: self.systemUser)) {
                         Image(systemName: "envelope")
                             .foregroundColor(Color("Color2"))
                             .font(.system(size: 35))
+                            
                     }.accessibility(identifier: "pmButton")
                     .padding(.trailing, 30)
+                    .disabled(!systemUser.loggedIn)
                     
                     
                     

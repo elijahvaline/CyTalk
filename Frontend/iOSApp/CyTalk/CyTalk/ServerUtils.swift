@@ -51,7 +51,7 @@ struct newUser: Decodable{
     let background:SinglePost?
     let profile:SinglePost?
     let bio:String
-    let cookie:String
+    let cookie:String?
     let uname:String
     
 }

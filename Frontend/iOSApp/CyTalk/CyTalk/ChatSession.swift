@@ -17,8 +17,8 @@ final class ChatSession: ObservableObject {
     
     
     // MARK: - Connection
-    func connect(ID:Int) { // 2
-        let url = URL(string: "ws://coms-309-sb-07.cs.iastate.edu:8080/chat/IronM/" + String(ID))!// 3
+    func connect(ID:Int, username:String) { // 2
+        let url = URL(string: "ws://coms-309-sb-07.cs.iastate.edu:8080/chat/" + username + "/" + String(ID))!// 3
         //        let url = URL(string: "wss://echo.websocket.org")! // 3
         print(url)
         webSocketTask = URLSession.shared.webSocketTask(with: url) // 4

@@ -60,34 +60,46 @@ struct ChatDelagateView: View {
                         .hoverEffect(.highlight)
                         
                     }
+                    .navigationBarHidden(true)
+                    
                     .padding()
                     
                     Divider()
                     
                     
-                    VStack(spacing: 0) {
+                    VStack(spacing: 10) {
                         
                         if chats[0].isInitialized! {
                             ForEach(chats, id: \.self) { chat in
                                 
-                                NavigationLink(destination: ChatView(systemUser: systemUser, ID: chat.ID!, name1: chat.name1!, name2: chat.name2!)) {
+                                NavigationLink(destination: ChatView(systemUser: systemUser, ID: chat.ID!, name1: chat.name1!, name2: chat.name2!, user1: chat.uname1!, user2: chat.uname2!)) {
                                     HStack{
-                                        Image(systemName: "person.crop.circle.fill")
-                                            .foregroundColor(Color("Color2"))
+                                        Image(systemName: "person.crop.circle")
+                                            .imageScale(.large)
                                             .font(.system(size: 40))
+                                            .foregroundColor(Color("Color2"))
+                                        
                                         VStack{
-                                            Text(chat.name2!)
-                                                .font(.title)
-                                                .fontWeight(.bold)
-                                            Text(chat.uname2!)
-                                                .font(.caption)
-                                                .fontWeight(.regular)
-                                                .foregroundColor(Color.gray)
-                                                
-                                        }
+                                            Text(chat.name1!)
+                                                .font(.system(size:25))
+                                                .fontWeight(.light)
+                                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                                                .foregroundColor(.black)
+                                            
+                                            Text(chat.uname1!)
+                                                .fontWeight(.light)
+                                                .foregroundColor(.gray)
+                                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                                            
+                                        }.frame(alignment: .leading)
+                                        
+                                        
+                                        Spacer()
                                     }
+                                    .padding(.leading, 15)
+                                    .padding(.bottom, 5)
                                 }
-                                .padding(.horizontal, 15)
+//                                .padding(.horizontal, 15)
                            
                 
                                 Divider()
@@ -108,10 +120,12 @@ struct ChatDelagateView: View {
 
                 Spacer()
                 
-                .navigationBarHidden(true)
+                
              
             }
         }
+        .navigationBarHidden(true)
+        .navigationBarTitle("")
         .onAppear(){
             updateChats()
             
@@ -141,13 +155,26 @@ struct ChatDelagateView: View {
             for fish in chatSet {
                 
                 curChat = fish
+            
+                let name2:String
+                let userName2:String
+                let name1:String
+                let userName1:String
                 
-                
-                let name2 = curChat.users[1].fname + " " + curChat.users[1].lname
-                let userName2 = curChat.users[1].uname
-                let name1 = curChat.users[0].fname + " " + curChat.users[0].lname
-                let userName1 = curChat.users[0].uname
-         
+                if (curChat.users[0].uname == systemUser.username){
+                    name2 = curChat.users[0].fname + " " + curChat.users[0].lname
+                    userName2 = curChat.users[0].uname
+                    name1 = curChat.users[1].fname + " " + curChat.users[1].lname
+                    userName1 = curChat.users[1].uname
+                }
+                else{
+                    name2 = curChat.users[1].fname + " " + curChat.users[1].lname
+                    userName2 = curChat.users[1].uname
+                    name1 = curChat.users[0].fname + " " + curChat.users[0].lname
+                    userName1 = curChat.users[0].uname
+             
+                }
+               
                 
                 
                 

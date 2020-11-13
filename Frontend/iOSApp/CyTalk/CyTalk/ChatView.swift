@@ -15,13 +15,17 @@ struct ChatView: View {
     @State var messages:[String] = []
     @State var name1:String
     @State var name2:String
+    @State var user1:String
+    @State var user2:String
 
 
     private func onAppear() {
-            model.connect(ID: ID)
+        model.connect(ID: ID, username: systemUser.username)
+            
         }
     private func onDis(){
         model.disconnect()
+        messages.removeAll()
     }
     private func onCommit() {
             if !message.isEmpty {

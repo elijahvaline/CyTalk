@@ -12,7 +12,6 @@
 		B62F71D12516D76900AF8F36 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B62F71D02516D76900AF8F36 /* Preview Assets.xcassets */; };
 		B62F71D42516D76900AF8F36 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B62F71D22516D76900AF8F36 /* LaunchScreen.storyboard */; };
 		B641787B254891B9004D4254 /* CyTalkUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A59D39254526F5006F0F6A /* CyTalkUITests.swift */; };
-		B661302F255E4FF000ED2FBC /* Security.swift in Sources */ = {isa = PBXBuildFile; fileRef = B661302E255E4FF000ED2FBC /* Security.swift */; };
 		B6CA3553255D08430028705F /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CA3552255D08430028705F /* Comment.swift */; };
 		B6CA3558255D08450028705F /* ChatSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CA3557255D08450028705F /* ChatSession.swift */; };
 		B6CA355D255D08490028705F /* ServerUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CA355C255D08490028705F /* ServerUtils.swift */; };
@@ -56,7 +55,6 @@
 		B62F71D02516D76900AF8F36 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B62F71D32516D76900AF8F36 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B62F71D52516D76900AF8F36 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B661302E255E4FF000ED2FBC /* Security.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Security.swift; sourceTree = "<group>"; };
 		B6A59D37254526F5006F0F6A /* CyTalkUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CyTalkUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6A59D39254526F5006F0F6A /* CyTalkUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CyTalkUITests.swift; sourceTree = "<group>"; };
 		B6A59D3B254526F5006F0F6A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -133,7 +131,6 @@
 				B62F71D22516D76900AF8F36 /* LaunchScreen.storyboard */,
 				B6CA3552255D08430028705F /* Comment.swift */,
 				B6CA3557255D08450028705F /* ChatSession.swift */,
-				B661302E255E4FF000ED2FBC /* Security.swift */,
 				B6CA355C255D08490028705F /* ServerUtils.swift */,
 				B6CA3561255D084D0028705F /* models.swift */,
 				B6CA3566255D08530028705F /* Post.swift */,
@@ -316,7 +313,6 @@
 				B6CA355D255D08490028705F /* ServerUtils.swift in Sources */,
 				B62F71C82516D76400AF8F36 /* AppDelegate.swift in Sources */,
 				B6CA3585255D08650028705F /* NewPostView.swift in Sources */,
-				B661302F255E4FF000ED2FBC /* Security.swift in Sources */,
 				B6CA3571255D085B0028705F /* ChatDelagateView.swift in Sources */,
 				B6CA3599255D086F0028705F /* ScrollView.swift in Sources */,
 				B6CA3594255D086D0028705F /* SceneDelegate.swift in Sources */,

@@ -8,9 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -56,5 +54,11 @@ public class PostController {
 		db.save(old_p);
 		return old_p;
 	}
-
+	
+	@ApiOperation(value = "Delete a post")
+	@DeleteMapping("/postdelete/{p}") 
+	public void deletePost(@RequestBody Post p) {
+		db.delete(p);
+	}
+	
 }

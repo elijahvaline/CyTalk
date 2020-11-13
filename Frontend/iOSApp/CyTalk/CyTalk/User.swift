@@ -13,12 +13,14 @@ class User: ObservableObject {
     
    @Published var username = ""
     @Published var name = ""
+    @Published var loggedIn = false
    
     
     
     init(){
         self.username = "anon"
         self.name = "anon"
+        
         
     }
     

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 //This one works but we need a new one
 //struct DataSet: Decodable {
 //    let fish: [SinglePost]
@@ -32,6 +33,12 @@ struct SinglePost: Decodable {
     let posVoteCount:Int
 }
 
+struct SingleChat: Decodable {
+    let groupName:String
+    let groupId:Int
+    let users:[newUser]
+}
+
 /// User object for JSON
 struct newUser: Decodable{
     
@@ -44,7 +51,7 @@ struct newUser: Decodable{
     let background:SinglePost?
     let profile:SinglePost?
     let bio:String
-    let cookie:String
+    let cookie:String?
     let uname:String
     
 }
@@ -117,6 +124,44 @@ class ServerUtils {
         }
     }
     
+    static func getChats(userName:String, returnWith: @escaping ([SingleChat]?, Bool)->()) {
+        
+        let session = URLSession.shared
+        let decoder = JSONDecoder()
+        let uString = serverUrl
+        
+        if let url = URL(string: serverUrl2 + "/user/" + userName + "/group") {
+            let task = session.dataTask(with: url, completionHandler: { data1, response, error in
+                if (error != nil) {
+                    returnWith(nil, false)
+                    return
+                }
+                
+                if let dataString = String(data: data1!, encoding: .utf8) {
+                    print(dataString)
+                    
+                    do {
+                        
+                        let chatSet = try decoder.decode([SingleChat].self, from: Data(dataString.utf8))
+                        returnWith(chatSet, true)
+                        
+                    }
+                        
+                    catch let jsonError {
+                        print("Error Serializing JSON", jsonError)
+                        returnWith(nil, false)
+                    }
+                } else {
+                  returnWith(nil, false)
+                }
+                
+            })
+            
+            task.resume()
+            
+        }
+    }
+    
     /// Get all the comments for a specific post
     /// - Parameters:
     ///   - pId: Id of post for desired comments
@@ -164,14 +209,14 @@ class ServerUtils {
     /// Post request for logging in
     /// - Parameter returnWith: Asynchronous Callback
     /// - Returns: The new user object and a boolean indication request success.
-    static func login(returnWith: @escaping (newUser?, Bool)->()) {
+    static func login(username:String, password:String, returnWith: @escaping (newUser?, Bool, Int)->()) {
         
         let session = URLSession.shared
         let decoder = JSONDecoder()
         let uString = serverUrl
         
-        let json: [String: Any] = ["password": "eli",
-                                   "uname": "eli"]
+        let json: [String: Any] = ["password": password,
+                                   "uname": username]
         
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
         
@@ -190,28 +235,46 @@ class ServerUtils {
             let task = session.dataTask(with: request, completionHandler: { data1, response, error in
                 if (error != nil) {
                     print(error)
-                    returnWith(nil, false)
+                    returnWith(nil, false, 0)
                     
                     return
                 }
+                print("start")
+                print(response)
+                print("end")
                 
+               
                 if let dataString = String(data: data1!, encoding: .utf8) {
                     print(dataString)
                     
                     do {
                         
-                        let theUser = try decoder.decode(newUser.self, from: Data(dataString.utf8))
+                        if let httpResponse = response as? HTTPURLResponse {
+                            
+                            var status = httpResponse.statusCode
+                            
+                            if (status == 200){
+                                let theUser = try decoder.decode(newUser.self, from: Data(dataString.utf8))
+                                returnWith(theUser, true, status)
+                            }
+                            else if (status == 403 || status == 500){
+                                returnWith(nil, true, status)
+                            }
+                            
+                            
+                            
+                        }
                         
-                        returnWith(theUser, true)
+                      
                         
                     }
                         
                     catch let jsonError {
                         print("Error Serializing JSON", jsonError)
-                        returnWith(nil, false)
+                        returnWith(nil, false, 0)
                     }
                 } else {
-                  returnWith(nil, false)
+                  returnWith(nil, false, 0)
                 }
                 
             })
@@ -274,7 +337,7 @@ class ServerUtils {
     ///   - email: Email of new user
     ///   - returnWith: Asynchronous callback
     /// - Returns: Boolean for success of request.
-    static func addUser(userName:String, password:String, firstName:String, lastName:String, email:String, returnWith: @escaping (Bool)->() ){
+    static func addUser(userName:String, password:String, firstName:String, lastName:String, email:String, returnWith: @escaping (Bool, Int)->() ){
         
         let json: [String: Any] = ["fname": firstName,
                                    "lname": lastName,
@@ -303,19 +366,27 @@ class ServerUtils {
   
             if (error != nil) {
                 print(error)
-                returnWith(false)
+                returnWith(false, 0)
                 return
             }
             guard let data = data, error == nil else {
 //                print(error?.localizedDescription ?? "No data")
                 return
             }
-            let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
-            if let responseJSON = responseJSON as? [String: Any] {
-//                print(responseJSON)
+            print("start")
+            if let httpResponse = response as? HTTPURLResponse {
+                print("response \(httpResponse.statusCode)")
+                
+                let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
+                if let responseJSON = responseJSON as? [String: Any] {
+    //                print(responseJSON)
+                }
+                print("Youre here")
+                returnWith(true, httpResponse.statusCode)
+               
             }
-            print("Youre here")
-            returnWith(true)
+            
+           
         }
         
         task.resume()
@@ -434,6 +505,49 @@ class ServerUtils {
                 print(responseJSON)
             }
             
+            returnWith(true)
+        }
+        
+        task.resume()
+    }
+    
+    
+    
+    static func addImage(userName:String, image:UIImage, password:String, firstName:String, lastName:String, email:String, returnWith: @escaping (Bool)->() ){
+        
+       
+        
+//        let jsonData = try? JSONSerialization.data(withJSONObject: json)
+        
+//        print(String(data: jsonData!, encoding: .utf8))
+        
+        // create post request
+        let url = URL(string: serverUrl2 + "user")!
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        let imageData = image.pngData()
+        
+        // insert json data to the request
+        request.httpBody = imageData!
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+  
+            if (error != nil) {
+                print(error)
+                returnWith(false)
+                return
+            }
+            guard let data = data, error == nil else {
+//                print(error?.localizedDescription ?? "No data")
+                return
+            }
+            let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
+            if let responseJSON = responseJSON as? [String: Any] {
+//                print(responseJSON)
+            }
+            print("Youre here")
             returnWith(true)
         }
         

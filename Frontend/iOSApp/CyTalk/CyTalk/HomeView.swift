@@ -152,7 +152,38 @@ struct Login : View {
     @State var pass = ""
     @ObservedObject public var systemUser:User
     @Environment(\.presentationMode) public var presentationMode: Binding<PresentationMode>
+    @State var shown = false
+    var message = "Uh Oh! Wrong username or password"
     
+    
+    fileprivate func loginUser() {
+        ServerUtils.login(username:user, password:pass, returnWith: { response, success, status  in
+            
+            if (success){
+                if (status == 200){
+                    let temp:newUser = response!
+                    
+                    print("Success")
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now()) {
+                        systemUser.username = temp.uname
+                        systemUser.name = temp.fname + " " + temp.lname
+                        systemUser.loggedIn = true
+                        self.presentationMode.wrappedValue.dismiss()
+                    }
+                }
+                else{
+                    shown = true
+                }
+                
+                
+            }
+            if (!success){
+                print("fail")
+            }
+            
+        })
+    }
     
     var body : some View{
         
@@ -166,6 +197,7 @@ struct Login : View {
                         .foregroundColor(.black)
                     
                     TextField("Enter Username", text: self.$user)
+                        .autocapitalization(.none)
                     
                 }.padding(.vertical, 20)
                 
@@ -180,15 +212,7 @@ struct Login : View {
                     
                     SecureField("Password", text: self.$pass)
                     
-                    Button(action: {
-                        
-                       
-                        
-                    }) {
-                        
-                        Image(systemName: "eyee")
-                            .foregroundColor(.black)
-                    }
+                    
                     
                 }.padding(.vertical, 20)
                 
@@ -204,27 +228,7 @@ struct Login : View {
             
             Button(action: {
                 
-                
-                ServerUtils.login(returnWith: { response, success in
-                    
-                    if (success){
-                        
-                        let temp:newUser = response!
-                        systemUser.username = temp.uname
-                        systemUser.name = temp.fname + " " + temp.lname
-                        
-                        print("Success")
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now()) {
-                            self.presentationMode.wrappedValue.dismiss()
-                        }
-                        
-                    }
-                    if (!success){
-                        print("fail")
-                    }
-                    
-                })
+                loginUser()
                 
             }) {
                 
@@ -235,13 +239,25 @@ struct Login : View {
                     .frame(width: UIScreen.main.bounds.width - 100)
                 
             }.background(Color("Color2")
-            
-//                LinearGradient(gradient: .init(colors: [Color("Color2"),Color("Color1"),Color("Color")]), startPoint: .leading, endPoint: .trailing)
+
             )
             .cornerRadius(8)
             .offset(y: -40)
             .padding(.bottom, -40)
             .shadow(radius: 5)
+            
+            if $shown.wrappedValue {
+                HStack{
+                    Image(systemName: "exclamationmark.circle.fill")
+                        .foregroundColor((Color("Color2")))
+                        .font(.system(size: 30))
+                    
+                    Text(self.message)
+                }
+                .padding(.top, 10)
+                .padding(.bottom, 20.0)
+                
+            }
         }
     }
 }
@@ -258,8 +274,38 @@ struct SignUp : View {
     @State var lName = ""
     @Environment(\.presentationMode) public var presentationMode: Binding<PresentationMode>
     @State var exit = false
+    @State var displayMessage = false
+    var message = "Looks like that username is taken!"
     //why doesnt this work
     
+    
+    fileprivate func addNewUser() {
+        ServerUtils.addUser(userName: username, password: pass, firstName: fName, lastName: lName, email: "noemail", returnWith: {success, response in
+            
+            if (!success ){
+                
+                print("fail")
+                return
+            }
+            else{
+                print("success")
+                if (response == 200){
+                    
+                    
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now()) {
+                        systemUser.username = self.username
+                        systemUser.name = self.fName + " " + self.lName
+                        systemUser.loggedIn = true
+                        self.presentationMode.wrappedValue.dismiss()
+                    }
+                }
+                else if (response == 500){
+                    displayMessage = true
+                }
+            }
+        })
+    }
     
     var body : some View{
         
@@ -325,23 +371,6 @@ struct SignUp : View {
                     
                 }.padding(.vertical, 20)
                 
-                Divider()
-                
-               
-                
-                Divider()
-                
-                HStack(spacing: 15){
-                    
-                    Image(systemName: "envelope")
-                        .foregroundColor(.black)
-                    
-                    TextField("Email", text: self.$email)
-                        .autocapitalization(.none)
-                    
-                }.padding(.vertical, 20)
-                
-                
             }
             .padding(.vertical)
             .padding(.horizontal, 20)
@@ -353,26 +382,7 @@ struct SignUp : View {
             
           
             Button(action: {
-                ServerUtils.addUser(userName: username, password: pass, firstName: fName, lastName: lName, email: email, returnWith: {success in
-                   
-                    if (!success ){
-                        
-                        print("fail")
-                        return
-                    }
-                    else{
-                        print("success")
-                        systemUser.username = self.username
-                        systemUser.name = self.fName + " " + self.lName
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now()) {
-                            self.presentationMode.wrappedValue.dismiss()
-                        }
-                        
-                        
-                        }
-                    
-                })
+                addNewUser()
                 
                 
                 
@@ -392,6 +402,19 @@ struct SignUp : View {
             .offset(y: -40)
             .padding(.bottom, -40)
             .shadow(radius: 5)
+            
+            if $displayMessage.wrappedValue {
+                HStack{
+                    Image(systemName: "exclamationmark.circle.fill")
+                        .foregroundColor((Color("Color2")))
+                        .font(.system(size: 30))
+                    
+                    Text(self.message)
+                }
+                .padding(.top, 10)
+                .padding(.bottom, 20.0)
+                
+            }
             
             
         }

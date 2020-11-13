@@ -3,7 +3,12 @@ package myProject.webSocket;
 import java.util.List;
 import java.util.Set;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +27,8 @@ public class GroupController {
 	GroupRepository groupRepo;
 	@Autowired
 	UserDB userRepo;
+	@Autowired
+	MessageRepository msgRepo;
 	
 	@PostMapping("/user/{username}/group")
 	public Group createGroup(@RequestBody Group g, @PathVariable String username) {
@@ -69,5 +76,15 @@ public class GroupController {
 			i.clearSet();
 		}
 		return g;
+	}
+	
+	@GetMapping(path = "/group/{group}/msg", produces= MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> getLastGroupMsg(@PathVariable long group) throws JSONException {
+		Message m = msgRepo.findMessageByGroupId(group);
+		JSONObject j = new JSONObject();
+		j.put("uname", m.getUserName());
+		j.put("content", m.getContent());
+		return ResponseEntity.ok().body(j.toString());
+		
 	}
 }

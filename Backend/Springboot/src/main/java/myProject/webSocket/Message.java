@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -17,6 +18,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import lombok.Data;
+import myProject.user.User;
 
 @Entity
 @Table(name = "messages")
@@ -25,10 +27,9 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 	
-	@NotNull
-    @Size(max = 100)
-    @Column
-    private String userName;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable=false)
+    private User user;
 	
 	@NotNull
     @Lob
@@ -46,14 +47,14 @@ public class Message {
 	
 	public Message() {};
 	
-	public Message(String userName, Group group, String content) {
-		this.userName = userName;
+	public Message(User userName, Group group, String content) {
+		this.user = userName;
 		this.group = group;
 		this.content = content;
 	}
 
 	public String getUserName() {
-		return userName;
+		return user.getUName();
 	}
 
 	public String getContent() {

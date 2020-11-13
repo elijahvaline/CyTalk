@@ -15,6 +15,14 @@ struct PostsView: View {
     @ObservedObject public var systemUser = User()
     
     
+    func getDestination() -> AnyView {
+        if systemUser.loggedIn {
+            return AnyView(ProfileView(name: systemUser.name, handle: systemUser.username, systemUser: systemUser))
+            } else {
+                return AnyView(HomeView(systemUser: self.systemUser))
+            }
+        }
+    
     // View for navigation
     var body: some View {
         
@@ -22,7 +30,9 @@ struct PostsView: View {
             VStack(spacing:0){
                 HStack(spacing: 75){
                     
-                    NavigationLink(destination: HomeView(systemUser: self.systemUser)) {
+//                    NavigationLink(destination: HomeView(systemUser: self.systemUser)) {
+                    NavigationLink(destination: getDestination()) {
+                    
                         
                         
                         Image(systemName: "person.crop.circle")
@@ -99,7 +109,6 @@ struct PostsView: View {
                             }
                             
                         }
-                        //                        .frame(width: 375)
                         
                     }
                     
@@ -123,6 +132,21 @@ struct PostsView: View {
                 
                 Divider()
                     .padding(.bottom, 10)
+                
+                Button(action: {
+                    let status = KeyChain.save(key: "Ufde", data: "Eli")
+                    print("status: ", status)
+                    let receivedData = KeyChain.load(key: "Ufde")
+                        print(receivedData)
+
+                    
+                }) {
+                    Image(systemName: "arrow.clockwise")
+                        .foregroundColor(Color("Color2"))
+                        .font(.system(size: 35))
+                }.padding(.leading, 30)
+                
+                Divider()
                 
                 HStack(){
                     Button(action: {

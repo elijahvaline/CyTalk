@@ -109,7 +109,7 @@ struct ChatDelagateView: View {
                 Spacer()
                 
                 .navigationBarHidden(true)
-                .navigationBarTitle("")
+             
             }
         }
         .onAppear(){
@@ -151,7 +151,7 @@ struct ChatDelagateView: View {
                 
                 
                 
-                          tempChat.append(Chat(groupID: curChat.groupID, initialized: true, user1: name1, user2: name2, username1: userName1, username2: userName2))
+                          tempChat.append(Chat(groupID: curChat.groupId, initialized: true, user1: name1, user2: name2, username1: userName1, username2: userName2))
                 
             }
             

@@ -24,7 +24,7 @@ public class CommentController {
 
 	@ApiOperation(value = "Get comment info by comment id")
 	@GetMapping("/Comment/{id}")
-	Comment getComment(@PathVariable Integer id) {
+	Comment getCommentInfo(@PathVariable int id) {
 		return db.findOne(id);
 	}
 
@@ -57,9 +57,9 @@ public class CommentController {
 	}
 	
 	@ApiOperation(value = "Delete a comment")
-	@DeleteMapping("/Commentdelete/{p}") 
-	public void deleteComment(@RequestBody Comment c) {
-		db.delete(c);
+	@DeleteMapping("/Commentdelete/{id}") 
+	public void deleteComment(@PathVariable int id) {
+		db.delete(id);
 	}
 	
 }

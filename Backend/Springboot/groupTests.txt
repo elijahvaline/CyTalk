@@ -1,0 +1,6 @@
+bill,1,bob,2,testGroup,3,true
+Tom,10,Ned,4,AnotherGroup,4,true
+null,1,bob,2,testGroup,3,true
+Test,90,bob,2,,10,true
+,1,,2,testGroup,3,false
+T,1,,2,testGroup,3,false

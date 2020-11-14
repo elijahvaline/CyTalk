@@ -23,7 +23,7 @@ public class PostController {
 
 	@ApiOperation(value = "Get post info by post id")
 	@GetMapping("/post/{id}")
-	Post getPost(@PathVariable Integer id) {
+	Post getPost(@PathVariable int id) {
 		return db.findOne(id);
 	}
 
@@ -56,9 +56,9 @@ public class PostController {
 	}
 	
 	@ApiOperation(value = "Delete a post")
-	@DeleteMapping("/postdelete/{p}") 
-	public void deletePost(@RequestBody Post p) {
-		db.delete(p);
+	@DeleteMapping("/postdelete/{id}") 
+	public void deletePost(@PathVariable int id) {
+		db.delete(id);
 	}
 	
 }

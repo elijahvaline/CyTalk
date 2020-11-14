@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import myProject.webSocket.Group;
+import myProject.webSocket.Message;
 
 @Entity
 @Table(name = "users")
@@ -66,6 +67,9 @@ public class User {
 	@JsonIgnore
 	@ManyToMany(mappedBy= "members")
 	Set<Group> join;
+	
+	@OneToMany(mappedBy= "user")
+	private Set<Message> message;
 	
 	public void addGroup(Group g) {
 		if (join == null) join = new HashSet<>();

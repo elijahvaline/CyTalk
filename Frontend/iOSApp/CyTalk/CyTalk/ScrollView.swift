@@ -17,10 +17,20 @@ struct PostsView: View {
     
     func getDestination() -> AnyView {
         if systemUser.loggedIn {
-            return AnyView(ProfileView(name: systemUser.name, handle: systemUser.username, systemUser: systemUser))
+            return AnyView(ProfileView(name: systemUser.name, handle: systemUser.username, systemUser: systemUser, isUser: true, isMod: isMod()))
         } else {
             return AnyView(HomeView(systemUser: self.systemUser))
         }
+    }
+    
+    func isMod() -> Bool{
+        if (systemUser.type == 1){
+            return true
+        }
+        else{
+            return false
+        }
+        
     }
     
     // View for navigation
@@ -53,7 +63,7 @@ struct PostsView: View {
                 
                 ScrollView{
                     
-                    VStack(spacing: 0) {
+                    VStack(spacing: 5) {
                         if posts.count != 0{
                             if posts[0].isInitialized! {
                                 ForEach(posts, id: \.self) { post in
@@ -63,7 +73,7 @@ struct PostsView: View {
                                     //                            }
                                     
                                     
-                                    NavigationLink(destination: ProfileView(name: post.name!, handle: post.at!, systemUser: self.systemUser)){
+                                    NavigationLink(destination: ProfileView(name: post.name!, handle: post.at!, systemUser: self.systemUser, isUser: false, isMod: isMod())){
                                         HStack{
                                             Image(systemName: "person.crop.circle")
                                                 .imageScale(.large)
@@ -97,12 +107,19 @@ struct PostsView: View {
                                             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                                             .padding(.bottom, 5)
                                     }
+                                    
+                                    .contextMenu{
+                                        if isMod() {
+                                            Button("Delete Post", action: {
+                                                deletePost(id: post.pId!)
+                                            })
+                                        }
+                                    }
+                                    
+                                    
                                     .padding(.horizontal, 15)
                                     .accessibility(identifier: post.name!)
-                                    //                            .hidden(!post.isInitialized)
-                                    
-                                    
-                                    
+
                                     Divider()
                                     
                                     
@@ -129,7 +146,7 @@ struct PostsView: View {
                             .font(.system(size: 35))
                     }.padding(.leading, 30)
                     Spacer()
-                    NavigationLink(destination: NewPostView(systemUser: self.systemUser)) {
+                    NavigationLink(destination: NewPostView(systemUser: self.systemUser, posts: self.$posts)) {
                         Image(systemName: "plus.circle.fill")
                             .foregroundColor(Color("Color2"))
                             .font(.system(size: 50))
@@ -160,6 +177,28 @@ struct PostsView: View {
         }
         .onAppear(){
             updatePosts()
+            
+        }
+    }
+    
+    func deletePost(id:Int){
+        ServerUtils.deletePost(postId: id, returnWith: { response in
+            if (response == 200){
+                updatePosts()
+            }
+            else{
+                return
+            }
+        })
+        
+    }
+    
+    var menuItems: some View {
+        Group {
+            
+            
+            
+            
             
         }
     }

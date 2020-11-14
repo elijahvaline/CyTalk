@@ -12,14 +12,16 @@ final class Comment: NSObject {
     let date: String?
     let name: String?
     let at: String?
+    let id: Int?
     let isInitialized: Bool?
     
     init(content: String?,
-         date: String?, name: String?, at: String?, initialized: Bool?) {
+         date: String?, name: String?, at: String?, initialized: Bool?, id:Int?) {
         self.content = content
         self.date = date
         self.name = name
         self.at = at
         self.isInitialized = initialized
+        self.id = id
     }
 }

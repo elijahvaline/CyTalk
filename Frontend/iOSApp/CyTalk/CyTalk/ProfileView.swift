@@ -13,7 +13,16 @@ struct ProfileView: View {
     @State var handle:String
     @State var posts: [Post] = [Post(content: "stirng", date: "string", name: "string", at: "Strng", initialized: false, pId: 1)]
     @ObservedObject public var systemUser:User
+    @State var isUser:Bool
+    @State var isMod:Bool
     
+    private func makeAdmin(){
+        ServerUtils.changeUserType(user: handle, type: 1, returnWith: { response in
+            
+            
+        })
+        
+    }
     var body: some View {
         
         
@@ -121,8 +130,6 @@ struct ProfileView: View {
                         }
                         
                     }
-
-                
             }
             
             VStack{
@@ -133,21 +140,45 @@ struct ProfileView: View {
                             }) {
                     Image(systemName: "xmark")
                         .foregroundColor(.white)
-                        .font(.system(size: 35))
+                        .font(.system(size: 30))
 
-                        .padding(.top)
-                        .padding(.leading, 25)
+//                        .padding(.top)
                     }
+                    .padding(.leading, 35)
                     
                     Spacer()
                     
-                }.padding(.leading, 15)
+//                    if $isMod.wrappedValue {
+                        
+                        Menu{
+                            if $isMod.wrappedValue && !$isUser.wrappedValue{
+                                Button("Make Mod", action: makeAdmin)
+                            }
+                            
+                            if $isUser.wrappedValue {
+                                Button("Log Out", action: logOut)
+                                
+                            }
+                        } label: {
+                            Label("", systemImage: "chevron.down")
+                                .foregroundColor(.white)
+                                .font(.system(size: 30))
+                                .frame(height: isModOrUser() ? 100 : 0)
+                        }
+                        
+                        .padding(.trailing, 30)
+                        
+                        
+//                    }
+                    
+                    
+                }
                 
                 
                 
                 
                 Spacer()
-            }.padding(.top, 15)
+            }
            
             
             
@@ -163,6 +194,23 @@ struct ProfileView: View {
         
         }
         .navigationBarHidden(true)
+    }
+    
+    func isModOrUser() -> Bool {
+        return isMod || thisUser()
+    }
+    func logOut(){
+        systemUser.logOut()
+        self.presentationMode.wrappedValue.dismiss()
+    }
+    
+    func thisUser() -> Bool {
+        if (systemUser.username == self.handle){
+            return true
+        }
+        else{
+            return false
+        }
     }
     
     func updatePosts() {

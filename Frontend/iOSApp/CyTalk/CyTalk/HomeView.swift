@@ -169,6 +169,7 @@ struct Login : View {
                         systemUser.username = temp.uname
                         systemUser.name = temp.fname + " " + temp.lname
                         systemUser.loggedIn = true
+                        systemUser.type = temp.type
                         self.presentationMode.wrappedValue.dismiss()
                     }
                 }

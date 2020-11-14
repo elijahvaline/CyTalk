@@ -11,6 +11,8 @@ struct ChatDelagateView: View {
     @State var newChat:String = ""
     @Environment(\.presentationMode) public var presentationMode: Binding<PresentationMode>
     @ObservedObject public var systemUser:User
+    @State var showMessage = false
+    var message = "Ope! That username doesn't exist"
     @State var chats: [Chat] = [Chat(groupID: -1, initialized: false, user1: "String", user2: "String", username1: "String", username2: "String")]
     var body: some View {
         
@@ -46,9 +48,22 @@ struct ChatDelagateView: View {
                                 .padding(10)
                                 .background(Color.secondary.opacity(0.2))
                                 .cornerRadius(10)
+                                .autocapitalization(.none)
                             
                         Button(action: {
-                            
+//                            ServerUtils.newPm(userName: systemUser.username, returnWith:  { response, success in
+                            ServerUtils.addPm(username1: systemUser.username, username2: newChat, returnWith: { response in
+                                
+                                if (response == 200){
+                                    showMessage = false
+                                    updateChats()
+                                    newChat = ""
+                                }
+                                else{
+                                    showMessage = true
+                                }
+                                
+                            })
                         }) {
                             Image(systemName: "paperplane")
                                 .font(.system(size: 30))
@@ -61,14 +76,26 @@ struct ChatDelagateView: View {
                         
                     }
                     .navigationBarHidden(true)
-                    
                     .padding()
+                    
+                    if $showMessage.wrappedValue {
+                        HStack{
+                            Image(systemName: "exclamationmark.circle.fill")
+                                .foregroundColor((Color("Color2")))
+                                .font(.system(size: 30))
+                            
+                            Text(self.message)
+                        }
+                       
+                        .padding(.bottom, 20.0)
+                        
+                    }
                     
                     Divider()
                     
                     
                     VStack(spacing: 10) {
-                        
+                        if chats.count != 0{
                         if chats[0].isInitialized! {
                             ForEach(chats, id: \.self) { chat in
                                 
@@ -108,7 +135,7 @@ struct ChatDelagateView: View {
                             }
                             
                         }
-    
+                        }
                         
                     }
                     

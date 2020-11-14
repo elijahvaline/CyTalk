@@ -66,7 +66,7 @@ struct ChatView: View {
                 }
                 
                 
-                Text("Elijah V")
+                Text(name1)
                     .font(.system(size: 30, weight: .heavy, design: .default))
                     .fontWeight(.regular)
                     .foregroundColor(Color.black)

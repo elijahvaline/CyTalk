@@ -15,6 +15,14 @@ struct PostsView: View {
     @ObservedObject public var systemUser = User()
     
     
+    func getDestination() -> AnyView {
+        if systemUser.loggedIn {
+            return AnyView(ProfileView(name: systemUser.name, handle: systemUser.username, systemUser: systemUser))
+        } else {
+            return AnyView(HomeView(systemUser: self.systemUser))
+        }
+    }
+    
     // View for navigation
     var body: some View {
         
@@ -22,7 +30,9 @@ struct PostsView: View {
             VStack(spacing:0){
                 HStack(spacing: 75){
                     
-                    NavigationLink(destination: HomeView(systemUser: self.systemUser)) {
+                    //                    NavigationLink(destination: HomeView(systemUser: self.systemUser)) {
+                    NavigationLink(destination: getDestination()) {
+                        
                         
                         
                         Image(systemName: "person.crop.circle")
@@ -44,85 +54,71 @@ struct PostsView: View {
                 ScrollView{
                     
                     VStack(spacing: 0) {
-                        
-                        if posts[0].isInitialized! {
-                            ForEach(posts, id: \.self) { post in
-                                //
-                                //                            NavigationLink(destination: PostCommentView(content: post.content!, date: post.date!, name: po st.name!, handle: post.at!)){
-                                //
-                                //                            }
-                                
-                                
-                                NavigationLink(destination: ProfileView(name: post.name!, handle: post.at!, systemUser: self.systemUser)){
-                                    HStack{
-                                        Image(systemName: "person.crop.circle")
-                                            .imageScale(.large)
-                                            .font(.system(size: 15))
-                                            .foregroundColor(Color("Color2"))
-                                        Text(post.name!)
-                                            .foregroundColor(.black)
-                                        
-                                        Text(post.at!)
-                                            .foregroundColor(.gray)
-                                        
-                                        Text(post.date!)
-                                            .foregroundColor(.gray)
-                                        
-                                        
-                                        Spacer()
-                                        
+                        if posts.count != 0{
+                            if posts[0].isInitialized! {
+                                ForEach(posts, id: \.self) { post in
+                                    //
+                                    //                            NavigationLink(destination: PostCommentView(content: post.content!, date: post.date!, name: po st.name!, handle: post.at!)){
+                                    //
+                                    //                            }
+                                    
+                                    
+                                    NavigationLink(destination: ProfileView(name: post.name!, handle: post.at!, systemUser: self.systemUser)){
+                                        HStack{
+                                            Image(systemName: "person.crop.circle")
+                                                .imageScale(.large)
+                                                .font(.system(size: 15))
+                                                .foregroundColor(Color("Color2"))
+                                            Text(post.name!)
+                                                .foregroundColor(.black)
+                                            
+                                            Text(post.at!)
+                                                .foregroundColor(.gray)
+                                            
+                                            Text(post.date!)
+                                                .foregroundColor(.gray)
+                                            
+                                            
+                                            Spacer()
+                                            
+                                        }
                                     }
+                                    .accessibility(identifier: post.at!)
+                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                                    .padding(.bottom, 1)
+                                    .padding(.top, 5)
+                                    .padding(.horizontal, 15)
+                                    
+                                    NavigationLink(destination: PostCommentView(content: post.content!, date: post.date!, name: post.name!, handle: post.at!, pId: post.pId!, systemUser: self.systemUser)) {
+                                        Text(post.content!)
+                                            .foregroundColor(.black)
+                                            .multilineTextAlignment(.leading)
+                                            
+                                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                                            .padding(.bottom, 5)
+                                    }
+                                    .padding(.horizontal, 15)
+                                    .accessibility(identifier: post.name!)
+                                    //                            .hidden(!post.isInitialized)
+                                    
+                                    
+                                    
+                                    Divider()
+                                    
+                                    
                                 }
-                                .accessibility(identifier: post.at!)
-                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                                .padding(.bottom, 1)
-                                .padding(.top, 5)
-                                .padding(.horizontal, 15)
-                                
-                                NavigationLink(destination: PostCommentView(content: post.content!, date: post.date!, name: post.name!, handle: post.at!, pId: post.pId!, systemUser: self.systemUser)) {
-                                    Text(post.content!)
-                                        .foregroundColor(.black)
-                                        .multilineTextAlignment(.leading)
-                                        
-                                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                                        .padding(.bottom, 5)
-                                }
-                                .padding(.horizontal, 15)
-                                .accessibility(identifier: post.name!)
-                                //                            .hidden(!post.isInitialized)
-                                
-                                
-                                
-                                Divider()
-                                
                                 
                             }
-                            
                         }
-                        //                        .frame(width: 375)
-                        
                     }
                     
                 }
                 .navigationBarHidden(true)
                 .navigationBarTitle("")
-                .navigationBarItems(leading:
-                                        
-                                        HStack{
-                                            Image(systemName: "person.crop.circle")
-                                                .imageScale(.large)
-                                                .font(.system(size: 25))
-                                                .foregroundColor(Color("Color2"))
-                                            
-                                            Image("logo")
-                                                .imageScale(.large)
-                                                .padding(.leading, 75)
-                                        }
-                )
-                
                 
                 Divider()
                     .padding(.bottom, 10)
+                
                 
                 HStack(){
                     Button(action: {
@@ -132,14 +128,30 @@ struct PostsView: View {
                             .foregroundColor(Color("Color2"))
                             .font(.system(size: 35))
                     }.padding(.leading, 30)
-                    .padding(.trailing, 110)
+                    Spacer()
                     NavigationLink(destination: NewPostView(systemUser: self.systemUser)) {
                         Image(systemName: "plus.circle.fill")
                             .foregroundColor(Color("Color2"))
                             .font(.system(size: 50))
+                        
                     }.accessibility(identifier: "newPostButton")
+                    .disabled(!systemUser.loggedIn)
+                    
+                    
                     
                     Spacer()
+                    NavigationLink(destination: ChatDelagateView(systemUser: self.systemUser)) {
+                        Image(systemName: "envelope")
+                            .foregroundColor(Color("Color2"))
+                            .font(.system(size: 35))
+                        
+                    }.accessibility(identifier: "pmButton")
+                    .padding(.trailing, 30)
+                    .disabled(!systemUser.loggedIn)
+                    
+                    
+                    
+                    
                 }
                 .frame(width: 414, height: 50).foregroundColor(.white)
                 

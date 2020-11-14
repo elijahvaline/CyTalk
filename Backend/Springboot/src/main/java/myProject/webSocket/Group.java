@@ -64,4 +64,8 @@ public class Group {
 	public void setGroupName(String group) {
 		groupName = group;
 	}
+	
+	public void setId(long i) {
+		id = i;
+	}
 }

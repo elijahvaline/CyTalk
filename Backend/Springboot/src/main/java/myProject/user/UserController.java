@@ -157,6 +157,7 @@ public class UserController {
 		}
 	}
 	
+	@ApiOperation(value = "Get list of groups for a user")
 	@GetMapping("/user/{username}/group")
 	public List<Group> getUserGroups(@PathVariable String username) {
 		User get = db.findOneByUsername(username);

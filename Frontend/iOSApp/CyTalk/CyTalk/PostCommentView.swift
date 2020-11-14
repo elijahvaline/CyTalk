@@ -26,17 +26,15 @@ struct PostCommentView: View {
             HStack(spacing: 75){
                 
                 Button(action: {
-                           self.presentationMode.wrappedValue.dismiss()
-                        }) {
-                Image(systemName: "xmark")
-                    .foregroundColor(Color("Color2"))
-                    .font(.system(size: 30))
+                    self.presentationMode.wrappedValue.dismiss()
+                }) {
+                    Image(systemName: "xmark")
+                        .foregroundColor(Color("Color2"))
+                        .font(.system(size: 30))
                 }.padding(.leading, 30)
-               
+                
                 Image("smallLogo").padding(.leading, 10)
-                
-            
-                
+
             }
             .padding(.bottom, 5)
             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
@@ -53,15 +51,15 @@ struct PostCommentView: View {
                         .font(.system(size:25))
                         .fontWeight(.light)
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                        
+                    
                     Text(handle)
                         .fontWeight(.light)
                         .foregroundColor(.gray)
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                        
+                    
                 }.frame(alignment: .leading)
                 
-               
+                
                 Spacer()
             }
             .padding(.leading, 15)
@@ -85,59 +83,48 @@ struct PostCommentView: View {
             
             
             Divider().padding(.horizontal)
-      
-           
-               
-//                    .background(Color(UIColor.systemGray5))
-
+            
             HStack(spacing: 0){
-                    ZStack{
-                        
-                        Rectangle()
-                            .frame(width: 340, height: 40)
-                            .cornerRadius(25)
-                            .foregroundColor(Color(UIColor.systemGray5))
-                        
-                        TextField("What would you like to say?", text: $test)
-                            .multilineTextAlignment(.center)
-                            .cornerRadius(20)
-                            .frame(width: 340, height: 50)
-                            
-                            .font(.system(size:20))
-                            
-                            
-                            .padding(.horizontal, 20)
-                        
-                    }
+                ZStack{
                     
-                    Button(action: {
-                        addComment(content:self.test)
+                    Rectangle()
+                        .frame(width: 340, height: 40)
+                        .cornerRadius(25)
+                        .foregroundColor(Color(UIColor.systemGray5))
+                    
+                    TextField("What would you like to say?", text: $test)
+                        .multilineTextAlignment(.center)
+                        .cornerRadius(20)
+                        .frame(width: 340, height: 50)
                         
-                    }) {
-                        Image(systemName: "arrowshape.turn.up.right.fill")
-                            .foregroundColor(Color("Color2"))
-                            .font(.system(size:30))
+                        .font(.system(size:20))
                         
-                    }
-                    .padding(.leading, -10)
-                
-                
+                        
+                        .padding(.horizontal, 20)
                     
                 }
                 
-                
-            
-                
-            
-            
+                Button(action: {
+                    addComment(content:self.test)
+                    
+                }) {
+                    Image(systemName: "arrowshape.turn.up.right.fill")
+                        .foregroundColor(Color("Color2"))
+                        .font(.system(size:30))
+                    
+                }
+                .padding(.leading, -10)
+        
+            }
+
             Divider().padding(.horizontal)
-                
+            
             ScrollView{
                 
                 
-                    
-                    VStack(spacing: 0) {
-                        if comments.count != 0{
+                
+                VStack(spacing: 0) {
+                    if comments.count != 0{
                         if comments[0].isInitialized! {
                             ForEach(comments, id: \.self) { post in
                                 //
@@ -147,24 +134,24 @@ struct PostCommentView: View {
                                 
                                 
                                 
-                                    HStack{
-                                        Image(systemName: "person.crop.circle")
-                                            .imageScale(.large)
-                                            .font(.system(size: 15))
-                                            .foregroundColor(Color("Color2"))
-                                        Text(post.name!)
-                                            .foregroundColor(.black)
-                                        
-                                        Text(post.at!)
-                                            .foregroundColor(.gray)
-                                        
-                                        Text(post.date!)
-                                            .foregroundColor(.gray)
-                                        
-                                        
-                                        Spacer()
-                                        
-                                    }
+                                HStack{
+                                    Image(systemName: "person.crop.circle")
+                                        .imageScale(.large)
+                                        .font(.system(size: 15))
+                                        .foregroundColor(Color("Color2"))
+                                    Text(post.name!)
+                                        .foregroundColor(.black)
+                                    
+                                    Text(post.at!)
+                                        .foregroundColor(.gray)
+                                    
+                                    Text(post.date!)
+                                        .foregroundColor(.gray)
+                                    
+                                    
+                                    Spacer()
+                                    
+                                }
                                 
                                 .accessibility(identifier: post.at!)
                                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
@@ -173,39 +160,28 @@ struct PostCommentView: View {
                                 .padding(.horizontal, 15)
                                 
                                 
-                                    Text(post.content!)
-                                        .foregroundColor(.black)
-                                        .multilineTextAlignment(.leading)
-                                        
-                                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                                        .padding(.bottom, 5)
-                                        .padding(.horizontal, 15)
+                                Text(post.content!)
+                                    .foregroundColor(.black)
+                                    .multilineTextAlignment(.leading)
+                                    
+                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                                    .padding(.bottom, 5)
+                                    .padding(.horizontal, 15)
                                 
-                        
+                                
                                 
                                 
                                 Divider()
                                 
                                 
                             }
-                            
                         }
                     }
-                        //                        .frame(width: 375)
-                        
-                    }
-                    
                 }
-                
-            
-            
-            
+            }
             
             Spacer()
-            
-            
                 .navigationBarHidden(true)
-            
         }
         .onAppear(){
             updateComments()
@@ -219,24 +195,24 @@ struct PostCommentView: View {
         ServerUtils.addComment(name: systemUser.name, username: systemUser.username, content: content, postId: self.pId, returnWith: {success in
             
             if (!success ){
-//                message = "Ope! Having trouble connecting"
-//                showPopUp = true
+                //                message = "Ope! Having trouble connecting"
+                //                showPopUp = true
                 print("fail")
                 return
             }
             else{
-//                showPopUp = true
-//                message = "Good to go"
+                //                showPopUp = true
+                //                message = "Good to go"
                 print("success")
                 DispatchQueue.main.asyncAfter(deadline: .now()) {
                     updateComments()
                     self.test = ""
                 }
-//                            self.presentationMode.wrappedValue.dismiss()
+                //                            self.presentationMode.wrappedValue.dismiss()
             }
             
         })
-       
+        
     }
     
     func updateComments() {

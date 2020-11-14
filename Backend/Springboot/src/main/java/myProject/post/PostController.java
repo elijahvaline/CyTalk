@@ -61,4 +61,19 @@ public class PostController {
 		db.delete(id);
 	}
 	
+	@ApiOperation(value = "Increase upvotes by 1")
+	@PutMapping("/postPvote/{id}")
+	public void upVote(@PathVariable int id) {
+		Post old_p = db.findOne(id);
+		old_p.increasePvotes();
+		db.save(old_p);
+	}
+	
+	@ApiOperation(value = "Increase downvotes by 1")
+	@PutMapping("/postNvote/{id}")
+	public void downVote(@PathVariable int id) {
+		Post old_p = db.findOne(id);
+		old_p.increaseNvotes();
+		db.save(old_p);
+	}
 }

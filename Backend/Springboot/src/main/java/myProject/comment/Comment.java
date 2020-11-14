@@ -87,4 +87,12 @@ public class Comment {
 	public void setpId(int i) {
 		pId = i;
 	}
+	
+	public void increasePvotes() {
+		pVotes++;
+	}
+	
+	public void increaseNvotes() {
+		nVotes++;
+	}
 }

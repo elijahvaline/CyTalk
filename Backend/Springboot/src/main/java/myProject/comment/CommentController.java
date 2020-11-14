@@ -49,9 +49,9 @@ public class CommentController {
 
 	@ApiOperation(value = "Edit a comment")
 	@PutMapping("/Comment/update/{id}")
-	Comment updateComment(@RequestBody Comment c, @PathVariable Integer id) {
+	Comment updateComment(@RequestBody String s, @PathVariable Integer id) {
 		Comment old_c = db.findOne(id);
-		old_c.setContent(c.getContent());
+		old_c.setContent(s);
 		db.save(old_c);
 		return old_c;
 	}

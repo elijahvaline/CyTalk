@@ -48,9 +48,9 @@ public class PostController {
 	
 	@ApiOperation(value = "Update a post")
 	@PutMapping("/post/{id}")
-	Post updatePost(@RequestBody Post p, @PathVariable Integer id) {
+	Post updatePost(@RequestBody String s, @PathVariable Integer id) {
 		Post old_p = db.findOne(id);
-		old_p.setContent(p.getContent());
+		old_p.setContent(s);
 		db.save(old_p);
 		return old_p;
 	}

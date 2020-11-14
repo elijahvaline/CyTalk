@@ -61,7 +61,7 @@ struct ProfileView: View {
                     ScrollView{
                         
                         VStack(spacing: 0) {
-                            
+                            if posts.count != 0{
                             if posts[0].isInitialized! {
                             ForEach(posts, id: \.self) { post in
     //
@@ -116,7 +116,7 @@ struct ProfileView: View {
                             }
                             
                         }
-    //                        .frame(width: 375)
+                            }
                             
                         }
                         

@@ -29,6 +29,7 @@ final class ChatSession: ObservableObject {
     }
     
     func disconnect() { // 7
+        messages.removeAll()
         webSocketTask?.cancel(with: .normalClosure, reason: nil) // 8
     }
     

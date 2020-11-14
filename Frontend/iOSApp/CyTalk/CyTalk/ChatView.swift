@@ -11,6 +11,7 @@ struct ChatView: View {
     @State private var message = ""
     @ObservedObject private var model = ChatSession()
     @ObservedObject public var systemUser:User
+    @Environment(\.presentationMode) public var presentationMode: Binding<PresentationMode>
     @State var ID:Int
     @State var messages:[String] = []
     @State var name1:String
@@ -20,12 +21,15 @@ struct ChatView: View {
 
 
     private func onAppear() {
+        messages.removeAll()
         model.connect(ID: ID, username: systemUser.username)
             
         }
     private func onDis(){
-        model.disconnect()
         messages.removeAll()
+        model.disconnect()
+        print("THis is now disconnected")
+        
     }
     private func onCommit() {
             if !message.isEmpty {
@@ -42,9 +46,37 @@ struct ChatView: View {
     }
 
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             // Chat history.
-           
+            ZStack{
+                HStack{
+                    Button(action: {
+
+                        
+                        self.presentationMode.wrappedValue.dismiss()
+                    }) {
+                        Image(systemName: "xmark")
+                            .font(.system(size: 30))
+                            
+                            .foregroundColor(Color("Color2"))
+                    }
+                    .padding(.leading, 35)
+                    
+                    Spacer()
+                }
+                
+                
+                Text("Elijah V")
+                    .font(.system(size: 30, weight: .heavy, design: .default))
+                    .fontWeight(.regular)
+                    .foregroundColor(Color.black)
+                    .multilineTextAlignment(.center)
+                    
+                    
+            }
+            Divider()
+                .padding(.top, 15)
+            
             ScrollView {
                 ScrollViewReader{ proxy in
                     LazyVStack(spacing: 8) {
@@ -60,6 +92,8 @@ struct ChatView: View {
      
                 }
             }
+            .navigationBarHidden(true)
+            Divider()
 
             // Message field.
             HStack {
@@ -71,6 +105,7 @@ struct ChatView: View {
                 Button(action: onCommit) {
                     Image(systemName: "arrowshape.turn.up.right")
                         .font(.system(size: 20))
+                        .foregroundColor(Color("Color2"))
                         .padding(6)
                 }
                 .cornerRadius(5)
@@ -79,10 +114,11 @@ struct ChatView: View {
             }
             .padding()
         }
-        .navigationTitle("Chat")
+        .navigationBarHidden(true)
         .onAppear(perform: onAppear)
         .onDisappear(perform: onDis)
     }
+    
 }
 
 
@@ -106,9 +142,9 @@ private struct ChatMessageRow: View {
                 Spacer()
             }
 
-            VStack(alignment: .leading, spacing: 10) {
+            VStack(alignment: .leading, spacing: 5) {
                 HStack {
-                    Text(isUser ? name1 : name2)
+                    Text(isUser ? name2 : name1)
                         .fontWeight(.bold)
                         .font(.system(size: 12))
                 }

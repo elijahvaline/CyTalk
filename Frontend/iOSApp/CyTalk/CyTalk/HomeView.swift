@@ -196,8 +196,10 @@ struct Login : View {
                     Image(systemName: "person.crop.circle")
                         .foregroundColor(.black)
                     
-                    TextField("Enter Username", text: self.$user)
+                    TextField("Username", text: self.$user)
                         .autocapitalization(.none)
+                        .disableAutocorrection(true)
+                    
                     
                 }.padding(.vertical, 20)
                 
@@ -320,6 +322,7 @@ struct SignUp : View {
                     
                     TextField("Username", text: self.$username)
                         .autocapitalization(.none)
+                        .disableAutocorrection(true)
                     
                 }.padding(.vertical, 20)
                 

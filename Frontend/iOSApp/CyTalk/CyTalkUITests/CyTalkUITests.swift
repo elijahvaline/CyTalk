@@ -68,4 +68,6 @@ class CyTalkUITests: XCTestCase {
             }
         }
     }
+    
+    //added test here
 }

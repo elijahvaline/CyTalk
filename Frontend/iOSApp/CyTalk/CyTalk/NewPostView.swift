@@ -15,6 +15,7 @@ struct NewPostView: View {
     @State var showPopUp:Bool = false
     @ObservedObject public var systemUser:User
     @Binding var posts:[Post]
+    @ObservedObject var postys:Posty
     
     var body: some View {
         VStack{
@@ -101,6 +102,8 @@ struct NewPostView: View {
     
     
     func updatePosts() {
+        var tempPost:[Post] = []
+        var otherTempPost:[onePost] = []
         ServerUtils.getPost(returnWith:  { response, success in
             if (!success) {
                 
@@ -117,7 +120,7 @@ struct NewPostView: View {
             var curPost:SinglePost
             
             // Cant modify state variable directly multiple times without swiftui class
-            var tempPost:[Post] = []
+            
             for fish in postSet {
                 
                 curPost = fish
@@ -143,15 +146,33 @@ struct NewPostView: View {
                     userName = curPost.userName
                 }
                 
-                
                 tempPost.append(Post(content: curPost.content, date: todaysDate, name: postName, at: userName, initialized:true, pId: curPost.pId, prof:nil, isnil: true))
+                otherTempPost.append(onePost(content: curPost.content, date: todaysDate, name: postName, at: userName, initialized: true, pId: curPost.pId))
                 
             }
             
-            // Copy array over
-            tempPost.reverse()
-            self.posts = tempPost
+            DispatchQueue.main.asyncAfter(deadline: .now()) {
+                tempPost.reverse()
+                otherTempPost.reverse()
+                self.posts = tempPost
+                self.postys.posts = otherTempPost
+                loadImages()
+            }
             
         })
+       
     }
+    func loadImages(){
+        
+        for i in 0...postys.posts.count-1{
+            ServerUtils.profile(username:postys.posts[i].at!, type:"profile", returnWith: {image, status in
+                if status == 200 {
+                    DispatchQueue.main.asyncAfter(deadline: .now()) {
+                    postys.posts[i].profile = image
+                    }
+                }
+            })
+        }
+    }
+    
 }

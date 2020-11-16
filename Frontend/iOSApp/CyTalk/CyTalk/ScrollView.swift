@@ -175,7 +175,7 @@ struct PostsView: View {
                             .font(.system(size: 35))
                     }.padding(.leading, 30)
                     Spacer()
-                    NavigationLink(destination: NewPostView(systemUser: self.systemUser, posts: self.$posts)) {
+                    NavigationLink(destination: NewPostView(systemUser: self.systemUser, posts: self.$posts, postys: self.postys)) {
                         Image(systemName: "plus.circle.fill")
                             .foregroundColor(Color("Color2"))
                             .font(.system(size: 50))

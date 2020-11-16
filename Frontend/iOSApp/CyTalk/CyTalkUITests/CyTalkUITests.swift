@@ -6,6 +6,7 @@
 //
 
 import XCTest
+@testable import CyTalk
 
 class CyTalkUITests: XCTestCase {
 
@@ -68,4 +69,6 @@ class CyTalkUITests: XCTestCase {
             }
         }
     }
+    
+    //added test here
 }

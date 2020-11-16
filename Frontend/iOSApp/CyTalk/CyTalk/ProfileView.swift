@@ -329,6 +329,7 @@ struct CaptureImageView {
 extension CaptureImageView: UIViewControllerRepresentable {
   func makeUIViewController(context: UIViewControllerRepresentableContext<CaptureImageView>) -> UIImagePickerController {
     let picker = UIImagePickerController()
+    picker.allowsEditing = true
     picker.delegate = context.coordinator
     /// Default is images gallery. Un-comment the next line of code if you would like to test camera
 //    picker.sourceType = .camera

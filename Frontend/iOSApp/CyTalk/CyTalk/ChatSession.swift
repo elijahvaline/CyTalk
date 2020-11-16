@@ -83,17 +83,47 @@ final class ChatSession: ObservableObject {
                         content = content + String(char)
                     }
                 }
-                
-                
-                
-                //                withAnimation(.spring()) {
-                //                    self.messages.append(ReceivingChatMessage(content: text, curuser: <#T##String#>))
-                
-//                self.messages += " " + text
-                //                }
+ 
             }
         }
     }
+    
+    static func numMessages(log:String) -> Int{
+        var total = 0
+        
+        var username = ""
+        var content = ""
+        var user = true
+        var wasteOne = 0
+        for char in log {
+            
+            if (wasteOne == 1){
+                wasteOne = 0
+            }
+            else if (char == ":"){
+                user = false
+                wasteOne = 1
+            }
+            else if (char == "*"){
+                total = total + 1
+                username = ""
+                content = ""
+                user = true
+                wasteOne = 1
+            }
+            else if (user==true){
+                username = username + String(char)
+            }
+            else if (user == false){
+                content = content + String(char)
+            }
+        }
+        
+        return total
+        
+    }
+    
+    
     
     
     func send(text: String) {

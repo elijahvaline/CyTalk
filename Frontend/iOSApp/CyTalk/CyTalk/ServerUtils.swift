@@ -101,7 +101,47 @@ class ServerUtils {
         let decoder = JSONDecoder()
         let uString = serverUrl
         
+        
         if let url = URL(string: serverUrl3) {
+            let task = session.dataTask(with: url, completionHandler: { data1, response, error in
+                if (error != nil) {
+                    returnWith(nil, false)
+                    return
+                }
+                
+                if let dataString = String(data: data1!, encoding: .utf8) {
+                    print(dataString)
+                    
+                    do {
+                        
+                        let postSet = try decoder.decode([SinglePost].self, from: Data(dataString.utf8))
+                        returnWith(postSet, true)
+                        
+                    }
+                        
+                    catch let jsonError {
+                        print("Error Serializing JSON", jsonError)
+                        returnWith(nil, false)
+                    }
+                } else {
+                  returnWith(nil, false)
+                }
+                
+            })
+            
+            task.resume()
+            
+        }
+    }
+    
+    static func getPostForTests(returnWith: @escaping ([SinglePost]?, Bool)->()) {
+        
+        let session = URLSession.shared
+        let decoder = JSONDecoder()
+        let uString = serverUrl
+        
+        
+        if let url = URL(string: "//eda7e009-e947-428a-a494-f73a722ee24a.mock.pstmn.io/posts") {
             let task = session.dataTask(with: url, completionHandler: { data1, response, error in
                 if (error != nil) {
                     returnWith(nil, false)

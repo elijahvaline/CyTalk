@@ -144,13 +144,13 @@
 				B6CA357A255D08600028705F /* ContentView.swift */,
 				B6CA357F255D08630028705F /* HomeView.swift */,
 				B6CA3584255D08650028705F /* NewPostView.swift */,
+				B6C8C039256222D400779D46 /* imagetest.swift */,
 				B6CA3589255D08670028705F /* PostCommentView.swift */,
 				B6CA358E255D086B0028705F /* ProfileView.swift */,
 				B6CA3593255D086D0028705F /* SceneDelegate.swift */,
 				B62F71D52516D76900AF8F36 /* Info.plist */,
 				B62F71CD2516D76900AF8F36 /* Assets.xcassets */,
 				B62F71CF2516D76900AF8F36 /* Preview Content */,
-				B6C8C039256222D400779D46 /* imagetest.swift */,
 			);
 			path = CyTalk;
 			sourceTree = "<group>";

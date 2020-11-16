@@ -19,6 +19,7 @@ struct PostCommentView: View {
     @State var pId:Int
     @State var comments: [Comment] = [Comment(content: "stirng", date: "string", name: "string", at: "Strng", initialized: false, id: 1)]
     @ObservedObject public var systemUser:User
+    @State var pic:UIImage
     
     var body: some View {
         
@@ -41,10 +42,10 @@ struct PostCommentView: View {
             Divider()
             
             HStack{
-                Image(systemName: "person.crop.circle")
-                    .imageScale(.large)
-                    .font(.system(size: 40))
-                    .foregroundColor(Color("Color2"))
+                Image(uiImage: self.pic)
+                    .resizable()
+                    .frame(width: 40, height: 40, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                    .clipShape(Circle())
                 
                 VStack{
                     Text(name)
@@ -85,38 +86,62 @@ struct PostCommentView: View {
             Divider()
                 .padding(.vertical, 5)
             
-            HStack(spacing: 0){
-                ZStack{
+            HStack{
+
+                    TextField("What would you like to comment?", text: $test)
+                        .padding(10)
+                        .background(Color.secondary.opacity(0.2))
+                        .cornerRadius(10)
+                        .autocapitalization(.none)
                     
-                    Rectangle()
-                        .frame(width: 340, height: 40)
-                        .cornerRadius(25)
-                        .foregroundColor(Color(UIColor.systemGray5))
-                    
-                    TextField("What would you like to say?", text: $test)
-                        .multilineTextAlignment(.center)
-                        .cornerRadius(20)
-                        .frame(width: 340, height: 50)
-                        
-                        .font(.system(size:20))
-                        
-                        
-                        .padding(.horizontal, 20)
-                    
-                }
-                
                 Button(action: {
                     addComment(content:self.test)
-                    
                 }) {
                     Image(systemName: "arrowshape.turn.up.right.fill")
+                        .font(.system(size: 30))
+                        .padding(6)
                         .foregroundColor(Color("Color2"))
-                        .font(.system(size:30))
-                    
                 }
-                .padding(.leading, -10)
+                .cornerRadius(5)
+                .disabled(test.isEmpty)
+                .hoverEffect(.highlight)
                 
             }
+            .navigationBarHidden(true)
+            .padding()
+            
+//            HStack(spacing: 0){
+//                ZStack{
+//
+//                    Rectangle()
+//                        .frame(width: 340, height: 40)
+//                        .cornerRadius(25)
+//                        .foregroundColor(Color(UIColor.systemGray5))
+//
+//                    TextField("What would you like to say?", text: $test)
+//                        .multilineTextAlignment(.center)
+//                        .cornerRadius(20)
+//                        .frame(width: 340, height: 50)
+//
+//                        .font(.system(size:20))
+//
+//
+//                        .padding(.horizontal, 20)
+//
+//                }
+//
+//                Button(action: {
+//                    addComment(content:self.test)
+//
+//                }) {
+//                    Image(systemName: "arrowshape.turn.up.right.fill")
+//                        .foregroundColor(Color("Color2"))
+//                        .font(.system(size:30))
+//
+//                }
+//                .padding(.leading, -10)
+//
+//            }
             
             Divider()
                 //                .padding(.horizontal)
@@ -156,12 +181,9 @@ struct PostCommentView: View {
 //
 //                                }
                                 
-                                NavigationLink(destination: ProfileView(name: post.name!, handle: post.at!, systemUser: self.systemUser, isUser: false, isMod: isMod())){
+                                NavigationLink(destination: ProfileView(name: post.name!, handle: post.at!, systemUser: self.systemUser, isUser: false, isMod: isMod(), pic: self.pic)){
                                     HStack{
-                                        Image(systemName: "person.crop.circle")
-                                            .imageScale(.large)
-                                            .font(.system(size: 15))
-                                            .foregroundColor(Color("Color2"))
+                                        
                                         Text(post.name!)
                                             .foregroundColor(.black)
                                         

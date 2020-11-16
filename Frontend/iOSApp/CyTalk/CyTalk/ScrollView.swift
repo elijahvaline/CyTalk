@@ -13,11 +13,11 @@ struct PostsView: View {
     @State private var post:[String] = ["First","Second","Third"]
     @State private var refreshCount = 0
     @ObservedObject public var systemUser = User()
-    
+    @ObservedObject public var postys = Posty()
     
     func getDestination() -> AnyView {
         if systemUser.loggedIn {
-            return AnyView(ProfileView(name: systemUser.name, handle: systemUser.username, systemUser: systemUser, isUser: true, isMod: isMod()))
+            return AnyView(ProfileView(name: systemUser.name, handle: systemUser.username, systemUser: systemUser, isUser: true, isMod: isMod(), pic: systemUser.profile!))
         } else {
             return AnyView(HomeView(systemUser: self.systemUser))
         }
@@ -78,20 +78,16 @@ struct PostsView: View {
                     VStack(spacing: 5) {
                         if posts.count != 0{
                             if posts[0].isInitialized! {
-                                ForEach(posts, id: \.self) { post in
-                                    //
-                                    //                            NavigationLink(destination: PostCommentView(content: post.content!, date: post.date!, name: po st.name!, handle: post.at!)){
-                                    //
-                                    //                            }
+                                ForEach(postys.posts) { post in
+
                                     
-                                    
-                                    NavigationLink(destination: ProfileView(name: post.name!, handle: post.at!, systemUser: self.systemUser, isUser: false, isMod: isMod())){
+                                    NavigationLink(destination: ProfileView(name: post.name!, handle: post.at!, systemUser: self.systemUser, isUser: false, isMod: isMod(), pic: post.profile!)){
                                         HStack{
-//                                            ServerUtils.profile(returnWith: {image, status in
-                                                Image(systemName: "person.crop.circle")
-                                                    .imageScale(.large)
-                                                    .font(.system(size: 15))
-                                                    .foregroundColor(Color("Color2"))
+
+                                            Image(uiImage: post.profile!)
+                                                .resizable()
+                                                .frame(width: 20, height: 20, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                                                .clipShape(Circle())
 //                                            })
                                             
                                             Text(post.name!)
@@ -114,15 +110,15 @@ struct PostsView: View {
                                     .padding(.top, 5)
                                     .padding(.horizontal, 15)
                                     
-                                    NavigationLink(destination: PostCommentView(content: post.content!, date: post.date!, name: post.name!, handle: post.at!, pId: post.pId!, systemUser: self.systemUser)) {
+                                    NavigationLink(destination: PostCommentView(content: post.content!, date: post.date!, name: post.name!, handle: post.at!, pId: post.pId!, systemUser: self.systemUser, pic: post.profile!)) {
                                         Text(post.content!)
                                             .foregroundColor(.black)
                                             .multilineTextAlignment(.leading)
-                                            
+
                                             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                                             .padding(.bottom, 5)
                                     }
-                                    
+
                                     .contextMenu{
                                         if isMod() {
                                             Button("Delete Post", action: {
@@ -130,14 +126,14 @@ struct PostsView: View {
                                             })
                                         }
                                     }
-                                    
-                                    
+
+
                                     .padding(.horizontal, 15)
                                     .accessibility(identifier: post.name!)
 
                                     Divider()
-                                    
-                                    
+
+
                                 }
                                 
                             }
@@ -148,23 +144,23 @@ struct PostsView: View {
                 .navigationBarHidden(true)
                 .navigationBarTitle("")
                 
-                Divider()
-                Button(action: {
-                    
-                    ServerUtils.addImage(returnWith: { response in
-                        if (response == 200){
-                            print("Good")
-                        }
-                        else{
-                            print("bad")
-                        }
-                    })
-                    
-                }) {
-                    Image(systemName: "arrow.clockwise")
-                        .foregroundColor(Color("Color2"))
-                        .font(.system(size: 35))
-                }
+//                Divider()
+//                Button(action: {
+//                    
+//                    ServerUtils.addImage(returnWith: { response in
+//                        if (response == 200){
+//                            print("Good")
+//                        }
+//                        else{
+//                            print("bad")
+//                        }
+//                    })
+//                    
+//                }) {
+//                    Image(systemName: "arrow.clockwise")
+//                        .foregroundColor(Color("Color2"))
+//                        .font(.system(size: 35))
+//                }
                 
                 Divider()
                     .padding(.bottom, 10)
@@ -238,6 +234,7 @@ struct PostsView: View {
     
     func updatePosts() {
         var tempPost:[Post] = []
+        var otherTempPost:[onePost] = []
         ServerUtils.getPost(returnWith:  { response, success in
             if (!success) {
                 
@@ -279,21 +276,35 @@ struct PostsView: View {
                 else{
                     userName = curPost.userName
                 }
-//                ServerUtils.profile(returnWith: { image, status in
-//
-//                    tempPost.append(Post(content: curPost.content, date: todaysDate, name: postName, at: userName, initialized:true, pId: curPost.pId, prof:image, isnil: false))
-//
-//                })
                 
                 tempPost.append(Post(content: curPost.content, date: todaysDate, name: postName, at: userName, initialized:true, pId: curPost.pId, prof:nil, isnil: true))
+                otherTempPost.append(onePost(content: curPost.content, date: todaysDate, name: postName, at: userName, initialized: true, pId: curPost.pId))
                 
             }
             
-          
-            tempPost.reverse()
-            self.posts = tempPost
+            DispatchQueue.main.asyncAfter(deadline: .now()) {
+                tempPost.reverse()
+                otherTempPost.reverse()
+                self.posts = tempPost
+                self.postys.posts = otherTempPost
+                loadImages()
+            }
+            
         })
        
+    }
+    
+    func loadImages(){
+        
+        for i in 0...postys.posts.count-1{
+            ServerUtils.profile(username:postys.posts[i].at!, type:"profile", returnWith: {image, status in
+                if status == 200 {
+                    DispatchQueue.main.asyncAfter(deadline: .now()) {
+                    postys.posts[i].profile = image
+                    }
+                }
+            })
+        }
     }
 }
 

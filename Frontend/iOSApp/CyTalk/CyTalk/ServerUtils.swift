@@ -57,8 +57,8 @@ struct newUser: Decodable{
     let password:String
     let email:String
     let type:Int
-    let background:SinglePost?
-    let profile:SinglePost?
+    let background:String?
+    let profile:String?
     let bio:String
     let cookie:String?
     let uname:String
@@ -715,12 +715,12 @@ class ServerUtils {
     
     
     
-    static func addImage(returnWith: @escaping (Int)->() ){
+    static func addImage(username:String, type:String, userImage:UIImage, returnWith: @escaping (Int)->() ){
         
 
         // create post request
-        let url = URL(string: serverUrl2 + "user/eli/profile" )!
-        let image = UIImage(named: "cover")
+        let url = URL(string: serverUrl2 + "user/" + username + "/" + type)!
+        let image = userImage
         var request = URLRequest(url: url)
         
         // insert json data to the request
@@ -728,13 +728,13 @@ class ServerUtils {
         
         request.httpMethod = "POST"
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-        let imageData = image!.jpegData(compressionQuality: 0.25)
+        let imageData = image.jpegData(compressionQuality: 0.25)
         
     
         var httpBody = Data()
 
         httpBody.append(convertFileData(fieldName: "file",
-                                        fileName: "imagename.jpg",
+                                        fileName: username + type + "imagename.jpg",
                                         mimeType: "image/jpg",
                                         fileData: imageData!,
                                         using: boundary))
@@ -772,14 +772,14 @@ class ServerUtils {
     }
 
     
-    static func profile(returnWith: @escaping (UIImage, Int)->()) {
+    static func profile(username:String, type:String, returnWith: @escaping (UIImage, Int)->()) {
         
         let session = URLSession.shared
         let decoder = JSONDecoder()
         let uString = serverUrl
        
         
-        let url = URL(string: serverUrl2 + "user/eli/profile")!
+        let url = URL(string: serverUrl2 + "user/" + username + "/" + type)!
         
         var request = URLRequest(url: url)
         let boundary = "Boundary-\(UUID().uuidString)"

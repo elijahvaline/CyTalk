@@ -15,30 +15,42 @@ struct ProfileView: View {
     @ObservedObject public var systemUser:User
     @State var isUser:Bool
     @State var isMod:Bool
-    
+    @State var pic:UIImage
+    @State var showCaptureImageView: Bool = false
+    @State var whichOne:Bool = true
+    @State var prUser = User()
+    @State var coverPhoto = UIImage(named: "cover")
     private func makeAdmin(){
         ServerUtils.changeUserType(user: handle, type: 1, returnWith: { response in
-            
-            
+
         })
         
     }
     var body: some View {
-        
-        
+
         ZStack{
             
             
             VStack{
-                Image("cover")
-                    .resizable()
-                    .frame(width: 414, height: 300, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                    .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
-                    .scaledToFit()
-                    .shadow(radius: 5)
+//                if !isUser{
+                Image(uiImage: coverPhoto!)
+                        .resizable()
+                        .frame(width: 414, height: 300, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                        .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+                        .scaledToFit()
+                        .shadow(radius: 5)
+//                }
+//                else{
+//                    Image(uiImage: systemUser.background!)
+//                        .resizable()
+//                        .frame(width: 414, height: 300, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+//                        .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+//                        .scaledToFit()
+//                        .shadow(radius: 5)
+//                }
+               
                 Spacer()
-                Text("All Profile information here")
-                    .foregroundColor(.gray)
+                
                 
             }
             
@@ -49,17 +61,23 @@ struct ProfileView: View {
                         .font(.system(size: 220))
                         .shadow(radius: 5)
                         .foregroundColor(.white)
+                   
                     if isUser{
                         Image(uiImage: systemUser.profile!)
                             .resizable()
                         .frame(width: 200, height: 200, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                         .clipShape(Circle())
+                    
                     }
                     else{
-                        Image(systemName: "person.crop.circle")
-                            .font(.system(size: 200))
-                            .foregroundColor(Color("Color2"))
+                        Image(uiImage: pic)
+                            .resizable()
+                        .frame(width: 200, height: 200, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                        .clipShape(Circle())
                     }
+                       
+                    
+                    
                     
                 }.padding(.top, 150)
                 
@@ -89,10 +107,19 @@ struct ProfileView: View {
                                 
                                     
                                         HStack{
-                                            Image(systemName: "person.crop.circle")
-                                                .imageScale(.large)
-                                                .font(.system(size: 15))
-                                                .foregroundColor(Color("Color2"))
+                                            if isUser{
+                                                Image(uiImage: systemUser.profile!)
+                                                    .resizable()
+                                                .frame(width: 15, height: 15, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                                                .clipShape(Circle())
+                                            
+                                            }
+                                            else{
+                                                Image(uiImage: pic)
+                                                    .resizable()
+                                                .frame(width: 15, height: 15, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                                                .clipShape(Circle())
+                                            }
                                             Text(post.name!)
                                                 .foregroundColor(.black)
                                                 
@@ -113,7 +140,7 @@ struct ProfileView: View {
                                     .padding(.top, 5)
                                     .padding(.horizontal, 15)
                                 
-                                NavigationLink(destination: PostCommentView(content: post.content!, date: post.date!, name: post.name!, handle: post.at!, pId: post.pId!, systemUser: self.systemUser)) {
+                                NavigationLink(destination: PostCommentView(content: post.content!, date: post.date!, name: post.name!, handle: post.at!, pId: post.pId!, systemUser: self.systemUser, pic: self.pic)) {
                                     Text(post.content!)
                                         .foregroundColor(.black)
                                         .multilineTextAlignment(.leading)
@@ -165,6 +192,8 @@ struct ProfileView: View {
                             
                             if $isUser.wrappedValue {
                                 Button("Log Out", action: logOut)
+                                Button("Add Profile Picture", action:{ self.showCaptureImageView.toggle(); self.whichOne = true})
+                                Button("Add Cover Picture", action:{ self.showCaptureImageView.toggle(); self.whichOne = false})
                                 
                             }
                         } label: {
@@ -175,41 +204,48 @@ struct ProfileView: View {
                         }
                         
                         .padding(.trailing, 30)
-                        
-                        
-//                    }
-                    
-                    
+              
                 }
-                
-                
-                
-                
+    
                 Spacer()
             }
-           
-            
-            
-            
-            
-            
-            
-                
+     
+            if (showCaptureImageView){
+                CaptureImageView(isShown: $showCaptureImageView, isProfile: $whichOne, username: handle, systemUser: systemUser)
+               
+            }
         }
         
         .onAppear(){
+            
+                getCover()
+            
             updatePosts()
         
         }
         .navigationBarHidden(true)
     }
-    
+  
     func isModOrUser() -> Bool {
         return isMod || thisUser()
     }
     func logOut(){
         systemUser.logOut()
         self.presentationMode.wrappedValue.dismiss()
+    }
+    
+    func getCover(){
+        ServerUtils.profile(username: handle, type: "background", returnWith: { image, status in
+            
+            if (status == 200){
+                
+                    coverPhoto = image
+               
+                    
+                }
+                
+            
+        })
     }
     
     func thisUser() -> Bool {
@@ -273,5 +309,99 @@ struct ProfileView: View {
             self.posts = tempPost
             
         })
+    }
+}
+
+struct CaptureImageView {
+  
+  /// MARK: - Properties
+  @Binding var isShown: Bool
+  @Binding var isProfile: Bool
+    @State var username:String
+    @ObservedObject var systemUser:User
+    
+  
+  func makeCoordinator() -> Coordinator {
+    return Coordinator(isShown: $isShown, profile: $isProfile, thisusername: username, sysUser: systemUser)
+  }
+}
+
+extension CaptureImageView: UIViewControllerRepresentable {
+  func makeUIViewController(context: UIViewControllerRepresentableContext<CaptureImageView>) -> UIImagePickerController {
+    let picker = UIImagePickerController()
+    picker.delegate = context.coordinator
+    /// Default is images gallery. Un-comment the next line of code if you would like to test camera
+//    picker.sourceType = .camera
+    return picker
+  }
+  
+  func updateUIViewController(_ uiViewController: UIImagePickerController,
+                              context: UIViewControllerRepresentableContext<CaptureImageView>) {
+    
+  }
+}
+
+
+class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+    
+    @Binding var isCoordinatorShown: Bool
+    @Binding var isProfile: Bool
+    @ObservedObject var systemUser:User
+    var user:String
+    var typer = "profile"
+    
+    init(isShown: Binding<Bool>, profile: Binding<Bool>, thisusername:String, sysUser:User) {
+        _isCoordinatorShown = isShown
+        _isProfile = profile
+        user = thisusername
+        systemUser = sysUser
+        
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if (!isProfile){
+            typer = "background"
+        }
+        guard let unwrapImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
+        ServerUtils.addImage(username: user, type: typer, userImage: unwrapImage, returnWith: { status in
+            
+            DispatchQueue.main.asyncAfter(deadline: .now()) {
+                
+                self.reloadImage(type:self.typer)
+                self.isCoordinatorShown = false
+                
+            }
+            
+        })
+        
+        
+    }
+    
+    func reloadImage(type:String){
+        ServerUtils.profile(username: user, type: type, returnWith: { Image, status  in
+            if status == 200{
+                let temp:UIImage = Image
+                
+                print("Success")
+                
+                DispatchQueue.main.asyncAfter(deadline: .now()) {
+                    if (type == "profile"){
+                        self.systemUser.profile = temp
+                    }
+                    else{
+                        self.systemUser.background = temp
+                    }
+                   
+                }
+            }
+            else{
+                print("fail")
+            }
+        })
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        isCoordinatorShown = false
     }
 }

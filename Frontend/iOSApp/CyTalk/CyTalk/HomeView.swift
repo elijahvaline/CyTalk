@@ -156,7 +156,7 @@ struct Login : View {
     var message = "Uh Oh! Wrong username or password"
     
     func reloadImage(){
-        ServerUtils.profile(returnWith: { Image, status  in
+        ServerUtils.profile(username: systemUser.username, type: "profile", returnWith: { Image, status  in
             if status == 200{
                 let temp:UIImage = Image
                 
@@ -167,7 +167,7 @@ struct Login : View {
                 }
             }
             else{
-                print("fail you bitch")
+                print("fail")
             }
         })
     }

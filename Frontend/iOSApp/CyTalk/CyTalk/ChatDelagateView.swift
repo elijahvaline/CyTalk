@@ -101,9 +101,9 @@ struct ChatDelagateView: View {
                                 
                                 NavigationLink(destination: ChatView(systemUser: systemUser, ID: chat.ID!, name1: chat.name1!, name2: chat.name2!, user1: chat.uname1!, user2: chat.uname2!)) {
                                     HStack{
-                                        Image(systemName: "person.crop.circle")
+                                        Image(systemName: "paperplane.fill")
                                             .imageScale(.large)
-                                            .font(.system(size: 40))
+                                            .font(.system(size: 30))
                                             .foregroundColor(Color("Color2"))
                                         
                                         VStack{
@@ -119,9 +119,15 @@ struct ChatDelagateView: View {
                                                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                                             
                                         }.frame(alignment: .leading)
-                                        
-                                        
+//
+//
+//                                        Image(systemName: "paperplane")
+//                                            .imageScale(.large)
+//                                            .font(.system(size: 40))
+//                                            .foregroundColor(Color("Color2"))
+//                                            .rotationEffect(Angle(degrees: 270))
                                         Spacer()
+                                        
                                     }
                                     .padding(.leading, 15)
                                     .padding(.bottom, 5)

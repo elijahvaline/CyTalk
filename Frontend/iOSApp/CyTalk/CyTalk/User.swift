@@ -17,6 +17,7 @@ class User: ObservableObject {
     @Published var loggedIn = false
     @Published var type = 0
     @Published var profile:UIImage?
+    @Published var background:UIImage?
     
     
     
@@ -25,6 +26,7 @@ class User: ObservableObject {
         self.name = "anon"
         
         profile = UIImage(named: "sinuser")
+        background = UIImage(named: "cover")
         
         
     }
@@ -35,6 +37,7 @@ class User: ObservableObject {
         loggedIn = false
         type = 0
         profile = UIImage(named: "sinuser")
+        background = UIImage(named: "cover")
         
     }
     

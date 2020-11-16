@@ -84,4 +84,12 @@ public class Post {
 	public void setUserName(String s) {
 		userName = s;
 	}
+	
+	public void increasePvotes() {
+		pVotes++;
+	}
+	
+	public void increaseNvotes() {
+		nVotes++;
+	}
 }

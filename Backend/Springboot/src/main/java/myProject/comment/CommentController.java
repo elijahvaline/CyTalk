@@ -49,9 +49,9 @@ public class CommentController {
 
 	@ApiOperation(value = "Edit a comment")
 	@PutMapping("/Comment/update/{id}")
-	Comment updateComment(@RequestBody Comment c, @PathVariable Integer id) {
+	Comment updateComment(@RequestBody String s, @PathVariable Integer id) {
 		Comment old_c = db.findOne(id);
-		old_c.setContent(c.getContent());
+		old_c.setContent(s);
 		db.save(old_c);
 		return old_c;
 	}
@@ -62,4 +62,19 @@ public class CommentController {
 		db.delete(id);
 	}
 	
+	@ApiOperation(value = "Increase upvotes by 1")
+	@PutMapping("/CommentPvote/{id}")
+	public void upVote(@PathVariable int id) {
+		Comment old_c = db.findOne(id);
+		old_c.increasePvotes();
+		db.save(old_c);
+	}
+	
+	@ApiOperation(value = "Increase downvotes by 1")
+	@PutMapping("/CommentNvote/{id}")
+	public void downVote(@PathVariable int id) {
+		Comment old_c = db.findOne(id);
+		old_c.increaseNvotes();
+		db.save(old_c);
+	}
 }

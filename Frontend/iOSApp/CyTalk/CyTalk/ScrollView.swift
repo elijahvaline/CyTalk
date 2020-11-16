@@ -42,14 +42,26 @@ struct PostsView: View {
                     
                     //                    NavigationLink(destination: HomeView(systemUser: self.systemUser)) {
                     NavigationLink(destination: getDestination()) {
-                        
-                        
-                        
-                        Image(systemName: "person.crop.circle")
-                            .imageScale(.large)
-                            .font(.system(size: 25))
-                            .foregroundColor(Color("Color2"))
+
+//                            if systemUser.profile == nil{
+//                                Image(systemName: "person.crop.circle")
+//                                    .imageScale(.large)
+//                                    .font(.system(size: 25))
+//                                    .foregroundColor(Color("Color2"))
+//                                    .padding(.leading, 30)
+                                
+//                            }
+//                            else{
+                        Image(uiImage: systemUser.profile!)
+                                    .resizable()
+                                .frame(width: 35, height: 35, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                                .clipShape(Circle())
                             .padding(.leading, 30)
+
+//                            }
+//
+//
+                        
                         
                     }.accessibility(identifier: "loginScreen")
                     
@@ -75,21 +87,13 @@ struct PostsView: View {
                                     
                                     NavigationLink(destination: ProfileView(name: post.name!, handle: post.at!, systemUser: self.systemUser, isUser: false, isMod: isMod())){
                                         HStack{
-//                                            if post.images.profile == nil{
-                                            if post.isNull == true {
+//                                            ServerUtils.profile(returnWith: {image, status in
                                                 Image(systemName: "person.crop.circle")
                                                     .imageScale(.large)
                                                     .font(.system(size: 15))
                                                     .foregroundColor(Color("Color2"))
-                                            }
-                                                
-                                            else{
-                                                Image(uiImage: post.profile!)
-                                                    .resizable()
-                                                    .frame(width: 15, height: 15, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                                                    .clipShape(Circle())
-                                            }
-//                                            
+//                                            })
+                                            
                                             Text(post.name!)
                                                 .foregroundColor(.black)
                                             
@@ -233,6 +237,7 @@ struct PostsView: View {
     }
     
     func updatePosts() {
+        var tempPost:[Post] = []
         ServerUtils.getPost(returnWith:  { response, success in
             if (!success) {
                 
@@ -249,7 +254,7 @@ struct PostsView: View {
             var curPost:SinglePost
             
             // Cant modify state variable directly multiple times without swiftui class
-            var tempPost:[Post] = []
+            
             for fish in postSet {
                 
                 curPost = fish
@@ -274,41 +279,21 @@ struct PostsView: View {
                 else{
                     userName = curPost.userName
                 }
+//                ServerUtils.profile(returnWith: { image, status in
+//
+//                    tempPost.append(Post(content: curPost.content, date: todaysDate, name: postName, at: userName, initialized:true, pId: curPost.pId, prof:image, isnil: false))
+//
+//                })
                 
+                tempPost.append(Post(content: curPost.content, date: todaysDate, name: postName, at: userName, initialized:true, pId: curPost.pId, prof:nil, isnil: true))
                 
-                tempPost.append(Post(content: curPost.content, date: todaysDate, name: postName, at: userName, initialized:true, pId: curPost.pId, prof: nil, isnil: true))
-                
-                tempPost.reverse()
-                self.posts = tempPost
             }
             
-            // Copy array over
+          
             tempPost.reverse()
             self.posts = tempPost
-            
         })
-        var tempPosts:[Post]
-        for i in 0...posts.count {
-            
-            ServerUtils.profile(returnWith: {image, status in
-                if (status == 200){
-                    var tempPost = posts[i]
-                    tempPost.isNull = false
-                    tempPost.profile = image
-                    posts.append(tempPost)
-                    posts.remove(at: 0)
-                }
-                else {
-                    print("bad stuff my g you suck")
-                }
-            })
-        }
-        
-        
-            
-            
-            
-        
+       
     }
 }
 

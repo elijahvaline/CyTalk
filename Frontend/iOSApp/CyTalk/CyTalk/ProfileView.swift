@@ -49,10 +49,18 @@ struct ProfileView: View {
                         .font(.system(size: 220))
                         .shadow(radius: 5)
                         .foregroundColor(.white)
+                    if isUser{
+                        Image(uiImage: systemUser.profile!)
+                            .resizable()
+                        .frame(width: 200, height: 200, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                        .clipShape(Circle())
+                    }
+                    else{
+                        Image(systemName: "person.crop.circle")
+                            .font(.system(size: 200))
+                            .foregroundColor(Color("Color2"))
+                    }
                     
-                    Image(systemName: "person.crop.circle")
-                        .font(.system(size: 200))
-                        .foregroundColor(Color("Color2"))
                 }.padding(.top, 150)
                 
                 Spacer()

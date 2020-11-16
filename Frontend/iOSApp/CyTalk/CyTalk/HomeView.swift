@@ -155,7 +155,22 @@ struct Login : View {
     @State var shown = false
     var message = "Uh Oh! Wrong username or password"
     
-    
+    func reloadImage(){
+        ServerUtils.profile(returnWith: { Image, status  in
+            if status == 200{
+                let temp:UIImage = Image
+                
+                print("Success")
+                
+                DispatchQueue.main.asyncAfter(deadline: .now()) {
+                    systemUser.profile = temp
+                }
+            }
+            else{
+                print("fail you bitch")
+            }
+        })
+    }
     fileprivate func loginUser() {
         ServerUtils.login(username:user, password:pass, returnWith: { response, success, status  in
             
@@ -170,6 +185,7 @@ struct Login : View {
                         systemUser.name = temp.fname + " " + temp.lname
                         systemUser.loggedIn = true
                         systemUser.type = temp.type
+                        reloadImage()
                         self.presentationMode.wrappedValue.dismiss()
                     }
                 }

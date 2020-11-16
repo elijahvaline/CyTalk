@@ -26,9 +26,13 @@ struct NewPostView: View {
                     .foregroundColor(Color("Color2"))
                     .font(.system(size: 30))
                 }
-                Image(systemName: "person.crop.circle")
-                    .foregroundColor(Color("Color2"))
-                    .font(.system(size: 50))
+                Image(uiImage: systemUser.profile!)
+                            .resizable()
+                        .frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                        .clipShape(Circle())
+//                Image(systemName: "person.crop.circle")
+//                    .foregroundColor(Color("Color2"))
+//                    .font(.system(size: 50))
                 
                 Button(action: {
                     ServerUtils.addPost(name: systemUser.name, username: systemUser.username, content: postContent, returnWith: {success in

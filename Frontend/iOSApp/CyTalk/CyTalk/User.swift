@@ -24,7 +24,7 @@ class User: ObservableObject {
         self.username = "anon"
         self.name = "anon"
         
-        profile =  nil
+        profile = UIImage(named: "sinuser")
         
         
     }
@@ -34,11 +34,8 @@ class User: ObservableObject {
         self.name = "anon"
         loggedIn = false
         type = 0
+        profile = UIImage(named: "sinuser")
         
     }
-    
-    
-    
-    
     
 }

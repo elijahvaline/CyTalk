@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PostsView: View {
     
-    @State var posts: [Post] = [Post(content: "stirng", date: "string", name: "string", at: "Strng", initialized: false, pId:0)]
+    @State var posts: [Post] = [Post(content: "stirng", date: "string", name: "string", at: "Strng", initialized: false, pId:0, prof: nil, isnil: true)]
     @State private var post:[String] = ["First","Second","Third"]
     @State private var refreshCount = 0
     @ObservedObject public var systemUser = User()
@@ -75,10 +75,21 @@ struct PostsView: View {
                                     
                                     NavigationLink(destination: ProfileView(name: post.name!, handle: post.at!, systemUser: self.systemUser, isUser: false, isMod: isMod())){
                                         HStack{
-                                            Image(systemName: "person.crop.circle")
-                                                .imageScale(.large)
-                                                .font(.system(size: 15))
-                                                .foregroundColor(Color("Color2"))
+//                                            if post.images.profile == nil{
+                                            if post.isNull == true {
+                                                Image(systemName: "person.crop.circle")
+                                                    .imageScale(.large)
+                                                    .font(.system(size: 15))
+                                                    .foregroundColor(Color("Color2"))
+                                            }
+                                                
+                                            else{
+                                                Image(uiImage: post.profile!)
+                                                    .resizable()
+                                                    .frame(width: 15, height: 15, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                                                    .clipShape(Circle())
+                                            }
+//                                            
                                             Text(post.name!)
                                                 .foregroundColor(.black)
                                             
@@ -132,6 +143,24 @@ struct PostsView: View {
                 }
                 .navigationBarHidden(true)
                 .navigationBarTitle("")
+                
+                Divider()
+                Button(action: {
+                    
+                    ServerUtils.addImage(returnWith: { response in
+                        if (response == 200){
+                            print("Good")
+                        }
+                        else{
+                            print("bad")
+                        }
+                    })
+                    
+                }) {
+                    Image(systemName: "arrow.clockwise")
+                        .foregroundColor(Color("Color2"))
+                        .font(.system(size: 35))
+                }
                 
                 Divider()
                     .padding(.bottom, 10)
@@ -247,8 +276,10 @@ struct PostsView: View {
                 }
                 
                 
-                tempPost.append(Post(content: curPost.content, date: todaysDate, name: postName, at: userName, initialized:true, pId: curPost.pId))
+                tempPost.append(Post(content: curPost.content, date: todaysDate, name: postName, at: userName, initialized:true, pId: curPost.pId, prof: nil, isnil: true))
                 
+                tempPost.reverse()
+                self.posts = tempPost
             }
             
             // Copy array over
@@ -256,6 +287,28 @@ struct PostsView: View {
             self.posts = tempPost
             
         })
+        var tempPosts:[Post]
+        for i in 0...posts.count {
+            
+            ServerUtils.profile(returnWith: {image, status in
+                if (status == 200){
+                    var tempPost = posts[i]
+                    tempPost.isNull = false
+                    tempPost.profile = image
+                    posts.append(tempPost)
+                    posts.remove(at: 0)
+                }
+                else {
+                    print("bad stuff my g you suck")
+                }
+            })
+        }
+        
+        
+            
+            
+            
+        
     }
 }
 

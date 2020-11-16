@@ -11,7 +11,7 @@ struct ProfileView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State var name:String
     @State var handle:String
-    @State var posts: [Post] = [Post(content: "stirng", date: "string", name: "string", at: "Strng", initialized: false, pId: 1)]
+    @State var posts: [Post] = [Post(content: "stirng", date: "string", name: "string", at: "Strng", initialized: false, pId: 1, prof: nil, isnil: true)]
     @ObservedObject public var systemUser:User
     @State var isUser:Bool
     @State var isMod:Bool
@@ -257,7 +257,7 @@ struct ProfileView: View {
                 }
                 
                 
-                tempPost.append(Post(content: curPost.content, date: todaysDate, name: postName, at: userName, initialized:true, pId: curPost.pId))
+                tempPost.append(Post(content: curPost.content, date: todaysDate, name: postName, at: userName, initialized:true, pId: curPost.pId, prof:nil, isnil: true))
 
             }
             tempPost.reverse()

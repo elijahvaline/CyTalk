@@ -200,8 +200,7 @@ struct PostCommentView: View {
                                     }
                                 
                                 Divider()
-                                
-                                
+                            
                             }
                         }
                     }

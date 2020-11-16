@@ -14,6 +14,7 @@ struct NewPostView: View {
     @State var message:String = ""
     @State var showPopUp:Bool = false
     @ObservedObject public var systemUser:User
+    @Binding var posts:[Post]
     
     var body: some View {
         VStack{
@@ -25,9 +26,13 @@ struct NewPostView: View {
                     .foregroundColor(Color("Color2"))
                     .font(.system(size: 30))
                 }
-                Image(systemName: "person.crop.circle")
-                    .foregroundColor(Color("Color2"))
-                    .font(.system(size: 50))
+                Image(uiImage: systemUser.profile!)
+                            .resizable()
+                        .frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                        .clipShape(Circle())
+//                Image(systemName: "person.crop.circle")
+//                    .foregroundColor(Color("Color2"))
+//                    .font(.system(size: 50))
                 
                 Button(action: {
                     ServerUtils.addPost(name: systemUser.name, username: systemUser.username, content: postContent, returnWith: {success in
@@ -46,7 +51,7 @@ struct NewPostView: View {
                         }
                         
                     })
-                    
+                    updatePosts()
                     self.presentationMode.wrappedValue.dismiss()
                         }) {
                 Image(systemName: "arrowshape.turn.up.right.fill")
@@ -92,5 +97,61 @@ struct NewPostView: View {
         }
         
         .navigationBarHidden(true)
+    }
+    
+    
+    func updatePosts() {
+        ServerUtils.getPost(returnWith:  { response, success in
+            if (!success) {
+                
+                // Show error UI here
+                print("OH NO IT FAILED")
+                return;
+            }
+            
+            
+            let postSet:[SinglePost] = response!
+            
+            
+            
+            var curPost:SinglePost
+            
+            // Cant modify state variable directly multiple times without swiftui class
+            var tempPost:[Post] = []
+            for fish in postSet {
+                
+                curPost = fish
+                
+                let formatter = DateFormatter()
+                formatter.dateStyle = .short
+                let myNSDate = Date(timeIntervalSince1970: curPost.date)
+                let todaysDate:String = formatter.string(from: myNSDate)
+                let postName:String
+                let userName:String
+                
+                if (curPost.name == nil){
+                    postName = "Anon"
+                }
+                else{
+                    postName = curPost.name
+                }
+                
+                if (curPost.userName == nil){
+                    userName = "Anon"
+                }
+                else{
+                    userName = curPost.userName
+                }
+                
+                
+                tempPost.append(Post(content: curPost.content, date: todaysDate, name: postName, at: userName, initialized:true, pId: curPost.pId, prof:nil, isnil: true))
+                
+            }
+            
+            // Copy array over
+            tempPost.reverse()
+            self.posts = tempPost
+            
+        })
     }
 }

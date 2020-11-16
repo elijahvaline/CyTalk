@@ -24,4 +24,10 @@ DerivedData/
 
 ## Gcc Patch
 /*.gcno
+
+### macOS ###
+# General
 .DS_Store
+.AppleDouble
+.LSOverride
+

@@ -11,8 +11,13 @@ struct ContentView: View {
     
   
     var body: some View {
+//        VStack{
+//            imagetest()
+            PostsView()
+            
+            
+//        }
         
-        PostsView()
     }
 }
 

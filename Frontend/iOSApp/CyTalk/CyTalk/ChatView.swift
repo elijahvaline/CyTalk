@@ -122,6 +122,7 @@ struct ChatView: View {
 }
 
 
+
 private struct ChatMessageRow: View {
     static private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()

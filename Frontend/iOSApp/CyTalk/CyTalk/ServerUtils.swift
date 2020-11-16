@@ -20,6 +20,15 @@ import SwiftUI
 //    let content: String
 //}
 
+
+extension Data {
+    mutating func appendString(_ string: String) {
+    if let data = string.data(using: .utf8) {
+      self.append(data)
+    }
+  }
+}
+
 /// Post object for JSON
 struct SinglePost: Decodable {
     let pId:Int
@@ -48,8 +57,8 @@ struct newUser: Decodable{
     let password:String
     let email:String
     let type:Int
-    let background:SinglePost?
-    let profile:SinglePost?
+    let background:String?
+    let profile:String?
     let bio:String
     let cookie:String?
     let uname:String
@@ -228,10 +237,7 @@ class ServerUtils {
         
         // insert json data to the request
         request.httpBody = jsonData
-                                
-                                
-        
-        
+
             let task = session.dataTask(with: request, completionHandler: { data1, response, error in
                 if (error != nil) {
                     print(error)
@@ -319,6 +325,82 @@ class ServerUtils {
             task.resume()
             
         }
+    }
+    
+    static func deletePost(postId:Int, returnWith: @escaping (Int)->() ){
+        
+        // create post request
+        let url = URL(string: serverUrl2 + "postdelete/" + String(postId))!
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        // insert json data to the request
+        
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+  
+            if (error != nil) {
+                print(error)
+                returnWith(0)
+                return
+            }
+            guard let data = data, error == nil else {
+//                print(error?.localizedDescription ?? "No data")
+                return
+            }
+            print("start")
+            if let httpResponse = response as? HTTPURLResponse {
+                print("response \(httpResponse.statusCode)")
+                
+                let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
+                if let responseJSON = responseJSON as? [String: Any] {
+    //                print(responseJSON)
+                }
+                print("Youre here")
+                returnWith(httpResponse.statusCode)
+            }
+        }
+        task.resume()
+    }
+    
+    static func deleteComment(commentId:Int, returnWith: @escaping (Int)->() ){
+        
+        // create post request
+        let url = URL(string: serverUrl2 + "Commentdelete/" + String(commentId))!
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        // insert json data to the request
+        
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+  
+            if (error != nil) {
+                print(error)
+                returnWith(0)
+                return
+            }
+            guard let data = data, error == nil else {
+//                print(error?.localizedDescription ?? "No data")
+                return
+            }
+            print("start")
+            if let httpResponse = response as? HTTPURLResponse {
+                print("response \(httpResponse.statusCode)")
+                
+                let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
+                if let responseJSON = responseJSON as? [String: Any] {
+    //                print(responseJSON)
+                }
+                print("Youre here")
+                returnWith(httpResponse.statusCode)
+            }
+        }
+        task.resume()
     }
     
     
@@ -569,47 +651,185 @@ class ServerUtils {
         
         task.resume()
     }
-    
-    
-    
-    static func addImage(userName:String, image:UIImage, password:String, firstName:String, lastName:String, email:String, returnWith: @escaping (Bool)->() ){
+    ///Static function to change the type of the user
+    static func changeUserType(user:String, type:Int, returnWith: @escaping (Int)->() ){
         
-       
-        
-//        let jsonData = try? JSONSerialization.data(withJSONObject: json)
-        
-//        print(String(data: jsonData!, encoding: .utf8))
+        let json: [String: Any] = ["type": type]
+        let jsonData = try? JSONSerialization.data(withJSONObject: json)
         
         // create post request
-        let url = URL(string: serverUrl2 + "user")!
-        
+        let url = URL(string: serverUrl2 + "user/" + user + "/type")!
         var request = URLRequest(url: url)
-        request.httpMethod = "POST"
+        request.httpMethod = "PUT"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        let imageData = image.pngData()
         
         // insert json data to the request
-        request.httpBody = imageData!
+        request.httpBody = jsonData
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-  
             if (error != nil) {
                 print(error)
-                returnWith(false)
+                returnWith(0)
+                return
+            }
+
+            if let dataString = String(data: data!, encoding: .utf8) {
+                print(dataString)
+                
+                do {
+                    
+                    if let httpResponse = response as? HTTPURLResponse {
+                        var status = httpResponse.statusCode
+                        if (status == 200){
+                            
+                            returnWith(status)
+                        }
+                        else {
+                            returnWith(status)
+                        }
+                    }
+                }
+                    
+                catch let jsonError {
+                    print("Error Serializing JSON", jsonError)
+                    returnWith(0)
+                }
+            } else {
+              returnWith(0)
+            }
+        }
+        task.resume()
+    }
+    
+    static func convertFileData(fieldName: String, fileName: String, mimeType: String, fileData: Data, using boundary: String) -> Data {
+      var data = Data()
+
+      data.appendString("--\(boundary)\r\n")
+      data.appendString("Content-Disposition: form-data; name=\"\(fieldName)\"; filename=\"\(fileName)\"\r\n")
+      data.appendString("Content-Type: \(mimeType)\r\n\r\n")
+      data.append(fileData)
+      data.appendString("\r\n")
+
+      return data as Data
+    }
+    
+    
+    
+    static func addImage(username:String, type:String, userImage:UIImage, returnWith: @escaping (Int)->() ){
+        
+
+        // create post request
+        let url = URL(string: serverUrl2 + "user/" + username + "/" + type)!
+        let image = userImage
+        var request = URLRequest(url: url)
+        
+        // insert json data to the request
+        let boundary = "Boundary-\(UUID().uuidString)"
+        
+        request.httpMethod = "POST"
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        let imageData = image.jpegData(compressionQuality: 0.25)
+        
+    
+        var httpBody = Data()
+
+        httpBody.append(convertFileData(fieldName: "file",
+                                        fileName: username + type + "imagename.jpg",
+                                        mimeType: "image/jpg",
+                                        fileData: imageData!,
+                                        using: boundary))
+
+        httpBody.appendString("--\(boundary)--")
+
+        request.httpBody = httpBody
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            print("error statrts here///////////////////////////////////////////////////")
+            if (error != nil) {
+                print(error)
+                returnWith(0)
                 return
             }
             guard let data = data, error == nil else {
 //                print(error?.localizedDescription ?? "No data")
                 return
             }
-            let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
-            if let responseJSON = responseJSON as? [String: Any] {
-//                print(responseJSON)
-            }
+            if let httpResponse = response as? HTTPURLResponse {
+                var status = httpResponse.statusCode
+                if (status == 200){
+                    
+                    returnWith(status)
+                }
+                else {
+                    returnWith(status)
+                }
             print("Youre here")
-            returnWith(true)
+            returnWith(0)
+        }
         }
         
         task.resume()
     }
+
+    
+    static func profile(username:String, type:String, returnWith: @escaping (UIImage, Int)->()) {
+        
+        let session = URLSession.shared
+        let decoder = JSONDecoder()
+        let uString = serverUrl
+       
+        
+        let url = URL(string: serverUrl2 + "user/" + username + "/" + type)!
+        
+        var request = URLRequest(url: url)
+        let boundary = "Boundary-\(UUID().uuidString)"
+        
+        request.httpMethod = "GET"
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        
+        // insert json data to the request
+
+            let task = session.dataTask(with: request, completionHandler: { data1, response, error in
+                if (error != nil) {
+                    print(error)
+                    return
+                }
+                print("start")
+                print(response)
+                print("end")
+                
+               
+                if let image = UIImage(data: data1!) {
+                    
+                    do {
+                        
+                        if let httpResponse = response as? HTTPURLResponse {
+                            
+                            var status = httpResponse.statusCode
+                            
+                            if (status == 200){
+                                
+                                returnWith(image, status)
+                            }
+                           
+                            
+                        }
+                    }
+                        
+                    catch let jsonError {
+                        
+                        print("error bro")
+                        
+                    }
+                } else {
+                  return
+                }
+                
+            })
+            
+            task.resume()
+            
+        
+    }
+    
 }

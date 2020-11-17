@@ -13,6 +13,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import myProject.comment.Comment;
 
 @Api(value = "PostController", description = "REST API from Akash Deshpande")
 @RestController
@@ -64,16 +65,30 @@ public class PostController {
 	@ApiOperation(value = "Increase upvotes by 1")
 	@PutMapping("/postPvote/{id}")
 	public void upVote(@PathVariable int id) {
-		Post old_p = db.findOne(id);
-		old_p.increasePvotes();
-		db.save(old_p);
+		Post p = db.findOne(id);
+		p.increasePvotes();
+		db.save(p);
 	}
 	
 	@ApiOperation(value = "Increase downvotes by 1")
 	@PutMapping("/postNvote/{id}")
 	public void downVote(@PathVariable int id) {
-		Post old_p = db.findOne(id);
-		old_p.increaseNvotes();
-		db.save(old_p);
+		Post p = db.findOne(id);
+		p.increaseNvotes();
+		db.save(p);
+	}
+	
+	@ApiOperation(value = "Return the number of upvotes from a post id")
+	@GetMapping("/postGetUp/{id}")
+	public int getPvotes(@PathVariable int id) {
+		Post p = db.findOne(id);
+		return p.getPosVoteCount();
+	}
+	
+	@ApiOperation(value = "Return the number of downvotes from a post id")
+	@GetMapping("/postGetDown/{id}")
+	public int getNvotes(@PathVariable int id) {
+		Post p = db.findOne(id);
+		return p.getNegVoteCount();
 	}
 }

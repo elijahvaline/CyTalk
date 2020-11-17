@@ -65,16 +65,30 @@ public class CommentController {
 	@ApiOperation(value = "Increase upvotes by 1")
 	@PutMapping("/CommentPvote/{id}")
 	public void upVote(@PathVariable int id) {
-		Comment old_c = db.findOne(id);
-		old_c.increasePvotes();
-		db.save(old_c);
+		Comment c = db.findOne(id);
+		c.increasePvotes();
+		db.save(c);
 	}
 	
 	@ApiOperation(value = "Increase downvotes by 1")
 	@PutMapping("/CommentNvote/{id}")
 	public void downVote(@PathVariable int id) {
-		Comment old_c = db.findOne(id);
-		old_c.increaseNvotes();
-		db.save(old_c);
+		Comment c = db.findOne(id);
+		c.increaseNvotes();
+		db.save(c);
+	}
+	
+	@ApiOperation(value = "Return the number of upvotes from a comment id")
+	@GetMapping("/CommentGetUp/{id}")
+	public int getPvotes(@PathVariable int id) {
+		Comment c = db.findOne(id);
+		return c.getPosVoteCount();
+	}
+	
+	@ApiOperation(value = "Return the number of downvotes from a comment id")
+	@GetMapping("/CommentGetDown/{id}")
+	public int getNvotes(@PathVariable int id) {
+		Comment c = db.findOne(id);
+		return c.getNegVoteCount();
 	}
 }
